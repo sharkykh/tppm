@@ -1,8 +1,15 @@
 const path = require('path');
+
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const { DefinePlugin } = require('webpack');
+
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const NullPlugin = require('webpack-null-plugin');
+
+const pkg = require('./package.json');
 
 /**
  * Generate the Webpack configuration object.
@@ -18,7 +25,12 @@ const webpackConfig = (env, mode) => ({
   },
   resolve: {
     alias: {
-      vue$: 'vue/dist/vue.esm.js',
+      vue$: 'vue/dist/vue.runtime.esm.js',
+    },
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
     },
   },
   module: {
@@ -66,6 +78,9 @@ const webpackConfig = (env, mode) => ({
     ],
   },
   plugins: [
+    new DefinePlugin({
+      __VERSION__: JSON.stringify(pkg.version)
+    }),
     new CleanWebpackPlugin(),
     new FileManagerPlugin({
       onEnd: {
@@ -77,6 +92,7 @@ const webpackConfig = (env, mode) => ({
     }),
     new VueLoaderPlugin(),
     new ExtractTextPlugin('main.css'),
+    env.analyze ? new BundleAnalyzerPlugin() : new NullPlugin(),
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
