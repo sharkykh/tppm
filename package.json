@@ -1,0 +1,30 @@
+{
+  "name": "tppm",
+  "version": "0.1.0",
+  "description": "Trakt Playback Progress Manager",
+  "author": "sharkykh",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development",
+    "dev-server": "webpack-dev-server --inline --progress"
+  },
+  "devDependencies": {
+    "@babel/core": "7.4.3",
+    "@babel/preset-env": "7.4.3",
+    "babel-loader": "8.0.5",
+    "clean-webpack-plugin": "2.0.1",
+    "css-loader": "2.1.1",
+    "extract-text-webpack-plugin": "4.0.0-beta.0",
+    "filemanager-webpack-plugin": "2.0.5",
+    "style-loader": "0.23.1",
+    "trakt.tv": "7.1.0",
+    "vue": "2.6.10",
+    "vue-loader": "15.7.0",
+    "vue-template-compiler": "2.6.10",
+    "webpack": "4.30.0",
+    "webpack-cli": "3.3.0",
+    "webpack-dev-server": "3.3.1"
+  }
+}
