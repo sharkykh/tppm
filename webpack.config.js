@@ -36,7 +36,7 @@ const webpackConfig = (env, mode) => ({
   module: {
     rules: [{
         test: /\.js$/,
-        exclude: /(node_modules)/,
+        exclude: /(node_modules(?![\\/]ky))/,
         use: {
           loader: 'babel-loader',
         },

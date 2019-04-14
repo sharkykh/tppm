@@ -1,0 +1,23 @@
+module.exports = (api) => {
+  api.cache(true);
+
+  const presets = [
+    ['@babel/preset-env', {
+      targets: {
+        browsers: [
+          "last 3 Chrome versions",
+          "last 3 Firefox versions",
+          "last 3 Safari versions",
+          "last 2 Edge versions"
+        ]
+      },
+    }],
+  ];
+
+  const plugins = [];
+
+  return {
+    presets,
+    plugins,
+  };
+};
