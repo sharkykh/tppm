@@ -23,7 +23,7 @@
     "semantic-ui-css": "2.4.1",
     "semantic-ui-vue": "0.8.1",
     "style-loader": "0.23.1",
-    "trakt.tv": "https://github.com/sharkykh/trakt.tv#master",
+    "trakt.tv": "https://github.com/sharkykh/trakt.tv-browser#master",
     "vue": "2.6.10",
     "vue-loader": "15.7.0",
     "vue-template-compiler": "2.6.10",

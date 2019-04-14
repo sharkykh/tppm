@@ -5112,9 +5112,9 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
-"trakt.tv@https://github.com/sharkykh/trakt.tv#master":
+"trakt.tv@https://github.com/sharkykh/trakt.tv-browser#master":
   version "7.1.0"
-  resolved "https://github.com/sharkykh/trakt.tv#da1dca045f20bcdea9ec7e115666bab703c8c1d2"
+  resolved "https://github.com/sharkykh/trakt.tv-browser#f83d48aa05361f3b2c424e6fe026e0f1081e6211"
   dependencies:
     ky "^0.9.1"
     randombytes "2.1.0"
