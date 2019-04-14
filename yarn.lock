@@ -5109,7 +5109,7 @@ to-regex@^3.0.1, to-regex@^3.0.2:
 
 "trakt.tv@https://github.com/sharkykh/trakt.tv#master":
   version "7.1.0"
-  resolved "https://github.com/sharkykh/trakt.tv#7ae89315a7f7ea0a1da2b3134511f1bf8806cd43"
+  resolved "https://github.com/sharkykh/trakt.tv#da1dca045f20bcdea9ec7e115666bab703c8c1d2"
   dependencies:
     ky "^0.9.1"
     randombytes "2.1.0"
