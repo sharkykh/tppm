@@ -49,8 +49,10 @@
 
         <sui-button
           v-if="loggedIn"
-          content="Refresh"
-          icon="sync alternate"
+          :content="firstLoad ? 'Refresh' : 'Fetch'"
+          :icon="firstLoad ? 'sync alternate' : 'cloud download'"
+          :loading="loading"
+          :disabled="loading"
           positive
           @click="fetchPlaybackProgress()"
         />
@@ -60,7 +62,8 @@
           icon="trash"
           content="Remove All"
           v-if="loggedIn"
-          :disabled="playback.length === 0"
+          :disabled="playback.length === 0 || Object.keys(removing).length > 0"
+          :loading="Object.keys(removing).length > 0"
           @click="removeAllPlaybacks()"
         />
       </sui-header-content>
@@ -77,7 +80,7 @@
     <sui-loader v-if="loading" active centered inline />
     <sui-message v-else-if="noResults" info header="No results" content="There are no items to remove." />
     <sui-card-group v-else stackable :items-per-row="3" class="doubling">
-      <playback-item v-for="item in playback" :key="item.id" :info="item" @remove="removePlayback" />
+      <playback-item v-for="item in playback" :key="item.id" :info="item" :removing="removing" @remove="removePlayback" />
     </sui-card-group>
 
     <sui-divider />
@@ -120,6 +123,7 @@ export default {
       settings: {},
       playback: [],
       messages: [],
+      removing: {},
     };
   },
   async mounted() {
@@ -248,6 +252,7 @@ export default {
       }
     },
     async removePlayback(id, updateState = true) {
+      this.$set(this.removing, id, null);
       try {
         await this.api.sync.playback.remove({ id });
         const index = this.playback.findIndex(item => item.id === id);
@@ -255,17 +260,20 @@ export default {
           this.$delete(this.playback, index);
           this.flash('Playback item removed', '', 'success');
         }
+        this.$delete(this.removing, id);
       } catch (error) {
         console.error(error);
         if (isDevelopment) debugger;
       }
     },
     async removeAllPlaybacks() {
+      this.$set(this.removing, 'all', null);
       for (const item of this.playback) {
         await this.removePlayback(item.id, false);
       }
       this.playback = [];
       this.flash('All playback items removed', '', 'success');
+      this.$delete(this.removing, 'all');
     },
     flash(header, content, type) {
       const msg = {

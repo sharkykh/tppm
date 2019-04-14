@@ -39,6 +39,8 @@
       compact
       icon="trash"
       content="Remove"
+      :loading="disableRemove"
+      :disabled="disableRemove"
       @click="$emit('remove', info.id)"
     />
   </sui-card>
@@ -54,6 +56,17 @@ export default {
       type: Object,
       default: () => ({}),
       required: true,
+    },
+    removing: {
+      type: Object,
+      default: () => ({}),
+      required: true,
+    }
+  },
+  computed: {
+    disableRemove() {
+      const { removing, info } = this;
+      return info.id in removing || 'all' in removing;
     }
   },
   methods: {
