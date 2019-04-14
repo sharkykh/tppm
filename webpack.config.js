@@ -55,7 +55,6 @@ const webpackConfig = (env, mode) => ({
         // This rule may get either actual `.css` files or the style blocks from `.vue` files.
         // Here we delegate each request to use the appropriate loaders.
         test: /\.css$/,
-        exclude: /(node_modules)/,
         oneOf: [
           {
             // Handle style blocks in `.vue` files
@@ -74,6 +73,23 @@ const webpackConfig = (env, mode) => ({
             }),
           }
        ]
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        loader: 'file-loader',
+        options: {
+          name: 'images/[name].[ext]',
+          publicPath: '../',
+        },
+      },
+      {
+        test: /\.(ttf|eot|woff|woff2)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: 'fonts/[name].[ext]',
+          },
+        },
       },
     ],
   },
