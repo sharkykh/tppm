@@ -1,7 +1,7 @@
 const path = require('path');
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const FileManagerPlugin = require('filemanager-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { DefinePlugin } = require('webpack');
@@ -97,13 +97,10 @@ const webpackConfig = (env, mode) => ({
       __VERSION__: JSON.stringify(pkg.version)
     }),
     new CleanWebpackPlugin(),
-    new FileManagerPlugin({
-      onEnd: {
-        copy: [{
-          source: 'src/index.html',
-          destination: 'dist'
-        }]
-      }
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      // favicon: './src/favicon.ico',
+      hash: true,
     }),
     new VueLoaderPlugin(),
     new ExtractTextPlugin('main.css'),
