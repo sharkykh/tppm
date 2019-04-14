@@ -79,7 +79,6 @@ const webpackConfig = (env, mode) => ({
         loader: 'file-loader',
         options: {
           name: 'images/[name].[ext]',
-          publicPath: '../',
         },
       },
       {
