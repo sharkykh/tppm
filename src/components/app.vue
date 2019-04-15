@@ -146,6 +146,7 @@ export default {
       }
     } catch (error) {
       console.error(error);
+      this.flash('Error in mounted()', String(error), 'error', true);
       if (isDevelopment) debugger;
     } finally {
       this.loggingIn = false;
@@ -205,6 +206,7 @@ export default {
         return true;
       } catch (error) {
         console.error(error);
+        this.flash('Error in loadAuth()', String(error), 'error', true);
         if (isDevelopment) debugger;
       }
       return false;
@@ -218,6 +220,7 @@ export default {
           return true;
         } catch (error) {
           console.error(error);
+          this.flash('Error in saveAuth()', String(error), 'error', true);
           if (isDevelopment) debugger;
         }
       }
@@ -231,6 +234,7 @@ export default {
         this.saveAuth();
       } catch (error) {
         console.error(error);
+        this.flash('Error in exchangeCode()', String(error), 'error', true);
         if (isDevelopment) debugger;
       }
     },
@@ -242,6 +246,7 @@ export default {
         });
       } catch (error) {
         console.error(error);
+        this.flash('Error in fetchSettings()', String(error), 'error', true);
         if (isDevelopment) debugger;
       }
     },
@@ -252,6 +257,7 @@ export default {
         if (!this.firstLoad) this.firstLoad = true;
       } catch (error) {
         console.error(error);
+        this.flash('Error in fetchPlaybackProgress()', String(error), 'error', true);
         if (isDevelopment) debugger;
       } finally {
         this.loading = false;
@@ -268,6 +274,7 @@ export default {
         }
       } catch (error) {
         console.error(error);
+        this.flash('Error in removePlayback()', String(error), 'error', true);
         if (isDevelopment) debugger;
         return false;
       } finally {
