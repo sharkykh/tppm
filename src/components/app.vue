@@ -96,21 +96,11 @@
 </template>
 
 <script>
-import Trakt from 'trakt.tv';
-
 import TraktLogo from '../trakt.png';
+import api from '../api.js';
 import { isDevelopment } from '../utils.js';
 import AppFooter from './app-footer.vue';
 import PlaybackItem from './playback-item.vue';
-
-const options = {
-  client_id: '907c2fe5ff19a529456c0058d2c96f6913f62b55fc6e9a86605f05a0c4e2fec7',
-  client_secret: '0b70b2072730e0e2ab845f8f89fbfa4a808f47e10678365cb746f4b81fbb56a3',
-  redirect_uri: isDevelopment ? 'http://localhost:8080/' : 'https://sharkykh.github.io/tppm/',
-  useragent: `tppm/${__VERSION__}`,
-  pagination: false, // defaults to false, global pagination
-  debug: isDevelopment,
-};
 
 export default {
   name: 'App',
@@ -120,7 +110,6 @@ export default {
   },
   data() {
     return {
-      api: null,
       initialized: false,
       loggedIn: false,
       loggingIn: true,
@@ -134,12 +123,11 @@ export default {
   },
   async mounted() {
     try {
-      this.api = new Trakt(options);
       if (await this.loadAuth()) {
         console.log('Loaded from localStorage');
         await this.fetchSettings();
       } else if (this.params.code) {
-        this.api._authentication.state = window.localStorage.getItem('traktAuthState') || undefined;
+        api._authentication.state = window.localStorage.getItem('traktAuthState') || undefined;
         await this.exchangeCode(this.params.code, this.params.state);
         window.history.replaceState({}, '', window.location.pathname);
         await this.fetchSettings();
@@ -187,12 +175,12 @@ export default {
   },
   methods: {
     requestAuth() {
-      window.location.replace(this.api.get_url());
-      window.localStorage.setItem('traktAuthState', this.api._authentication.state);
+      window.location.replace(api.get_url());
+      window.localStorage.setItem('traktAuthState', api._authentication.state);
     },
     /* async */ revokeAuth() {
       window.localStorage.removeItem('traktAuth');
-      // await this.api.revoke_token();
+      // await api.revoke_token();
       this.loggedIn = false;
     },
     async loadAuth() {
@@ -201,7 +189,7 @@ export default {
       if (!stored) return false;
       try {
         const data = JSON.parse(stored);
-        await this.api.import_token(data);
+        await api.import_token(data);
         this.loggedIn = true;
         return true;
       } catch (error) {
@@ -213,7 +201,7 @@ export default {
     },
     saveAuth() {
       // Save to localStorage
-      const data = this.api.export_token();
+      const data = api.export_token();
       if (data.access_token && data.refresh_token && data.expires) {
         try {
           window.localStorage.setItem('traktAuth', JSON.stringify(data));
@@ -228,7 +216,7 @@ export default {
     },
     async exchangeCode(code, state) {
       try {
-        await this.api.exchange_code(code, state);
+        await api.exchange_code(code, state);
         this.loggedIn = true;
         window.localStorage.removeItem('traktAuthState');
         this.saveAuth();
@@ -240,7 +228,7 @@ export default {
     },
     async fetchSettings() {
       try {
-        const data = await this.api.users.settings();
+        const data = await api.users.settings();
         Object.keys(data).forEach(key => {
           this.$set(this.settings, key, data[key]);
         });
@@ -253,7 +241,7 @@ export default {
     async fetchPlaybackProgress() {
       this.loading = true;
       try {
-        this.playback = await this.api.sync.playback.get();
+        this.playback = await api.sync.playback.get();
         if (!this.firstLoad) this.firstLoad = true;
       } catch (error) {
         console.error(error);
@@ -266,7 +254,7 @@ export default {
     async removePlayback(id, updateState = true) {
       this.$set(this.removing, id, null);
       try {
-        await this.api.sync.playback.remove({ id });
+        await api.sync.playback.remove({ id });
         const index = this.playback.findIndex(item => item.id === id);
         if (updateState) {
           this.$delete(this.playback, index);
