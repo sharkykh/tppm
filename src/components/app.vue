@@ -266,19 +266,29 @@ export default {
           this.$delete(this.playback, index);
           this.flash('Playback item removed', '', 'success');
         }
-        this.$delete(this.removing, id);
       } catch (error) {
         console.error(error);
         if (isDevelopment) debugger;
+        return false;
+      } finally {
+        this.$delete(this.removing, id);
       }
+      return true;
     },
     async removeAllPlaybacks() {
+      let result = true;
       this.$set(this.removing, 'all', null);
       for (const item of this.playback) {
-        await this.removePlayback(item.id, false);
+        result &= await this.removePlayback(item.id, false);
       }
-      this.playback = [];
-      this.flash('All playback items removed', '', 'success');
+
+      if (result) {
+        this.playback = [];
+        this.flash('All playback items removed', '', 'success');
+      } else {
+        this.flash('Some playback items failed to remove', '', 'warning');
+        await this.fetchPlaybackProgress();
+      }
       this.$delete(this.removing, 'all');
     },
     flash(header, content, type, persist = false) {
