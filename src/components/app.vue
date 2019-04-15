@@ -74,7 +74,13 @@
     <sui-message
       v-for="(m, $index) in messages"
       :key="`flash-${$index}`"
-      v-bind="{ header: m.header, content: m.content, [m.type || 'info']: true }"
+      v-bind="{
+        header: m.header,
+        content: m.content,
+        [m.type || 'info']: true,
+        dismissable: m.persist,
+      }"
+      @dismiss="dismissFlash(m)"
     />
 
     <sui-loader v-if="loading" active centered inline />
@@ -275,18 +281,20 @@ export default {
       this.flash('All playback items removed', '', 'success');
       this.$delete(this.removing, 'all');
     },
-    flash(header, content, type) {
+    flash(header, content, type, persist = false) {
       const msg = {
         header,
         content,
         type,
+        persist,
       };
       this.messages.unshift(msg);
-      setTimeout(() => {
-        const index = this.messages.findIndex(item => item === msg);
-        this.$delete(this.messages, index);
-      }, 3000);
-    }
+      if (!persist) setTimeout(this.dismissFlash, 3000, msg);
+    },
+    dismissFlash(msg) {
+      const index = this.messages.findIndex(item => item === msg);
+      this.$delete(this.messages, index);
+    },
   }
 };
 </script>
