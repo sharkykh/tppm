@@ -205,8 +205,8 @@ export default {
     },
     saveAuth() {
       // Save to localStorage
-      const data = Object.assign({}, this.api._authentication);
-      if ('access_token' in data && 'refresh_token' in data && 'expires' in data) {
+      const data = this.api.export_token();
+      if (data.access_token && data.refresh_token && data.expires) {
         try {
           window.localStorage.setItem('traktAuth', JSON.stringify(data));
           return true;
