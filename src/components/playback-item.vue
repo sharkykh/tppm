@@ -12,7 +12,7 @@
       </sui-card-meta>
       <sui-card-meta>
         <sui-icon name="pause" />
-        {{ formatDate(info.paused_at, 'YYYY-MM-DD HH:mm:SS (UTCZ)') }}
+        {{ date }}
       </sui-card-meta>
     </sui-card-content>
 
@@ -24,7 +24,7 @@
       </sui-card-meta>
       <sui-card-meta>
         <sui-icon name="pause" />
-        {{ formatDate(info.paused_at, 'YYYY-MM-DD HH:mm:SS (UTCZZ)') }}
+        {{ date }}
       </sui-card-meta>
     </sui-card-content>
 
@@ -64,16 +64,15 @@ export default {
     }
   },
   computed: {
+    date() {
+      const date = Date.parse(this.info.paused_at);
+      const Z = new Date(date).getTimezoneOffset() ? 'Z' : '';
+      return formatDate(date, `YYYY-MM-DD – HH:mm:SS – (UTC${Z})`);
+    },
     disableRemove() {
       const { removing, info } = this;
       return info.id in removing || 'all' in removing;
     }
-  },
-  methods: {
-    formatDate(rawDate, format) {
-      const date = Date.parse(rawDate);
-      return formatDate(date, format);
-    },
   },
 };
 </script>
