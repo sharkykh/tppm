@@ -4,13 +4,10 @@ module.exports = (api) => {
   const presets = [
     ['@babel/preset-env', {
       targets: {
-        browsers: [
-          "last 3 Chrome versions",
-          "last 3 Firefox versions",
-          "last 3 Safari versions",
-          "last 2 Edge versions"
-        ]
+        browsers: 'last 2 versions and not dead and not ie >= 11 and > 0.2%, firefox esr'
       },
+      useBuiltIns: 'usage',
+      corejs: 3,
     }],
   ];
 
