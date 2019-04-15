@@ -54,7 +54,7 @@
           :loading="loading"
           :disabled="loading"
           positive
-          @click="fetchPlaybackProgress()"
+          @click="fetchInfo()"
         />
 
         <sui-button
@@ -62,8 +62,8 @@
           icon="trash"
           content="Remove All"
           v-if="loggedIn"
-          :disabled="playback.length === 0 || Object.keys(removing).length > 0"
-          :loading="Object.keys(removing).length > 0"
+          :disabled="loading || playback.length === 0 || Object.keys(removing).length > 0"
+          :loading="loading || Object.keys(removing).length > 0"
           @click="removeAllPlaybacks()"
         />
       </sui-header-content>
@@ -83,6 +83,15 @@
       @dismiss="dismissFlash(m)"
     />
 
+    <template v-if="playing">
+      <currently-playing
+        :playing="playing"
+        @stopped="playing = false; fetchPlaybackProgress()"
+        @flash="flash(...$event)"
+      />
+      <sui-divider hidden />
+    </template>
+
     <sui-loader v-if="loading" active centered inline />
     <sui-message v-else-if="noResults" info header="No results" content="There are no items to remove." />
     <sui-card-group v-else stackable :items-per-row="3" class="doubling">
@@ -100,12 +109,14 @@ import TraktLogo from '../trakt.png';
 import api from '../api.js';
 import { isDevelopment } from '../utils.js';
 import AppFooter from './app-footer.vue';
+import CurrentlyPlaying from './currently-playing.vue';
 import PlaybackItem from './playback-item.vue';
 
 export default {
   name: 'App',
   components: {
     AppFooter,
+    CurrentlyPlaying,
     PlaybackItem,
   },
   data() {
@@ -119,17 +130,23 @@ export default {
       playback: [],
       messages: [],
       removing: {},
+      playing: false,
     };
   },
   async mounted() {
     try {
+      let fetch = false;
       if (await this.loadAuth()) {
         console.log('Loaded from localStorage');
-        await this.fetchSettings();
+        fetch = true;
       } else if (this.params.code) {
         api._authentication.state = window.localStorage.getItem('traktAuthState') || undefined;
         await this.exchangeCode(this.params.code, this.params.state);
         window.history.replaceState({}, '', window.location.pathname);
+        fetch = true;
+      }
+
+      if (fetch) {
         await this.fetchSettings();
       }
     } catch (error) {
@@ -238,8 +255,13 @@ export default {
         if (isDevelopment) debugger;
       }
     },
-    async fetchPlaybackProgress() {
+    async fetchInfo() {
       this.loading = true;
+      await this.fetchPlaybackProgress();
+      await this.fetchCurrentlyPlaying();
+      this.loading = false;
+    },
+    async fetchPlaybackProgress() {
       try {
         this.playback = await api.sync.playback.get();
         if (!this.firstLoad) this.firstLoad = true;
@@ -247,8 +269,6 @@ export default {
         console.error(error);
         this.flash('Error in fetchPlaybackProgress()', String(error), 'error', true);
         if (isDevelopment) debugger;
-      } finally {
-        this.loading = false;
       }
     },
     async removePlayback(id, updateState = true) {
@@ -285,6 +305,16 @@ export default {
         await this.fetchPlaybackProgress();
       }
       this.$delete(this.removing, 'all');
+    },
+    async fetchCurrentlyPlaying() {
+      try {
+        const data = await api.users.watching({ username: 'me' });
+        this.playing = data || false;
+      } catch (error) {
+        console.error(error);
+        this.flash('Error in fetchCurrentlyPlaying()', String(error), 'error', true);
+        if (isDevelopment) debugger;
+      }
     },
     flash(header, content, type, persist = false) {
       const msg = {
