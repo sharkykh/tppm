@@ -85,7 +85,7 @@ export default {
         };
         await api.scrobble.pause({ progress, [playing.type]: data });
         this.$emit('stopped');
-        this.flash(`Stopped currently playing ${playing.type}`, '', 'success');
+        this.flash(`Stopped currently playing ${playing.type} at ${progress.toFixed(0)}%`, '', 'success');
       } catch (error) {
         console.error(error);
         this.flash('Error in stopCurrentlyPlaying()', String(error), 'error', true);
