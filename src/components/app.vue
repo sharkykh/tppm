@@ -71,17 +71,19 @@
 
     <sui-divider hidden />
 
-    <sui-message
-      v-for="(m, $index) in messages"
-      :key="`flash-${$index}`"
-      v-bind="{
-        header: m.header,
-        content: m.content,
-        [m.type || 'info']: true,
-        dismissable: m.persist,
-      }"
-      @dismiss="dismissFlash(m)"
-    />
+    <div class="flash-message">
+      <sui-message
+        v-for="(m, $index) in messages"
+        :key="`flash-${$index}`"
+        v-bind="{
+          header: m.header,
+          content: m.content,
+          [m.type || 'info']: true,
+          dismissable: m.persist,
+        }"
+        @dismiss="dismissFlash(m)"
+      />
+    </div>
 
     <template v-if="playing">
       <currently-playing
@@ -338,5 +340,11 @@ export default {
   #app-header {
     font-size: 1.5em;
     margin-top: 25px;
+  }
+  .flash-message {
+    position: fixed;
+    bottom: 0%;
+    width: inherit;
+    z-index: 10;
   }
 </style>
