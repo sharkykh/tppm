@@ -1,12 +1,24 @@
 <template>
-  <div is="sui-container" text-align="center">
-
-    <sui-header block id="app-header">
-      <sui-image :src="logo" size="massive" />
+  <div
+    is="sui-container"
+    text-align="center"
+  >
+    <sui-header
+      id="app-header"
+      block
+    >
+      <sui-image
+        :src="logo"
+        size="massive"
+      />
       <br>
       <sui-header-content>
         Trakt.tv Playback Progress Manager
-        <sui-label size="mini" color="red" circular>
+        <sui-label
+          size="mini"
+          color="red"
+          circular
+        >
           Beta
         </sui-label>
       </sui-header-content>
@@ -14,7 +26,12 @@
 
       <sui-divider />
 
-      <sui-loader v-if="!initialized" active centered inline />
+      <sui-loader
+        v-if="!initialized"
+        active
+        centered
+        inline
+      />
       <sui-header-content v-else>
         <sui-button
           v-if="!loggedIn"
@@ -33,9 +50,23 @@
           />
         </template>
 
-        <a is="sui-label" v-if="user" size="big" :href="user.profile">
-          <sui-image v-if="user.avatar" avatar spaced="right" :src="user.avatar" />
-          <sui-icon v-else name="user" size="small" />
+        <a
+          is="sui-label"
+          v-if="user"
+          size="big"
+          :href="user.profile"
+        >
+          <sui-image
+            v-if="user.avatar"
+            avatar
+            spaced="right"
+            :src="user.avatar"
+          />
+          <sui-icon
+            v-else
+            name="user"
+            size="small"
+          />
           {{ user.fullName }}
         </a>
 
@@ -45,7 +76,10 @@
           @click="fetchSettings()"
         />
 
-        <sui-divider v-if="loggedIn" hidden />
+        <sui-divider
+          v-if="loggedIn"
+          hidden
+        />
 
         <sui-button
           v-if="loggedIn"
@@ -58,10 +92,10 @@
         />
 
         <sui-button
+          v-if="loggedIn"
           negative
           icon="trash"
           content="Remove All"
-          v-if="loggedIn"
           :disabled="loading || playback.length === 0 || Object.keys(removing).length > 0"
           :loading="loading || Object.keys(removing).length > 0"
           @click="removeAllPlaybacks()"
@@ -94,10 +128,31 @@
       <sui-divider hidden />
     </template>
 
-    <sui-loader v-if="loading" active centered inline />
-    <sui-message v-else-if="noResults" info header="No results" content="There are no items to remove." />
-    <sui-card-group v-else stackable :items-per-row="3" class="doubling">
-      <playback-item v-for="item in playback" :key="item.id" :info="item" :removing="removing" @remove="removePlayback" />
+    <sui-loader
+      v-if="loading"
+      active
+      centered
+      inline
+    />
+    <sui-message
+      v-else-if="noResults"
+      info
+      header="No results"
+      content="There are no items to remove."
+    />
+    <sui-card-group
+      v-else
+      stackable
+      :items-per-row="3"
+      class="doubling"
+    >
+      <playback-item
+        v-for="item in playback"
+        :key="item.id"
+        :info="item"
+        :removing="removing"
+        @remove="removePlayback"
+      />
     </sui-card-group>
 
     <sui-divider />
@@ -135,6 +190,48 @@ export default {
       playing: false,
     };
   },
+  computed: {
+    params() {
+      const { search } = window.location;
+      return search.slice(1).split('&').reduce((obj, pair) => {
+        if (!pair) {
+          return obj;
+        }
+
+        const [key, value] = pair.split('=');
+        obj[key] = value;
+        return obj;
+      }, {});
+    },
+    logo() {
+      return TraktLogo;
+    },
+    user() {
+      if (!this.loggedIn) {
+        return undefined;
+      }
+
+      const { user } = this.settings;
+      if (!user) {
+        return undefined;
+      }
+
+      const { username, name, images, ids } = user;
+      const fullName = ['', username].includes(name) ? username : `${name} (${username})`;
+      const avatar = (images.avatar && images.avatar.full) || undefined; // eslint-disable-line no-unused-vars
+      const profile = ids.slug && `https://trakt.tv/users/${ids.slug}`;
+
+      return {
+        // eslint-disable-next-line capitalized-comments
+        // avatar,
+        fullName,
+        profile,
+      };
+    },
+    noResults() {
+      return this.firstLoad && this.playback.length === 0;
+    },
+  },
   async mounted() {
     try {
       let fetch = false;
@@ -154,58 +251,32 @@ export default {
     } catch (error) {
       console.error(error);
       this.flash('Error in mounted()', String(error), 'error', true);
-      if (isDevelopment) debugger;
+      if (isDevelopment) {
+        debugger;
+      }
     } finally {
       this.loggingIn = false;
       this.initialized = true;
     }
-  },
-  computed: {
-    params() {
-      const { search } = window.location;
-      return search.slice(1).split('&').reduce((obj, pair) => {
-        if (!pair) return obj;
-        const [key, value] = pair.split('=');
-        obj[key] = value;
-        return obj;
-      }, {});
-    },
-    logo() {
-      return TraktLogo;
-    },
-    user() {
-      if (!this.loggedIn) return undefined;
-      const { user } = this.settings;
-      if (!user) return undefined;
-      const { username, name, images, ids } = user;
-      const fullName = ['', username].includes(name) ? username : `${name} (${username})`;
-      const avatar = images.avatar && images.avatar.full || undefined;
-      const profile = ids.slug && `https://trakt.tv/users/${ids.slug}`;
-
-      return {
-        // avatar,
-        fullName,
-        profile,
-      };
-    },
-    noResults() {
-      return this.firstLoad && this.playback.length === 0;
-    },
   },
   methods: {
     requestAuth() {
       window.location.replace(api.get_url());
       window.localStorage.setItem('traktAuthState', api._authentication.state);
     },
-    /* async */ revokeAuth() {
+    /* async */ revokeAuth() { // eslint-disable-line capitalized-comments
       window.localStorage.removeItem('traktAuth');
+      // eslint-disable-next-line capitalized-comments
       // await api.revoke_token();
       this.loggedIn = false;
     },
     async loadAuth() {
       // Load from localStorage
       const stored = window.localStorage.getItem('traktAuth');
-      if (!stored) return false;
+      if (!stored) {
+        return false;
+      }
+
       try {
         const data = JSON.parse(stored);
         await api.import_token(data);
@@ -214,8 +285,11 @@ export default {
       } catch (error) {
         console.error(error);
         this.flash('Error in loadAuth()', String(error), 'error', true);
-        if (isDevelopment) debugger;
+        if (isDevelopment) {
+          debugger;
+        }
       }
+
       return false;
     },
     saveAuth() {
@@ -228,9 +302,12 @@ export default {
         } catch (error) {
           console.error(error);
           this.flash('Error in saveAuth()', String(error), 'error', true);
-          if (isDevelopment) debugger;
+          if (isDevelopment) {
+            debugger;
+          }
         }
       }
+
       return false;
     },
     async exchangeCode(code, state) {
@@ -242,7 +319,9 @@ export default {
       } catch (error) {
         console.error(error);
         this.flash('Error in exchangeCode()', String(error), 'error', true);
-        if (isDevelopment) debugger;
+        if (isDevelopment) {
+          debugger;
+        }
       }
     },
     async fetchSettings() {
@@ -254,7 +333,9 @@ export default {
       } catch (error) {
         console.error(error);
         this.flash('Error in fetchSettings()', String(error), 'error', true);
-        if (isDevelopment) debugger;
+        if (isDevelopment) {
+          debugger;
+        }
       }
     },
     async fetchInfo() {
@@ -266,11 +347,15 @@ export default {
     async fetchPlaybackProgress() {
       try {
         this.playback = await api.sync.playback.get();
-        if (!this.firstLoad) this.firstLoad = true;
+        if (!this.firstLoad) {
+          this.firstLoad = true;
+        }
       } catch (error) {
         console.error(error);
         this.flash('Error in fetchPlaybackProgress()', String(error), 'error', true);
-        if (isDevelopment) debugger;
+        if (isDevelopment) {
+          debugger;
+        }
       }
     },
     async removePlayback(id, updateState = true) {
@@ -285,18 +370,22 @@ export default {
       } catch (error) {
         console.error(error);
         this.flash('Error in removePlayback()', String(error), 'error', true);
-        if (isDevelopment) debugger;
+        if (isDevelopment) {
+          debugger;
+        }
+
         return false;
       } finally {
         this.$delete(this.removing, id);
       }
+
       return true;
     },
     async removeAllPlaybacks() {
       let result = true;
       this.$set(this.removing, 'all', null);
       for (const item of this.playback) {
-        result &= await this.removePlayback(item.id, false);
+        result &= await this.removePlayback(item.id, false); // eslint-disable-line no-await-in-loop
       }
 
       if (result) {
@@ -306,6 +395,7 @@ export default {
         this.flash('Some playback items failed to remove', '', 'warning');
         await this.fetchPlaybackProgress();
       }
+
       this.$delete(this.removing, 'all');
     },
     async fetchCurrentlyPlaying() {
@@ -315,7 +405,9 @@ export default {
       } catch (error) {
         console.error(error);
         this.flash('Error in fetchCurrentlyPlaying()', String(error), 'error', true);
-        if (isDevelopment) debugger;
+        if (isDevelopment) {
+          debugger;
+        }
       }
     },
     flash(header, content, type, persist = false) {
@@ -326,13 +418,15 @@ export default {
         persist,
       };
       this.messages.unshift(msg);
-      if (!persist) setTimeout(this.dismissFlash, 3000, msg);
+      if (!persist) {
+        setTimeout(this.dismissFlash, 3000, msg);
+      }
     },
     dismissFlash(msg) {
       const index = this.messages.findIndex(item => item === msg);
       this.$delete(this.messages, index);
     },
-  }
+  },
 };
 </script>
 
