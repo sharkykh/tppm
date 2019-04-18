@@ -6,6 +6,7 @@
         <meta name="theme-color" content="#af1a1b">
         <title>Trakt Playback Progress Manager</title>
 
+        <% if (process.env.NODE_ENV === 'production') { %>
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-20983843-12"></script>
         <script>
@@ -15,6 +16,7 @@
 
             gtag('config', 'UA-20983843-12');
         </script>
+        <% } %>
     </head>
 
     <body>
