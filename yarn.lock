@@ -4788,7 +4788,7 @@ to-regex@^3.0.1, to-regex@^3.0.2:
 
 "trakt.tv@https://github.com/sharkykh/trakt.tv-browser#master":
   version "7.1.0"
-  resolved "https://github.com/sharkykh/trakt.tv-browser#339c88e10c34701a80e84acbf21a0c394c0942c7"
+  resolved "https://github.com/sharkykh/trakt.tv-browser#5dc16aef54ff7f1345408ebcffa60c65ac8c366e"
   dependencies:
     ky "^0.9.1"
     randombytes "2.1.0"
