@@ -49,6 +49,8 @@ export default {
   data() {
     return {
       stopping: false,
+      now: new Date().getTime(),
+      updateTime: null,
     };
   },
   computed: {
@@ -59,15 +61,27 @@ export default {
       return `https://trakt.tv/search/trakt/${id}?id_type=${type}`;
     },
     progress() {
-      const { expires_at, started_at } = this.playing;
+      const { now, playing } = this;
+      const { expires_at, started_at } = playing;
       const expires = new Date(expires_at).getTime();
       const started = new Date(started_at).getTime();
-      const now = new Date().getTime();
 
       const watched = now - started;
       const total = expires - started;
-      return (watched / total) * 100;
+      const progress = (watched / total) * 100;
+      return progress > 0 ? progress : 0;
     },
+  },
+  mounted() {
+    this.updateTime = setInterval(() => {
+      this.now = new Date().getTime();
+    }, 1000);
+  },
+  destroyed() {
+    if (this.updateTime) {
+      clearInterval(this.updateTime);
+      this.updateTime = null;
+    }
   },
   methods: {
     async stopCurrentlyPlaying() {
