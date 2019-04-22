@@ -261,10 +261,20 @@ export default {
       window.location.replace(api.get_url());
       window.localStorage.setItem('traktAuthState', api._authentication.state);
     },
-    /* async */ revokeAuth() { // eslint-disable-line capitalized-comments
+    async revokeAuth() {
       window.localStorage.removeItem('traktAuth');
-      // eslint-disable-next-line capitalized-comments
-      // await api.revoke_token();
+      try {
+        await api.revoke_token();
+      } catch (error) {
+        /* // Ignore the error caused by CORS bug: https://github.com/trakt/api-help/issues/51
+        console.error(error);
+        this.flash('Error in revokeAuth()', String(error), 'error', true);
+        if (isDevelopment) {
+          debugger;
+        }
+        */
+      }
+
       this.loggedIn = false;
     },
     async loadAuth() {
