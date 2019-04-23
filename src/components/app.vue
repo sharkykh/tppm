@@ -365,13 +365,13 @@ export default {
         }
       }
     },
-    async removePlayback(id, updateState = true) {
+    async removePlayback(id, notify = true) {
       this.$set(this.removing, id, null);
       try {
         await api.sync.playback.remove({ id });
         const index = this.playback.findIndex(item => item.id === id);
-        if (updateState) {
-          this.$delete(this.playback, index);
+        this.$delete(this.playback, index);
+        if (notify) {
           this.flash('Playback item removed', '', 'success');
         }
       } catch (error) {
@@ -391,16 +391,22 @@ export default {
     async removeAllPlaybacks() {
       let result = true;
       this.$set(this.removing, 'all', null);
-      for (const item of this.playback) {
-        result &= await this.removePlayback(item.id, false); // eslint-disable-line no-await-in-loop
+
+      const ids = this.playback.map(item => item.id);
+      while (ids.length > 0) {
+        const chunk = ids.splice(0, 3);
+
+        // eslint-disable-next-line no-await-in-loop
+        const chunkResults = await Promise.all(
+          chunk.map(id => this.removePlayback(id, false))
+        );
+        result &= chunkResults.every(Boolean);
       }
 
       if (result) {
-        this.playback = [];
         this.flash('All playback items removed', '', 'success');
       } else {
         this.flash('Some playback items failed to remove', '', 'warning');
-        await this.fetchPlaybackProgress();
       }
 
       this.$delete(this.removing, 'all');
