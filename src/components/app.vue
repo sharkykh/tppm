@@ -437,7 +437,7 @@ export default {
   }
   .flash-message {
     position: fixed;
-    bottom: 0%;
+    bottom: 1%;
     width: inherit;
     z-index: 10;
   }
