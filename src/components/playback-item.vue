@@ -1,10 +1,22 @@
 <template>
   <sui-card>
-    <sui-card-content v-if="info.type === 'episode'" class="left aligned">
+    <sui-card-content
+      v-if="info.type === 'episode'"
+      class="left aligned"
+    >
       <sui-card-header>{{ info.show.title }}</sui-card-header>
       <sui-card-meta>
-        <sui-icon name="tv" title="Episode" />
-        {{ info.episode.season }} <sui-icon name="times" size="small" fitted /> {{ info.episode.number }}
+        <sui-icon
+          name="tv"
+          title="Episode"
+        />
+        {{ info.episode.season }}
+        <sui-icon
+          name="times"
+          size="small"
+          fitted
+        />
+        {{ info.episode.number }}
       </sui-card-meta>
       <sui-card-meta>
         <sui-icon name="pencil alternate" />
@@ -16,10 +28,16 @@
       </sui-card-meta>
     </sui-card-content>
 
-    <sui-card-content v-else-if="info.type === 'movie'" class="left aligned">
+    <sui-card-content
+      v-else-if="info.type === 'movie'"
+      class="left aligned"
+    >
       <sui-card-header>{{ info.movie.title }}</sui-card-header>
       <sui-card-meta>
-        <sui-icon name="film" title="Movie" />
+        <sui-icon
+          name="film"
+          title="Movie"
+        />
         {{ info.movie.year }}
       </sui-card-meta>
       <sui-card-meta>
@@ -61,7 +79,7 @@ export default {
       type: Object,
       default: () => ({}),
       required: true,
-    }
+    },
   },
   computed: {
     date() {
@@ -72,7 +90,7 @@ export default {
     disableRemove() {
       const { removing, info } = this;
       return info.id in removing || 'all' in removing;
-    }
+    },
   },
 };
 </script>

@@ -1,14 +1,22 @@
 <template>
   <sui-segment>
-    <h2 is="sui-header">Currently playing</h2>
+    <h2 is="sui-header">
+      Currently playing
+    </h2>
 
     <a :href="url">
-      <h3 is="sui-header" v-if="playing.type === 'episode'">
+      <h3
+        is="sui-header"
+        v-if="playing.type === 'episode'"
+      >
         {{ playing.show.title }}
         {{ playing.episode.season }}x{{ playing.episode.number }}
         "{{ playing.episode.title }}"
       </h3>
-      <h3 is="sui-header" v-else-if="playing.type === 'movie'">
+      <h3
+        is="sui-header"
+        v-else-if="playing.type === 'movie'"
+      >
         {{ playing.movie.title }}
         ({{ playing.movie.year }})
       </h3>
@@ -49,25 +57,42 @@ export default {
   data() {
     return {
       stopping: false,
+      now: new Date().getTime(),
+      updateTime: null,
     };
   },
   computed: {
     url() {
       const type = 'episode' in this.playing ? 'episode' : 'movie' in this.playing ? 'movie' : undefined;
-      if (!type) return undefined;
+      if (!type) {
+        return undefined;
+      }
+
       const id = this.playing[type].ids.trakt;
       return `https://trakt.tv/search/trakt/${id}?id_type=${type}`;
     },
     progress() {
-      const { expires_at, started_at } = this.playing;
+      const { now, playing } = this;
+      const { expires_at, started_at } = playing; // eslint-disable-line camelcase
       const expires = new Date(expires_at).getTime();
       const started = new Date(started_at).getTime();
-      const now = new Date().getTime();
 
       const watched = now - started;
       const total = expires - started;
-      return (watched / total) * 100;
+      const progress = (watched / total) * 100;
+      return progress > 0 ? progress : 0;
     },
+  },
+  mounted() {
+    this.updateTime = setInterval(() => {
+      this.now = new Date().getTime();
+    }, 1000);
+  },
+  destroyed() {
+    if (this.updateTime) {
+      clearInterval(this.updateTime);
+      this.updateTime = null;
+    }
   },
   methods: {
     async stopCurrentlyPlaying() {
@@ -76,6 +101,7 @@ export default {
         this.flash('Nothing is currently playing.', '', 'error');
         return false;
       }
+
       try {
         this.stopping = true;
         const data = {
@@ -89,7 +115,9 @@ export default {
       } catch (error) {
         console.error(error);
         this.flash('Error in stopCurrentlyPlaying()', String(error), 'error', true);
-        if (isDevelopment) debugger;
+        if (isDevelopment) {
+          debugger;
+        }
       } finally {
         this.stopping = false;
       }
@@ -97,7 +125,7 @@ export default {
     flash() {
       this.$emit('flash', arguments);
     },
-  }
+  },
 };
 </script>
 

@@ -21,7 +21,7 @@ const pkg = require('./package.json');
 const webpackConfig = (env, mode) => ({
   entry: path.resolve(__dirname, 'src/main.js'),
   output: {
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
     alias: {
@@ -34,7 +34,14 @@ const webpackConfig = (env, mode) => ({
     },
   },
   module: {
-    rules: [{
+    rules: [
+      {
+        enforce: 'pre',
+        test: /\.(js|vue)$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader'
+      },
+      {
         test: /\.js$/,
         exclude: /(node_modules(?![\\/]ky))/,
         use: {
@@ -47,8 +54,8 @@ const webpackConfig = (env, mode) => ({
           loader: 'vue-loader',
           options: {
             // This is a workaround because vue-loader can't get the webpack mode
-            productionMode: mode === 'production'
-          }
+            productionMode: mode === 'production',
+          },
         },
       },
       {
@@ -62,8 +69,8 @@ const webpackConfig = (env, mode) => ({
             resourceQuery: /^\?vue&type=style/,
             use: [
               'vue-style-loader',
-              'css-loader'
-            ]
+              'css-loader',
+            ],
           },
           {
             // Handle regular `.css` files
@@ -71,8 +78,8 @@ const webpackConfig = (env, mode) => ({
               fallback: 'style-loader',
               use: 'css-loader',
             }),
-          }
-       ]
+          },
+        ],
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
@@ -94,11 +101,12 @@ const webpackConfig = (env, mode) => ({
   },
   plugins: [
     new DefinePlugin({
-      __VERSION__: JSON.stringify(pkg.version)
+      __VERSION__: JSON.stringify(pkg.version),
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
+      // eslint-disable-next-line captialized-comments
       // favicon: './src/favicon.ico',
       hash: true,
     }),
@@ -111,8 +119,8 @@ const webpackConfig = (env, mode) => ({
     hot: true,
     inline: true,
     watchOptions: {
-      poll: true
-    }
+      poll: true,
+    },
   },
 });
 
