@@ -1,15 +1,15 @@
-const path = require('path');
+import path from 'path';
 
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const { DefinePlugin } = require('webpack');
+import CleanWebpackPlugin from 'clean-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import VueLoaderPlugin from 'vue-loader/lib/plugin';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import { DefinePlugin } from 'webpack';
 
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const NullPlugin = require('webpack-null-plugin');
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import NullPlugin from 'webpack-null-plugin';
 
-const pkg = require('./package.json');
+import pkg from './package.json';
 
 /**
  * Generate the Webpack configuration object.
@@ -131,4 +131,4 @@ const webpackConfig = (env, mode) => ({
  * @param {*} argv - An options map (argv). This describes the options passed to webpack, with keys such as output-filename and optimize-minimize.
  * @returns {Object} - Webpack configuration object.
  */
-module.exports = (env = {}, argv = {}) => webpackConfig(env, argv.mode || process.env.NODE_ENV);
+export default (env = {}, argv = {}) => webpackConfig(env, argv.mode || process.env.NODE_ENV);
