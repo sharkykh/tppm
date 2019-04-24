@@ -11,7 +11,9 @@ module.exports = api => {
     }],
   ];
 
-  const plugins = [];
+  const plugins = [
+    '@babel/plugin-proposal-optional-chaining',
+  ];
 
   return {
     presets,
