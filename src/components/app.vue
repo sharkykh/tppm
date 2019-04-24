@@ -72,8 +72,8 @@
 
         <sui-button
           v-if="loggedIn && !user"
-          content="Fetch Settings"
-          @click="fetchSettings()"
+          content="Fetch Profile"
+          @click="fetchProfile()"
         />
 
         <sui-divider
@@ -183,7 +183,7 @@ export default {
       loggingIn: true,
       loading: false,
       firstLoad: false,
-      settings: {},
+      profile: {},
       playback: [],
       messages: [],
       removing: {},
@@ -211,19 +211,15 @@ export default {
         return undefined;
       }
 
-      const { user } = this.settings;
-      if (!user) {
+      const { username, name, ids } = this.profile;
+      if (!username) {
         return undefined;
       }
 
-      const { username, name, images, ids } = user;
       const fullName = ['', username].includes(name) ? username : `${name} (${username})`;
-      const avatar = (images.avatar && images.avatar.full) || undefined; // eslint-disable-line no-unused-vars
       const profile = ids.slug && `https://trakt.tv/users/${ids.slug}`;
 
       return {
-        // eslint-disable-next-line capitalized-comments
-        // avatar,
         fullName,
         profile,
       };
@@ -246,7 +242,7 @@ export default {
       }
 
       if (fetch) {
-        await this.fetchSettings();
+        await this.fetchProfile();
       }
     } catch (error) {
       console.error(error);
@@ -324,15 +320,15 @@ export default {
         }
       }
     },
-    async fetchSettings() {
+    async fetchProfile() {
       try {
-        const data = await api.users.settings();
+        const data = await api.users.profile({ username: 'me' });
         Object.keys(data).forEach(key => {
-          this.$set(this.settings, key, data[key]);
+          this.$set(this.profile, key, data[key]);
         });
       } catch (error) {
         console.error(error);
-        this.flash('Error in fetchSettings()', String(error), 'error', true);
+        this.flash('Error in fetchProfile()', String(error), 'error', true);
         if (isDevelopment) {
           debugger;
         }
