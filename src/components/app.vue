@@ -119,7 +119,7 @@
       />
     </div>
 
-    <template v-if="playing">
+    <template v-if="playing && !loading">
       <currently-playing
         :playing="playing"
         @stopped="playing = false; fetchPlaybackProgress()"
