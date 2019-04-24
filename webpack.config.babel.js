@@ -5,7 +5,6 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import { DefinePlugin } from 'webpack';
-
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import NullPlugin from 'webpack-null-plugin';
 

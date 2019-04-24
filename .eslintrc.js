@@ -5,9 +5,6 @@ module.exports = {
     allowImportExportEverywhere: false,
     codeFrame: true,
   },
-  plugins: [
-    'import',
-  ],
   extends: [
     'xo-space',
     'plugin:vue/recommended',
@@ -22,5 +19,8 @@ module.exports = {
     'no-debugger': 0,
     'object-curly-spacing': 0,
     'comma-dangle': ['error', 'always-multiline'],
+    'import/order': ['error', {
+      'newlines-between': 'always',
+    }],
   },
 };
