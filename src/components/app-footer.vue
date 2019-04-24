@@ -7,6 +7,7 @@
         content="Source"
       />
     </a>
+    <sui-divider hidden />
   </div>
 </template>
 
