@@ -32,6 +32,8 @@
           fitted
         />
         {{ info.episode.number }}
+        –
+        {{ info.episode.title }}
       </sui-card-meta>
       <sui-card-meta v-else-if="isMovie">
         <sui-icon
@@ -39,11 +41,6 @@
           title="Movie"
         />
         {{ info.movie.year }}
-      </sui-card-meta>
-
-      <sui-card-meta v-if="isEpisode">
-        <sui-icon name="pencil alternate" />
-        {{ info.episode.title }}
       </sui-card-meta>
 
       <sui-card-meta>
