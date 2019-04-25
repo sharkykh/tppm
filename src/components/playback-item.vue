@@ -24,6 +24,7 @@
         <sui-icon
           name="tv"
           title="Episode"
+          class="icon-fix"
         />
         {{ info.episode.season }}
         <sui-icon
@@ -110,6 +111,10 @@ export default {
 </script>
 
 <style scoped>
+  .icon-fix {
+    margin-left: -.1em;
+    margin-right: .1em !important;
+  }
   .ui.progress {
     margin: -0.5em 0 0.5em;
   }
