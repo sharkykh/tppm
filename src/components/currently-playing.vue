@@ -43,7 +43,7 @@
 
 <script>
 import api from '../api.js';
-import { isDevelopment } from '../utils.js';
+import { isDevelopment, generateTraktUrl } from '../utils.js';
 
 export default {
   name: 'CurrentlyPlaying',
@@ -63,13 +63,7 @@ export default {
   },
   computed: {
     url() {
-      const type = 'episode' in this.playing ? 'episode' : 'movie' in this.playing ? 'movie' : undefined;
-      if (!type) {
-        return undefined;
-      }
-
-      const id = this.playing[type].ids.trakt;
-      return `https://trakt.tv/search/trakt/${id}?id_type=${type}`;
+      return generateTraktUrl(this.playing) || undefined;
     },
     progress() {
       const { now, playing } = this;
