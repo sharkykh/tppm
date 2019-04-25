@@ -1,11 +1,23 @@
 <template>
   <sui-card>
     <sui-card-content class="left aligned">
-      <sui-card-header v-if="isEpisode">
-        {{ info.show.title }}
-      </sui-card-header>
-      <sui-card-header v-else-if="isMovie">
-        {{ info.movie.title }}
+      <sui-card-header>
+        <template v-if="isEpisode">
+          {{ info.show.title }}
+        </template>
+        <template v-else-if="isMovie">
+          {{ info.movie.title }}
+        </template>
+
+        <a
+          :href="url"
+          class="right floated"
+        >
+          <sui-icon
+            name="external"
+            size="small"
+          />
+        </a>
       </sui-card-header>
 
       <sui-card-meta v-if="isEpisode">
@@ -61,6 +73,8 @@
 <script>
 import formatDate from 'date-fns/format';
 
+import { generateTraktUrl } from '../utils.js';
+
 export default {
   name: 'PlaybackItem',
   props: {
@@ -81,6 +95,9 @@ export default {
     },
     isMovie() {
       return this.info.type === 'movie';
+    },
+    url() {
+      return generateTraktUrl(this.info) || undefined;
     },
     date() {
       const date = Date.parse(this.info.paused_at);
