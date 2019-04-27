@@ -123,6 +123,7 @@
       <currently-playing
         :playing="playing"
         @stopped="playing = false; fetchPlaybackProgress()"
+        @canceled="playing = false;"
         @flash="flash(...$event)"
       />
       <sui-divider hidden />

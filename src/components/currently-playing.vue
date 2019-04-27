@@ -1,7 +1,7 @@
 <template>
   <sui-segment>
     <h2 is="sui-header">
-      Currently playing
+      {{ event.title }}
     </h2>
 
     <a :href="url">
@@ -24,8 +24,7 @@
 
     <sui-button
       negative
-      icon="stop"
-      content="Stop"
+      v-bind="event.buttonAttrs"
       size="large"
       :loading="stopping"
       :disabled="stopping"
@@ -62,6 +61,32 @@ export default {
     };
   },
   computed: {
+    event() {
+      const { playing } = this;
+      let title;
+      let buttonAttrs;
+
+      if (playing.action === 'scrobble') {
+        title = 'Currently playing';
+        buttonAttrs = {
+          icon: 'stop',
+          content: 'Stop',
+        };
+      }
+
+      if (this.playing.action === 'checkin') {
+        title = 'Currently checked in';
+        buttonAttrs = {
+          icon: 'times circle',
+          content: 'Cancel check in',
+        };
+      }
+
+      return {
+        title,
+        buttonAttrs,
+      };
+    },
     url() {
       return generateTraktUrl(this.playing) || undefined;
     },
@@ -89,13 +114,23 @@ export default {
     }
   },
   methods: {
-    async stopCurrentlyPlaying() {
-      const { playing, progress } = this;
+    stopCurrentlyPlaying() {
+      const { playing } = this;
       if (!['episode', 'movie'].includes(playing.type)) {
         this.flash('Nothing is currently playing.', '', 'error');
         return false;
       }
 
+      if (playing.action === 'scrobble') {
+        return this.scrobblePause();
+      }
+
+      if (playing.action === 'checkin') {
+        return this.cancelCheckin();
+      }
+    },
+    async scrobblePause() {
+      const { playing, progress } = this;
       try {
         this.stopping = true;
         const data = {
@@ -106,9 +141,28 @@ export default {
         await api.scrobble.pause({ progress, [playing.type]: data });
         this.$emit('stopped');
         this.flash(`Stopped currently playing ${playing.type} at ${progress.toFixed(0)}%`, '', 'success');
+        return true;
       } catch (error) {
         console.error(error);
-        this.flash('Error in stopCurrentlyPlaying()', String(error), 'error', true);
+        this.flash('Error in scrobblePause()', String(error), 'error', true);
+        if (isDevelopment) {
+          debugger;
+        }
+      } finally {
+        this.stopping = false;
+      }
+    },
+    async cancelCheckin() {
+      const { playing, progress } = this;
+      try {
+        this.stopping = true;
+        await api.checkin.delete();
+        this.$emit('canceled');
+        this.flash(`Canceled currently checked in ${playing.type} at ${progress.toFixed(0)}%`, '', 'success');
+        return true;
+      } catch (error) {
+        console.error(error);
+        this.flash('Error in cancelCheckin()', String(error), 'error', true);
         if (isDevelopment) {
           debugger;
         }
