@@ -12,10 +12,10 @@
     "dev-server": "webpack-dev-server --inline --progress"
   },
   "devDependencies": {
-    "@babel/core": "7.4.3",
+    "@babel/core": "7.4.4",
     "@babel/plugin-proposal-optional-chaining": "7.2.0",
-    "@babel/preset-env": "7.4.3",
-    "@babel/register": "7.4.0",
+    "@babel/preset-env": "7.4.4",
+    "@babel/register": "7.4.4",
     "babel-eslint": "10.0.1",
     "babel-loader": "8.0.5",
     "clean-webpack-plugin": "2.0.1",
@@ -39,7 +39,7 @@
     "vue-template-compiler": "2.6.10",
     "webpack": "4.30.0",
     "webpack-bundle-analyzer": "3.3.2",
-    "webpack-cli": "3.3.0",
+    "webpack-cli": "3.3.1",
     "webpack-dev-server": "3.3.1",
     "webpack-null-plugin": "0.0.2"
   }
