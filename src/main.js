@@ -3,8 +3,8 @@ import SuiVue from 'semantic-ui-vue';
 import 'semantic-ui-css/semantic.min.css';
 
 import './main.css';
-import App from './components/app.vue';
-import { isDevelopment } from './utils.js';
+import App from './components/App';
+import { isDevelopment } from './utils';
 
 if (isDevelopment) {
   Vue.config.productionTip = false;

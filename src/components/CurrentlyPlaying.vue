@@ -41,8 +41,8 @@
 </template>
 
 <script>
-import api from '../api.js';
-import { isDevelopment, generateTraktUrl } from '../utils.js';
+import api from '../api';
+import { isDevelopment, generateTraktUrl } from '../utils';
 
 export default {
   name: 'CurrentlyPlaying',

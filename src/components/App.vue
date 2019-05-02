@@ -164,12 +164,12 @@
 
 <script>
 import TraktLogo from '../trakt.png';
-import api from '../api.js';
-import { isDevelopment } from '../utils.js';
+import api from '../api';
+import { isDevelopment } from '../utils';
 
-import AppFooter from './app-footer.vue';
-import CurrentlyPlaying from './currently-playing.vue';
-import PlaybackItem from './playback-item.vue';
+import AppFooter from './AppFooter';
+import CurrentlyPlaying from './CurrentlyPlaying';
+import PlaybackItem from './PlaybackItem';
 
 export default {
   name: 'App',

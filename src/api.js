@@ -1,6 +1,6 @@
 import Trakt from 'trakt.tv';
 
-import { isDevelopment } from './utils.js';
+import { isDevelopment } from './utils';
 
 /* eslint-disable camelcase */
 const api = new Trakt({

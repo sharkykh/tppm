@@ -23,6 +23,7 @@ const webpackConfig = (env, mode) => ({
     path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
+    extensions: ['.js', '.vue', '.json'],
     alias: {
       vue$: 'vue/dist/vue.runtime.esm.js',
     },

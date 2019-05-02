@@ -23,4 +23,7 @@ module.exports = {
       'newlines-between': 'always',
     }],
   },
+  settings: {
+    'import/resolver': 'webpack',
+  },
 };

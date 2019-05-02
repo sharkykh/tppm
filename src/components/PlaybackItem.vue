@@ -71,7 +71,7 @@
 <script>
 import formatDate from 'date-fns/format';
 
-import { generateTraktUrl } from '../utils.js';
+import { generateTraktUrl } from '../utils';
 
 export default {
   name: 'PlaybackItem',
