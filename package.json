@@ -4,7 +4,7 @@
   "description": "Trakt Playback Progress Manager",
   "author": "sharkykh",
   "license": "MIT",
-  "private": false,
+  "private": true,
   "scripts": {
     "lint": "eslint ./*.js",
     "build": "webpack --mode production --progress",
