@@ -3,6 +3,7 @@ import SuiVue from 'semantic-ui-vue';
 import 'semantic-ui-css/semantic.min.css';
 
 import App from './components/App';
+import store from './store';
 import { isDevelopment } from './utils';
 
 if (isDevelopment) {
@@ -14,6 +15,7 @@ Vue.use(SuiVue);
 
 const app = new Vue({
   el: '#app',
+  store,
   render: h => h(App),
 });
 
