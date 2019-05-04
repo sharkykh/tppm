@@ -1,6 +1,7 @@
 <template>
   <div
     is="sui-container"
+    id="app"
     text-align="center"
   >
     <sui-header
@@ -445,9 +446,11 @@ export default {
 </script>
 
 <style scoped>
+  #app {
+    padding-top: 25px;
+  }
   #app-header {
     font-size: 1.5em;
-    margin-top: 25px;
   }
   .flash-message {
     position: fixed;
