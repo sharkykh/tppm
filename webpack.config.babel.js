@@ -2,12 +2,14 @@ import path from 'path';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { DefinePlugin } from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import NullPlugin from 'webpack-null-plugin';
 
 import pkg from './package.json';
+
+const IS_DEV_SERVER = process.argv[1].includes('webpack-dev-server');
 
 /**
  * Generate the Webpack configuration object.
@@ -19,6 +21,7 @@ import pkg from './package.json';
 const webpackConfig = (env, mode) => ({
   entry: path.resolve(__dirname, 'src/main.js'),
   output: {
+    filename: `[name]${!IS_DEV_SERVER && '.[contenthash]'}.js`,
     path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
@@ -73,10 +76,16 @@ const webpackConfig = (env, mode) => ({
           },
           {
             // Handle regular `.css` files
-            use: ExtractTextPlugin.extract({
-              fallback: 'style-loader',
-              use: 'css-loader',
-            }),
+            use: [
+              {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  hmr: IS_DEV_SERVER,
+                  reloadAll: true,
+                },
+              },
+              'css-loader',
+            ],
           },
         ],
       },
@@ -84,7 +93,7 @@ const webpackConfig = (env, mode) => ({
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: 'images/[name].[ext]',
+          name: `images/[name]${!IS_DEV_SERVER && '.[hash]'}.[ext]`,
         },
       },
       {
@@ -92,7 +101,7 @@ const webpackConfig = (env, mode) => ({
         use: {
           loader: 'file-loader',
           options: {
-            name: 'fonts/[name].[ext]',
+            name: `fonts/[name]${!IS_DEV_SERVER && '.[hash]'}.[ext]`,
           },
         },
       },
@@ -107,16 +116,18 @@ const webpackConfig = (env, mode) => ({
       template: './src/index.html',
       // eslint-disable-next-line captialized-comments
       // favicon: './src/favicon.ico',
-      hash: true,
     }),
     new VueLoaderPlugin(),
-    new ExtractTextPlugin('main.css'),
+    new MiniCssExtractPlugin({
+      filename: `[name]${!IS_DEV_SERVER && '.[contenthash]'}.css`,
+    }),
     env.analyze ? new BundleAnalyzerPlugin() : new NullPlugin(),
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     hot: true,
     inline: true,
+    overlay: true,
     watchOptions: {
       poll: true,
     },
