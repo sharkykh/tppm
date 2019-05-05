@@ -9,7 +9,7 @@ import NullPlugin from 'webpack-null-plugin';
 
 import pkg from './package.json';
 
-const IS_DEV_SERVER = process.argv[1].includes('webpack-dev-server');
+const NOT_DEV_SERVER = !process.argv[1].includes('webpack-dev-server');
 
 /**
  * Generate the Webpack configuration object.
@@ -21,7 +21,7 @@ const IS_DEV_SERVER = process.argv[1].includes('webpack-dev-server');
 const webpackConfig = (env, mode) => ({
   entry: path.resolve(__dirname, 'src/main.js'),
   output: {
-    filename: `[name]${!IS_DEV_SERVER && '.[contenthash]'}.js`,
+    filename: `[name]${NOT_DEV_SERVER ? '.[contenthash]' : ''}.js`,
     path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
@@ -31,6 +31,9 @@ const webpackConfig = (env, mode) => ({
     },
   },
   optimization: {
+    runtimeChunk: {
+      name: 'main',
+    },
     splitChunks: {
       chunks: 'all',
     },
@@ -80,7 +83,7 @@ const webpackConfig = (env, mode) => ({
               {
                 loader: MiniCssExtractPlugin.loader,
                 options: {
-                  hmr: IS_DEV_SERVER,
+                  hmr: !NOT_DEV_SERVER,
                   reloadAll: true,
                 },
               },
@@ -93,7 +96,7 @@ const webpackConfig = (env, mode) => ({
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: `images/[name]${!IS_DEV_SERVER && '.[hash]'}.[ext]`,
+          name: `images/[name]${NOT_DEV_SERVER ? '.[hash]' : ''}.[ext]`,
         },
       },
       {
@@ -101,7 +104,7 @@ const webpackConfig = (env, mode) => ({
         use: {
           loader: 'file-loader',
           options: {
-            name: `fonts/[name]${!IS_DEV_SERVER && '.[hash]'}.[ext]`,
+            name: `fonts/[name]${NOT_DEV_SERVER ? '.[hash]' : ''}.[ext]`,
           },
         },
       },
@@ -119,7 +122,7 @@ const webpackConfig = (env, mode) => ({
     }),
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: `[name]${!IS_DEV_SERVER && '.[contenthash]'}.css`,
+      filename: `[name]${NOT_DEV_SERVER ? '.[contenthash]' : ''}.css`,
     }),
     env.analyze ? new BundleAnalyzerPlugin() : new NullPlugin(),
   ],
