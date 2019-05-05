@@ -86,8 +86,8 @@
           v-if="loggedIn"
           :content="firstLoad ? 'Refresh' : 'Fetch'"
           :icon="firstLoad ? 'sync alternate' : 'cloud download'"
-          :loading="loading"
-          :disabled="loading"
+          :loading="busy"
+          :disabled="busy"
           positive
           @click="fetchInfo()"
         />
@@ -97,8 +97,8 @@
           negative
           icon="trash"
           content="Remove All"
-          :disabled="loading || playback.length === 0 || Object.keys(removing).length > 0"
-          :loading="loading || Object.keys(removing).length > 0"
+          :disabled="busy || playback.length === 0 || Object.keys(removing).length > 0"
+          :loading="busy || Object.keys(removing).length > 0"
           @click="removeAllPlaybacks()"
         />
       </sui-header-content>
@@ -120,7 +120,7 @@
       />
     </div>
 
-    <template v-if="playing && !loading">
+    <template v-if="playing && !busy">
       <currently-playing
         :playing="playing"
         @stopped="playing = false; fetchPlaybackProgress()"
@@ -131,7 +131,7 @@
     </template>
 
     <sui-loader
-      v-if="loading"
+      v-if="busy"
       active
       centered
       inline
@@ -164,6 +164,8 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+
 import TraktLogo from '../trakt.png';
 import api from '../api';
 import { isDevelopment } from '../utils';
@@ -184,7 +186,6 @@ export default {
       initialized: false,
       loggedIn: false,
       loggingIn: true,
-      loading: false,
       firstLoad: false,
       profile: {},
       playback: [],
@@ -194,6 +195,9 @@ export default {
     };
   },
   computed: {
+    ...mapState([
+      'busy',
+    ]),
     params() {
       const { search } = window.location;
       return search.slice(1).split('&').reduce((obj, pair) => {
@@ -259,6 +263,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'setBusy',
+    ]),
     requestAuth() {
       window.location.replace(api.get_url());
       window.localStorage.setItem('traktAuthState', api._authentication.state);
@@ -348,10 +355,10 @@ export default {
       }
     },
     async fetchInfo() {
-      this.loading = true;
+      this.setBusy(true);
       await this.fetchPlaybackProgress();
       await this.fetchCurrentlyPlaying();
-      this.loading = false;
+      this.setBusy(false);
     },
     async fetchPlaybackProgress() {
       try {
