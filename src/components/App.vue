@@ -125,7 +125,6 @@
         :playing="playing"
         @stopped="playing = false; fetchPlaybackProgress()"
         @canceled="playing = false;"
-        @flash="flash(...$event)"
       />
       <sui-divider hidden />
     </template>
@@ -164,7 +163,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 
 import {
   SET_BUSY,
@@ -192,7 +191,6 @@ export default {
       firstLoad: false,
       profile: {},
       playback: [],
-      messages: [],
       removing: {},
       playing: false,
     };
@@ -200,6 +198,7 @@ export default {
   computed: {
     ...mapState([
       'busy',
+      'messages',
     ]),
     params() {
       const { search } = window.location;
@@ -256,7 +255,7 @@ export default {
       }
     } catch (error) {
       console.error(error);
-      this.flash('Error in mounted()', String(error), 'error', true);
+      this.flash(['Error in mounted()', String(error), 'error', true]);
       if (isDevelopment) {
         debugger;
       }
@@ -269,6 +268,10 @@ export default {
     ...mapMutations({
       setBusy: SET_BUSY,
     }),
+    ...mapActions([
+      'flash',
+      'dismissFlash',
+    ]),
     requestAuth() {
       window.location.replace(api.get_url());
       window.localStorage.setItem('traktAuthState', api._authentication.state);
@@ -280,7 +283,7 @@ export default {
       } catch (error) {
         /* // Ignore the error caused by CORS bug: https://github.com/trakt/api-help/issues/51
         console.error(error);
-        this.flash('Error in revokeAuth()', String(error), 'error', true);
+        this.flash(['Error in revokeAuth()', String(error), 'error', true]);
         if (isDevelopment) {
           debugger;
         }
@@ -303,7 +306,7 @@ export default {
         return true;
       } catch (error) {
         console.error(error);
-        this.flash('Error in loadAuth()', String(error), 'error', true);
+        this.flash(['Error in loadAuth()', String(error), 'error', true]);
         if (isDevelopment) {
           debugger;
         }
@@ -320,7 +323,7 @@ export default {
           return true;
         } catch (error) {
           console.error(error);
-          this.flash('Error in saveAuth()', String(error), 'error', true);
+          this.flash(['Error in saveAuth()', String(error), 'error', true]);
           if (isDevelopment) {
             debugger;
           }
@@ -337,7 +340,7 @@ export default {
         this.saveAuth();
       } catch (error) {
         console.error(error);
-        this.flash('Error in exchangeCode()', String(error), 'error', true);
+        this.flash(['Error in exchangeCode()', String(error), 'error', true]);
         if (isDevelopment) {
           debugger;
         }
@@ -351,7 +354,7 @@ export default {
         });
       } catch (error) {
         console.error(error);
-        this.flash('Error in fetchProfile()', String(error), 'error', true);
+        this.flash(['Error in fetchProfile()', String(error), 'error', true]);
         if (isDevelopment) {
           debugger;
         }
@@ -371,7 +374,7 @@ export default {
         }
       } catch (error) {
         console.error(error);
-        this.flash('Error in fetchPlaybackProgress()', String(error), 'error', true);
+        this.flash(['Error in fetchPlaybackProgress()', String(error), 'error', true]);
         if (isDevelopment) {
           debugger;
         }
@@ -384,11 +387,11 @@ export default {
         const index = this.playback.findIndex(item => item.id === id);
         this.$delete(this.playback, index);
         if (notify) {
-          this.flash('Playback item removed', '', 'success');
+          this.flash(['Playback item removed', '', 'success']);
         }
       } catch (error) {
         console.error(error);
-        this.flash('Error in removePlayback()', String(error), 'error', true);
+        this.flash(['Error in removePlayback()', String(error), 'error', true]);
         if (isDevelopment) {
           debugger;
         }
@@ -416,9 +419,9 @@ export default {
       }
 
       if (result) {
-        this.flash('All playback items removed', '', 'success');
+        this.flash(['All playback items removed', '', 'success']);
       } else {
-        this.flash('Some playback items failed to remove', '', 'warning');
+        this.flash(['Some playback items failed to remove', '', 'warning']);
       }
 
       this.$delete(this.removing, 'all');
@@ -429,27 +432,11 @@ export default {
         this.playing = data || false;
       } catch (error) {
         console.error(error);
-        this.flash('Error in fetchCurrentlyPlaying()', String(error), 'error', true);
+        this.flash(['Error in fetchCurrentlyPlaying()', String(error), 'error', true]);
         if (isDevelopment) {
           debugger;
         }
       }
-    },
-    flash(header, content, type, persist = false) {
-      const msg = {
-        header,
-        content,
-        type,
-        persist,
-      };
-      this.messages.unshift(msg);
-      if (!persist) {
-        setTimeout(this.dismissFlash, 3000, msg);
-      }
-    },
-    dismissFlash(msg) {
-      const index = this.messages.findIndex(item => item === msg);
-      this.$delete(this.messages, index);
     },
   },
 };

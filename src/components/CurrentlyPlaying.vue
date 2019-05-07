@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import api from '../api';
 import { isDevelopment, generateTraktUrl } from '../utils';
 
@@ -114,10 +116,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'flash',
+    ]),
     stopCurrentlyPlaying() {
       const { playing } = this;
       if (!['episode', 'movie'].includes(playing.type)) {
-        this.flash('Nothing is currently playing.', '', 'error');
+        this.flash(['Nothing is currently playing.', '', 'error']);
         return false;
       }
 
@@ -140,11 +145,11 @@ export default {
         };
         await api.scrobble.pause({ progress, [playing.type]: data });
         this.$emit('stopped');
-        this.flash(`Stopped currently playing ${playing.type} at ${progress.toFixed(0)}%`, '', 'success');
+        this.flash([`Stopped currently playing ${playing.type} at ${progress.toFixed(0)}%`, '', 'success']);
         return true;
       } catch (error) {
         console.error(error);
-        this.flash('Error in scrobblePause()', String(error), 'error', true);
+        this.flash(['Error in scrobblePause()', String(error), 'error', true]);
         if (isDevelopment) {
           debugger;
         }
@@ -158,20 +163,17 @@ export default {
         this.stopping = true;
         await api.checkin.delete();
         this.$emit('canceled');
-        this.flash(`Canceled currently checked in ${playing.type} at ${progress.toFixed(0)}%`, '', 'success');
+        this.flash([`Canceled currently checked in ${playing.type} at ${progress.toFixed(0)}%`, '', 'success']);
         return true;
       } catch (error) {
         console.error(error);
-        this.flash('Error in cancelCheckin()', String(error), 'error', true);
+        this.flash(['Error in cancelCheckin()', String(error), 'error', true]);
         if (isDevelopment) {
           debugger;
         }
       } finally {
         this.stopping = false;
       }
-    },
-    flash() {
-      this.$emit('flash', arguments);
     },
   },
 };
