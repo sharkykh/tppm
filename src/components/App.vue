@@ -97,8 +97,8 @@
           negative
           icon="trash"
           content="Remove All"
-          :disabled="busy || playback.length === 0 || Object.keys(removing).length > 0"
-          :loading="busy || Object.keys(removing).length > 0"
+          :disabled="busy || playback.length === 0 || removingAnything"
+          :loading="busy || removingAnything"
           @click="removeAllPlaybacks()"
         />
       </sui-header-content>
@@ -109,9 +109,7 @@
     <flash-messages />
 
     <template v-if="playing && !busy">
-      <currently-playing
-        @stopped="fetchPlaybackProgress()"
-      />
+      <currently-playing />
       <sui-divider hidden />
     </template>
 
@@ -137,8 +135,6 @@
         v-for="item in playback"
         :key="item.id"
         :info="item"
-        :removing="removing"
-        @remove="removePlayback"
       />
     </sui-card-group>
 
@@ -149,7 +145,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex';
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 
 import {
   SET_BUSY,
@@ -176,16 +172,18 @@ export default {
       initialized: false,
       loggedIn: false,
       loggingIn: true,
-      firstLoad: false,
       profile: {},
-      playback: [],
-      removing: {},
     };
   },
   computed: {
     ...mapState([
       'busy',
       'playing',
+      'firstLoad',
+      'playback',
+    ]),
+    ...mapGetters([
+      'removingAnything',
     ]),
     params() {
       const { search } = window.location;
@@ -258,6 +256,8 @@ export default {
     ...mapActions([
       'flash',
       'fetchCurrentlyPlaying',
+      'fetchPlaybackProgress',
+      'removeAllPlaybacks',
     ]),
     requestAuth() {
       window.location.replace(api.get_url());
@@ -352,66 +352,6 @@ export default {
       await this.fetchPlaybackProgress();
       await this.fetchCurrentlyPlaying();
       this.setBusy(false);
-    },
-    async fetchPlaybackProgress() {
-      try {
-        this.playback = await api.sync.playback.get();
-        if (!this.firstLoad) {
-          this.firstLoad = true;
-        }
-      } catch (error) {
-        console.error(error);
-        this.flash(['Error in fetchPlaybackProgress()', String(error), 'error', true]);
-        if (isDevelopment) {
-          debugger;
-        }
-      }
-    },
-    async removePlayback(id, notify = true) {
-      this.$set(this.removing, id, null);
-      try {
-        await api.sync.playback.remove({ id });
-        const index = this.playback.findIndex(item => item.id === id);
-        this.$delete(this.playback, index);
-        if (notify) {
-          this.flash(['Playback item removed', '', 'success']);
-        }
-      } catch (error) {
-        console.error(error);
-        this.flash(['Error in removePlayback()', String(error), 'error', true]);
-        if (isDevelopment) {
-          debugger;
-        }
-
-        return false;
-      } finally {
-        this.$delete(this.removing, id);
-      }
-
-      return true;
-    },
-    async removeAllPlaybacks() {
-      let result = true;
-      this.$set(this.removing, 'all', null);
-
-      const ids = this.playback.map(item => item.id);
-      while (ids.length > 0) {
-        const chunk = ids.splice(0, 3);
-
-        // eslint-disable-next-line no-await-in-loop
-        const chunkResults = await Promise.all(
-          chunk.map(id => this.removePlayback(id, false))
-        );
-        result &= chunkResults.every(Boolean);
-      }
-
-      if (result) {
-        this.flash(['All playback items removed', '', 'success']);
-      } else {
-        this.flash(['Some playback items failed to remove', '', 'warning']);
-      }
-
-      this.$delete(this.removing, 'all');
     },
   },
 };

@@ -117,6 +117,7 @@ export default {
   methods: {
     ...mapActions([
       'flash',
+      'fetchPlaybackProgress',
     ]),
     ...mapMutations({
       setPlaying: SET_PLAYING,
@@ -146,8 +147,8 @@ export default {
           },
         };
         await api.scrobble.pause({ progress, [playing.type]: data });
-        this.$emit('stopped');
         this.setPlaying(false);
+        this.fetchPlaybackProgress();
         this.flash([`Stopped currently playing ${playing.type} at ${progress.toFixed(0)}%`, '', 'success']);
         return true;
       } catch (error) {
