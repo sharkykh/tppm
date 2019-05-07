@@ -1,5 +1,11 @@
 // Root mutations
 
-export const setBusy = (state, payload) => {
-  state.busy = payload;
+import {
+  SET_BUSY,
+} from './mutation-types';
+
+export default {
+  [SET_BUSY](state, payload) {
+    state.busy = payload;
+  },
 };

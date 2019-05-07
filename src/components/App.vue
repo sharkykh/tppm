@@ -166,6 +166,9 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 
+import {
+  SET_BUSY,
+} from '../store/mutation-types';
 import TraktLogo from '../trakt.png';
 import api from '../api';
 import { isDevelopment } from '../utils';
@@ -263,9 +266,9 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([
-      'setBusy',
-    ]),
+    ...mapMutations({
+      setBusy: SET_BUSY,
+    }),
     requestAuth() {
       window.location.replace(api.get_url());
       window.localStorage.setItem('traktAuthState', api._authentication.state);

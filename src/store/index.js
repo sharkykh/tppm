@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
 
 import * as actions from './actions';
-import * as mutations from './mutations';
+import mutations from './mutations';
 
 Vue.use(Vuex);
 
