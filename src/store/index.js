@@ -9,6 +9,7 @@ Vue.use(Vuex);
 const state = {
   busy: false,
   messages: [],
+  playing: false,
 };
 
 const getters = {};

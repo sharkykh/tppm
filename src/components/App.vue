@@ -110,9 +110,7 @@
 
     <template v-if="playing && !busy">
       <currently-playing
-        :playing="playing"
-        @stopped="playing = false; fetchPlaybackProgress()"
-        @canceled="playing = false;"
+        @stopped="fetchPlaybackProgress()"
       />
       <sui-divider hidden />
     </template>
@@ -182,12 +180,12 @@ export default {
       profile: {},
       playback: [],
       removing: {},
-      playing: false,
     };
   },
   computed: {
     ...mapState([
       'busy',
+      'playing',
     ]),
     params() {
       const { search } = window.location;
@@ -259,6 +257,7 @@ export default {
     }),
     ...mapActions([
       'flash',
+      'fetchCurrentlyPlaying',
     ]),
     requestAuth() {
       window.location.replace(api.get_url());
@@ -413,18 +412,6 @@ export default {
       }
 
       this.$delete(this.removing, 'all');
-    },
-    async fetchCurrentlyPlaying() {
-      try {
-        const data = await api.users.watching({ username: 'me' });
-        this.playing = data || false;
-      } catch (error) {
-        console.error(error);
-        this.flash(['Error in fetchCurrentlyPlaying()', String(error), 'error', true]);
-        if (isDevelopment) {
-          debugger;
-        }
-      }
     },
   },
 };
