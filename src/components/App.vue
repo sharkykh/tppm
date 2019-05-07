@@ -106,19 +106,7 @@
 
     <sui-divider hidden />
 
-    <div class="flash-message">
-      <sui-message
-        v-for="(m, $index) in messages"
-        :key="`flash-${$index}`"
-        v-bind="{
-          header: m.header,
-          content: m.content,
-          [m.type || 'info']: true,
-          dismissable: m.persist,
-        }"
-        @dismiss="dismissFlash(m)"
-      />
-    </div>
+    <flash-messages />
 
     <template v-if="playing && !busy">
       <currently-playing
@@ -174,6 +162,7 @@ import { isDevelopment } from '../utils';
 
 import AppFooter from './AppFooter';
 import CurrentlyPlaying from './CurrentlyPlaying';
+import FlashMessages from './FlashMessages';
 import PlaybackItem from './PlaybackItem';
 
 export default {
@@ -181,6 +170,7 @@ export default {
   components: {
     AppFooter,
     CurrentlyPlaying,
+    FlashMessages,
     PlaybackItem,
   },
   data() {
@@ -198,7 +188,6 @@ export default {
   computed: {
     ...mapState([
       'busy',
-      'messages',
     ]),
     params() {
       const { search } = window.location;
@@ -270,7 +259,6 @@ export default {
     }),
     ...mapActions([
       'flash',
-      'dismissFlash',
     ]),
     requestAuth() {
       window.location.replace(api.get_url());
@@ -448,11 +436,5 @@ export default {
   }
   #app-header {
     font-size: 1.5em;
-  }
-  .flash-message {
-    position: fixed;
-    bottom: 1%;
-    width: inherit;
-    z-index: 10;
   }
 </style>
