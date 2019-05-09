@@ -15,30 +15,7 @@
       <sui-divider hidden />
     </template>
 
-    <sui-loader
-      v-if="busy"
-      active
-      centered
-      inline
-    />
-    <sui-message
-      v-else-if="noResults"
-      info
-      header="No results"
-      content="There are no items to remove."
-    />
-    <sui-card-group
-      v-else
-      stackable
-      :items-per-row="3"
-      class="doubling"
-    >
-      <playback-item
-        v-for="item in playback"
-        :key="item.id"
-        :info="item"
-      />
-    </sui-card-group>
+    <playback-list />
 
     <sui-divider />
 
@@ -59,7 +36,7 @@ import AppHeader from './AppHeader';
 import AppFooter from './AppFooter';
 import CurrentlyPlaying from './CurrentlyPlaying';
 import FlashMessages from './FlashMessages';
-import PlaybackItem from './PlaybackItem';
+import PlaybackList from './PlaybackList';
 
 export default {
   name: 'App',
@@ -68,7 +45,7 @@ export default {
     AppFooter,
     CurrentlyPlaying,
     FlashMessages,
-    PlaybackItem,
+    PlaybackList,
   },
   data() {
     return {
@@ -80,8 +57,6 @@ export default {
     ...mapState([
       'busy',
       'playing',
-      'firstLoad',
-      'playback',
     ]),
     params() {
       const { search } = window.location;
@@ -94,9 +69,6 @@ export default {
         obj[key] = value;
         return obj;
       }, {});
-    },
-    noResults() {
-      return this.firstLoad && this.playback.length === 0;
     },
   },
   async mounted() {
