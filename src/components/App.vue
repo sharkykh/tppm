@@ -58,30 +58,19 @@ export default {
       'busy',
       'playing',
     ]),
-    params() {
-      const { search } = window.location;
-      return search.slice(1).split('&').reduce((obj, pair) => {
-        if (!pair) {
-          return obj;
-        }
-
-        const [key, value] = pair.split('=');
-        obj[key] = value;
-        return obj;
-      }, {});
-    },
   },
   async mounted() {
+    const params = new URLSearchParams(window.location.search);
+
     try {
       let fetch = false;
       if (await this.loadAuth()) {
         console.log('Loaded from localStorage');
         fetch = true;
-      } else if (this.params.code) {
+      } else if (params.get('code')) {
         api._authentication.state = window.localStorage.getItem('traktAuthState') || undefined;
-        await this.exchangeCode(this.params.code, this.params.state);
+        fetch = await this.exchangeCode(params.get('code'), params.get('state'));
         window.history.replaceState({}, '', window.location.pathname);
-        fetch = true;
       }
 
       if (fetch) {
@@ -152,12 +141,15 @@ export default {
         this.setLoggedIn(true);
         window.localStorage.removeItem('traktAuthState');
         this.saveAuth();
+        return true;
       } catch (error) {
         console.error(error);
         this.flash(['Error in exchangeCode()', String(error), 'error', true]);
         if (isDevelopment) {
           debugger;
         }
+
+        return false;
       }
     },
   },
