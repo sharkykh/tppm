@@ -14,6 +14,7 @@ import {
   REMOVE_PLAYBACK,
   SET_REMOVING,
   UNSET_REMOVING,
+  SET_QUERY,
 } from './mutation-types';
 
 export default {
@@ -54,5 +55,8 @@ export default {
   },
   [UNSET_REMOVING](state, payload) {
     Vue.delete(state.removing, payload);
+  },
+  [SET_QUERY](state, payload) {
+    state.query = payload;
   },
 };

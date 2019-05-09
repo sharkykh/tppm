@@ -35,7 +35,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
+
+import { SET_QUERY } from '../store/mutation-types';
 
 import PlaybackItem from './PlaybackItem';
 
@@ -44,27 +46,25 @@ export default {
   components: {
     PlaybackItem,
   },
-  data() {
-    return {
-      query: '',
-    };
-  },
   computed: {
     ...mapState([
       'busy',
       'firstLoad',
       'playback',
     ]),
+    ...mapGetters([
+      'filteredPlayback',
+    ]),
+    query: {
+      get() {
+        return this.$store.state.query;
+      },
+      set(value) {
+        this.$store.commit(SET_QUERY, value);
+      },
+    },
     noResults() {
       return this.firstLoad && this.playback.length === 0;
-    },
-    filteredPlayback() {
-      return this.playback.filter(item => {
-        const titles = ['episode', 'show', 'movie'].map(type => item[type]?.title).filter(Boolean);
-        return titles.some(title => {
-          return title.toLowerCase().includes(this.query);
-        });
-      });
     },
   },
 };
