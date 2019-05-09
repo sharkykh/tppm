@@ -5,6 +5,7 @@ import api from '../api';
 import {
   MESSAGE_ADD,
   MESSAGE_REMOVE,
+  SET_PROFILE,
   SET_PLAYING,
   SET_FIRST_LOAD,
   SET_PLAYBACK,
@@ -28,6 +29,16 @@ export const flash = ({ commit }, [header, content, type, persist = false]) => {
 
 export const dismissFlash = ({ commit }, msg) => {
   commit(MESSAGE_REMOVE, msg);
+};
+
+export const fetchProfile = async ({ commit, dispatch }) => {
+  try {
+    const data = await api.users.profile({ username: 'me' });
+    commit(SET_PROFILE, data);
+  } catch (error) {
+    console.error(error);
+    dispatch('flash', ['Error in fetchProfile()', String(error), 'error', true]);
+  }
 };
 
 export const fetchCurrentlyPlaying = async ({ commit, dispatch }) => {

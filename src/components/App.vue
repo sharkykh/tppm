@@ -149,6 +149,7 @@ import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 
 import {
   SET_BUSY,
+  SET_LOGGED_IN,
 } from '../store/mutation-types';
 import TraktLogo from '../trakt.png';
 import api from '../api';
@@ -170,14 +171,14 @@ export default {
   data() {
     return {
       initialized: false,
-      loggedIn: false,
       loggingIn: true,
-      profile: {},
     };
   },
   computed: {
     ...mapState([
       'busy',
+      'loggedIn',
+      'profile',
       'playing',
       'firstLoad',
       'playback',
@@ -252,9 +253,11 @@ export default {
   methods: {
     ...mapMutations({
       setBusy: SET_BUSY,
+      setLoggedIn: SET_LOGGED_IN,
     }),
     ...mapActions([
       'flash',
+      'fetchProfile',
       'fetchCurrentlyPlaying',
       'fetchPlaybackProgress',
       'removeAllPlaybacks',
@@ -277,7 +280,7 @@ export default {
         */
       }
 
-      this.loggedIn = false;
+      this.setLoggedIn(false);
     },
     async loadAuth() {
       // Load from localStorage
@@ -289,7 +292,7 @@ export default {
       try {
         const data = JSON.parse(stored);
         await api.import_token(data);
-        this.loggedIn = true;
+        this.setLoggedIn(true);
         return true;
       } catch (error) {
         console.error(error);
@@ -322,26 +325,12 @@ export default {
     async exchangeCode(code, state) {
       try {
         await api.exchange_code(code, state);
-        this.loggedIn = true;
+        this.setLoggedIn(true);
         window.localStorage.removeItem('traktAuthState');
         this.saveAuth();
       } catch (error) {
         console.error(error);
         this.flash(['Error in exchangeCode()', String(error), 'error', true]);
-        if (isDevelopment) {
-          debugger;
-        }
-      }
-    },
-    async fetchProfile() {
-      try {
-        const data = await api.users.profile({ username: 'me' });
-        Object.keys(data).forEach(key => {
-          this.$set(this.profile, key, data[key]);
-        });
-      } catch (error) {
-        console.error(error);
-        this.flash(['Error in fetchProfile()', String(error), 'error', true]);
         if (isDevelopment) {
           debugger;
         }

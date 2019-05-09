@@ -6,6 +6,8 @@ import {
   SET_BUSY,
   MESSAGE_ADD,
   MESSAGE_REMOVE,
+  SET_LOGGED_IN,
+  SET_PROFILE,
   SET_PLAYING,
   SET_FIRST_LOAD,
   SET_PLAYBACK,
@@ -24,6 +26,15 @@ export default {
   [MESSAGE_REMOVE](state, msg) {
     const index = state.messages.findIndex(item => item === msg);
     state.messages.splice(index, 1);
+  },
+  [SET_LOGGED_IN](state, payload) {
+    state.loggedIn = payload;
+  },
+  [SET_PROFILE](state, payload) {
+    Object.entries(payload).forEach(entry => {
+      const [key, value] = entry;
+      Vue.set(state.profile, key, value);
+    });
   },
   [SET_PLAYING](state, payload) {
     state.playing = payload;

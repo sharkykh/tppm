@@ -10,6 +10,8 @@ Vue.use(Vuex);
 const state = {
   busy: false,
   messages: [],
+  loggedIn: false,
+  profile: {},
   playing: false,
   firstLoad: false,
   playback: [],
