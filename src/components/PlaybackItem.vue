@@ -63,13 +63,14 @@
       content="Remove"
       :loading="disableRemove"
       :disabled="disableRemove"
-      @click="$emit('remove', info.id)"
+      @click="removePlayback({ id: info.id })"
     />
   </sui-card>
 </template>
 
 <script>
 import formatDate from 'date-fns/format';
+import { mapState, mapActions } from 'vuex';
 
 import { generateTraktUrl } from '../utils';
 
@@ -81,13 +82,11 @@ export default {
       default: () => ({}),
       required: true,
     },
-    removing: {
-      type: Object,
-      default: () => ({}),
-      required: true,
-    },
   },
   computed: {
+    ...mapState([
+      'removing',
+    ]),
     isEpisode() {
       return this.info.type === 'episode';
     },
@@ -106,6 +105,11 @@ export default {
       const { removing, info } = this;
       return info.id in removing || 'all' in removing;
     },
+  },
+  methods: {
+    ...mapActions([
+      'removePlayback',
+    ]),
   },
 };
 </script>

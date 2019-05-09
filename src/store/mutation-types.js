@@ -1,0 +1,11 @@
+export const SET_BUSY = 'SET_BUSY';
+export const MESSAGE_ADD = 'MESSAGE_ADD';
+export const MESSAGE_REMOVE = 'MESSAGE_REMOVE';
+export const SET_LOGGED_IN = 'SET_LOGGED_IN';
+export const SET_PROFILE = 'SET_PROFILE';
+export const SET_PLAYING = 'SET_PLAYING';
+export const SET_FIRST_LOAD = 'SET_FIRST_LOAD';
+export const SET_PLAYBACK = 'SET_PLAYBACK';
+export const REMOVE_PLAYBACK = 'REMOVE_PLAYBACK';
+export const SET_REMOVING = 'SET_REMOVING';
+export const UNSET_REMOVING = 'UNSET_REMOVING';

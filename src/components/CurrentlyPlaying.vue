@@ -41,18 +41,16 @@
 </template>
 
 <script>
+import { mapState, mapActions, mapMutations } from 'vuex';
+
+import {
+  SET_PLAYING,
+} from '../store/mutation-types';
 import api from '../api';
 import { isDevelopment, generateTraktUrl } from '../utils';
 
 export default {
   name: 'CurrentlyPlaying',
-  props: {
-    playing: {
-      type: Object,
-      default: () => ({}),
-      required: true,
-    },
-  },
   data() {
     return {
       stopping: false,
@@ -61,6 +59,9 @@ export default {
     };
   },
   computed: {
+    ...mapState([
+      'playing',
+    ]),
     event() {
       const { playing } = this;
       let title;
@@ -114,10 +115,17 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'flash',
+      'fetchPlaybackProgress',
+    ]),
+    ...mapMutations({
+      setPlaying: SET_PLAYING,
+    }),
     stopCurrentlyPlaying() {
       const { playing } = this;
       if (!['episode', 'movie'].includes(playing.type)) {
-        this.flash('Nothing is currently playing.', '', 'error');
+        this.flash(['Nothing is currently playing.', '', 'error']);
         return false;
       }
 
@@ -139,12 +147,13 @@ export default {
           },
         };
         await api.scrobble.pause({ progress, [playing.type]: data });
-        this.$emit('stopped');
-        this.flash(`Stopped currently playing ${playing.type} at ${progress.toFixed(0)}%`, '', 'success');
+        this.setPlaying(false);
+        this.fetchPlaybackProgress();
+        this.flash([`Stopped currently playing ${playing.type} at ${progress.toFixed(0)}%`, '', 'success']);
         return true;
       } catch (error) {
         console.error(error);
-        this.flash('Error in scrobblePause()', String(error), 'error', true);
+        this.flash(['Error in scrobblePause()', String(error), 'error', true]);
         if (isDevelopment) {
           debugger;
         }
@@ -157,21 +166,18 @@ export default {
       try {
         this.stopping = true;
         await api.checkin.delete();
-        this.$emit('canceled');
-        this.flash(`Canceled currently checked in ${playing.type} at ${progress.toFixed(0)}%`, '', 'success');
+        this.setPlaying(false);
+        this.flash([`Canceled currently checked in ${playing.type} at ${progress.toFixed(0)}%`, '', 'success']);
         return true;
       } catch (error) {
         console.error(error);
-        this.flash('Error in cancelCheckin()', String(error), 'error', true);
+        this.flash(['Error in cancelCheckin()', String(error), 'error', true]);
         if (isDevelopment) {
           debugger;
         }
       } finally {
         this.stopping = false;
       }
-    },
-    flash() {
-      this.$emit('flash', arguments);
     },
   },
 };
