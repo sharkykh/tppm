@@ -162,8 +162,10 @@ export default {
       'removeAllPlaybacks',
     ]),
     requestAuth() {
-      window.location.replace(api.get_url());
+      // Generate the URL first, so we can save the CSRF state value
+      const url = api.get_url();
       window.localStorage.setItem('traktAuthState', api._authentication.state);
+      window.location.replace(url);
     },
     async revokeAuth() {
       window.localStorage.removeItem('traktAuth');
