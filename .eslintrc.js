@@ -18,6 +18,7 @@ module.exports = {
     'no-console': 0,
     'no-debugger': 0,
     'object-curly-spacing': 0,
+    'capitalized-comments': 1,
     'comma-dangle': ['error', 'always-multiline'],
     'import/order': ['error', {
       'newlines-between': 'always',
