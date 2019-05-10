@@ -14,7 +14,7 @@ import {
   UNSET_REMOVING,
 } from './mutation-types';
 
-export const flash = ({ commit }, [header, content, type, persist = false]) => {
+export const flash = ({ commit, state }, [header, content, type, persist = false]) => {
   const msg = {
     header,
     content,
@@ -24,6 +24,11 @@ export const flash = ({ commit }, [header, content, type, persist = false]) => {
   commit(MESSAGE_ADD, msg);
   if (!persist) {
     setTimeout(commit, 3000, MESSAGE_REMOVE, msg);
+  }
+
+  while (state.messages.length > 5) {
+    const [oldestMessage] = state.messages.slice(-1);
+    commit(MESSAGE_REMOVE, oldestMessage);
   }
 };
 
