@@ -96,6 +96,8 @@
         :loading="busy || removingAnything"
         @click="removeAllPlaybacks()"
       />
+
+      <debug v-if="isDevelopment && loggedIn" />
     </sui-header-content>
   </sui-header>
 </template>
@@ -109,12 +111,27 @@ import {
 } from '../store/mutation-types';
 import api from '../api';
 import TraktLogo from '../trakt.png';
+import { isDevelopment } from '../utils';
+
+let debugComponent;
+// Can't use `isDevelopment` directly because webpack doesn't recognize it.
+if (process.env.NODE_ENV === 'development') {
+  debugComponent = { Debug: () => import(/* webpackChunkName: 'debug' */ './Debug.vue') };
+}
 
 export default {
   name: 'AppHeader',
+  components: {
+    ...debugComponent,
+  },
   props: {
     ready: Boolean,
     loggingIn: Boolean,
+  },
+  data() {
+    return {
+      isDevelopment,
+    };
   },
   computed: {
     ...mapState([
