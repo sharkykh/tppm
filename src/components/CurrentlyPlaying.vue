@@ -99,8 +99,8 @@ export default {
       const expires = new Date(expires_at).getTime();
       const started = new Date(started_at).getTime();
 
-      const watched = now - started;
-      const total = expires - started;
+      const watched = Math.abs(now - started);
+      const total = Math.abs(expires - started);
       const progress = (watched / total) * 100;
 
       const actualDuration = diff => diff + (60 * 1000 * new Date(diff).getTimezoneOffset());
@@ -109,7 +109,7 @@ export default {
       const totalDuration = formatDate(actualDuration(total), 'HH:mm:ss');
 
       return {
-        percent: progress > 0 ? progress : 0,
+        percent: progress || 0,
         watched: watchedDuration,
         total: totalDuration,
       };
@@ -175,7 +175,8 @@ export default {
       }
     },
     async cancelCheckin() {
-      const { playing, progress } = this;
+      const { playing } = this;
+      const progress = this.progress.percent;
       try {
         this.stopping = true;
         await api.checkin.delete();
