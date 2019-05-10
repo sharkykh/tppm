@@ -91,8 +91,8 @@
         v-if="loggedIn"
         negative
         icon="trash"
-        content="Remove All"
-        :disabled="busy || playback.length === 0 || removingAnything"
+        :content="query ? 'Remove Visible' : 'Remove All'"
+        :disabled="busy || filteredPlayback.length === 0 || removingAnything"
         :loading="busy || removingAnything"
         @click="removeAllPlaybacks()"
       />
@@ -139,9 +139,10 @@ export default {
       'loggedIn',
       'profile',
       'firstLoad',
-      'playback',
+      'query',
     ]),
     ...mapGetters([
+      'filteredPlayback',
       'removingAnything',
     ]),
     user() {

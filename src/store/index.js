@@ -16,6 +16,7 @@ const state = {
   firstLoad: false,
   playback: [],
   removing: {},
+  query: '',
 };
 
 const store = new Store({

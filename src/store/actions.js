@@ -89,11 +89,13 @@ export const removePlayback = async ({ commit, dispatch }, { id, notify = true }
   return true;
 };
 
-export const removeAllPlaybacks = async ({ commit, dispatch, state }) => {
+export const removeAllPlaybacks = async ({ commit, dispatch, state, getters }) => {
   let result = true;
   commit(SET_REMOVING, 'all');
 
-  const ids = state.playback.map(item => item.id);
+  // Remove all, or only visible?
+  const list = state.query ? getters.filteredPlayback : state.playback;
+  const ids = list.map(item => item.id);
   while (ids.length > 0) {
     const chunk = ids.splice(0, 3);
 
@@ -105,7 +107,11 @@ export const removeAllPlaybacks = async ({ commit, dispatch, state }) => {
   }
 
   if (result) {
-    dispatch('flash', ['All playback items removed', '', 'success']);
+    if (state.query) {
+      dispatch('flash', ['All filtered playback items removed', '', 'success']);
+    } else {
+      dispatch('flash', ['All playback items removed', '', 'success']);
+    }
   } else {
     dispatch('flash', ['Some playback items failed to remove', '', 'warning']);
   }

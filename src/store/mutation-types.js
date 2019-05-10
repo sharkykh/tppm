@@ -9,3 +9,4 @@ export const SET_PLAYBACK = 'SET_PLAYBACK';
 export const REMOVE_PLAYBACK = 'REMOVE_PLAYBACK';
 export const SET_REMOVING = 'SET_REMOVING';
 export const UNSET_REMOVING = 'UNSET_REMOVING';
+export const SET_QUERY = 'SET_QUERY';
