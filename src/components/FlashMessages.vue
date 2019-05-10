@@ -39,4 +39,12 @@ export default {
     width: inherit;
     z-index: 10;
   }
+
+  @media only screen and (max-width: 767px) {
+    .flash-message {
+      left: 50%;
+      width: 90%;
+      transform: translateX(-50%);
+    }
+  }
 </style>
