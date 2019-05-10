@@ -35,12 +35,14 @@
       progress
       state="active"
       color="red"
-      :percent="progress.toFixed(0)"
+      :percent="progress.percent.toFixed(0)"
+      :label="`${progress.watched} / ${progress.total}`"
     />
   </sui-segment>
 </template>
 
 <script>
+import formatDate from 'date-fns/format';
 import { mapState, mapActions, mapMutations } from 'vuex';
 
 import {
@@ -100,13 +102,23 @@ export default {
       const watched = now - started;
       const total = expires - started;
       const progress = (watched / total) * 100;
-      return progress > 0 ? progress : 0;
+
+      const actualDuration = diff => diff + (60 * 1000 * new Date(diff).getTimezoneOffset());
+
+      const watchedDuration = formatDate(actualDuration(watched), 'HH:mm:ss');
+      const totalDuration = formatDate(actualDuration(total), 'HH:mm:ss');
+
+      return {
+        percent: progress > 0 ? progress : 0,
+        watched: watchedDuration,
+        total: totalDuration,
+      };
     },
   },
   mounted() {
     this.updateTime = setInterval(() => {
       this.now = new Date().getTime();
-    }, 1000);
+    }, 500);
   },
   destroyed() {
     if (this.updateTime) {
@@ -138,7 +150,8 @@ export default {
       }
     },
     async scrobblePause() {
-      const { playing, progress } = this;
+      const { playing } = this;
+      const progress = this.progress.percent;
       try {
         this.stopping = true;
         const data = {
@@ -188,6 +201,6 @@ export default {
     margin-top: 0.5em;
   }
   .ui.progress {
-    margin: 0.5em 0 0.5em;
+    margin: 0.5em 0 1.5em;
   }
 </style>
