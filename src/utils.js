@@ -1,6 +1,6 @@
-const isDevelopment = process.env.NODE_ENV === 'development';
+export const isDevelopment = process.env.NODE_ENV === 'development';
 
-const generateTraktUrl = dataObj => {
+export const generateTraktUrl = dataObj => {
   const { type } = dataObj;
   if (!type) {
     return null;
@@ -24,9 +24,4 @@ const generateTraktUrl = dataObj => {
   // Fallback
   const id = dataObj[type].ids.trakt;
   return `https://trakt.tv/search/trakt/${id}?id_type=${type}`;
-};
-
-export {
-  isDevelopment,
-  generateTraktUrl,
 };
