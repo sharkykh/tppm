@@ -116,7 +116,7 @@ import { isDevelopment } from '../utils';
 let debugComponent;
 // Can't use `isDevelopment` directly because webpack doesn't recognize it.
 if (process.env.NODE_ENV === 'development') {
-  debugComponent = { Debug: () => import(/* webpackChunkName: 'debug' */ './Debug.vue') };
+  debugComponent = { Debug: () => import(/* webpackChunkName: 'debug' */ './Debug') };
 }
 
 export default {
