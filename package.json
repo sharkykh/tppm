@@ -5,6 +5,10 @@
   "author": "sharkykh",
   "license": "MIT",
   "private": true,
+  "engines": {
+    "node": ">=11",
+    "yarn": ">=1.15"
+  },
   "scripts": {
     "lint": "eslint ./*.js",
     "build": "webpack --mode production --progress",
