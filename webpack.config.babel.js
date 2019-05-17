@@ -37,11 +37,28 @@ const webpackConfig = (env, mode) => ({
     hints: false,
   },
   optimization: {
+    // Keep this to avoid issues with hot update
     runtimeChunk: {
-      name: 'main',
+      name: entrypoint => entrypoint.name,
     },
     splitChunks: {
       chunks: 'all',
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        sui: {
+          test: /[\\/]node_modules[\\/]semantic-ui-.*/,
+          priority: 10,
+        },
+        vue: {
+          test: /[\\/]node_modules[\\/]vue.*/,
+          priority: 10,
+        },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: 0,
+        },
+      },
     },
   },
   module: {
@@ -102,7 +119,7 @@ const webpackConfig = (env, mode) => ({
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: `images/[name]${NOT_DEV_SERVER ? '.[hash]' : ''}.[ext]`,
+          name: `assets/[name]${NOT_DEV_SERVER ? '.[hash]' : ''}.[ext]`,
         },
       },
       {
@@ -110,7 +127,7 @@ const webpackConfig = (env, mode) => ({
         use: {
           loader: 'file-loader',
           options: {
-            name: `fonts/[name]${NOT_DEV_SERVER ? '.[hash]' : ''}.[ext]`,
+            name: `assets/[name]${NOT_DEV_SERVER ? '.[hash]' : ''}.[ext]`,
           },
         },
       },
