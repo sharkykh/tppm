@@ -30,6 +30,12 @@ const webpackConfig = (env, mode) => ({
       vue$: 'vue/dist/vue.runtime.esm.js',
     },
   },
+  stats: {
+    children: false,
+  },
+  performance: {
+    hints: false,
+  },
   optimization: {
     runtimeChunk: {
       name: 'main',
