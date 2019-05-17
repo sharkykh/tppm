@@ -32,20 +32,26 @@ import {
 import api from '../api';
 import { isDevelopment } from '../utils';
 
-import AppHeader from './AppHeader';
 import AppFooter from './AppFooter';
+import AppHeader from './AppHeader';
 import CurrentlyPlaying from './CurrentlyPlaying';
 import FlashMessages from './FlashMessages';
 import PlaybackList from './PlaybackList';
+import {
+  SuiDivider,
+  SuiContainer,
+} from './sui-vue';
 
 export default {
   name: 'App',
   components: {
-    AppHeader,
     AppFooter,
+    AppHeader,
     CurrentlyPlaying,
     FlashMessages,
     PlaybackList,
+    SuiContainer,
+    SuiDivider,
   },
   data() {
     return {

@@ -74,8 +74,27 @@ import { mapState, mapActions } from 'vuex';
 
 import { generateTraktUrl } from '../utils';
 
+import {
+  SuiButton,
+  SuiCard,
+  SuiCardContent,
+  SuiCardHeader,
+  SuiCardMeta,
+  SuiIcon,
+  SuiProgress,
+} from './sui-vue';
+
 export default {
   name: 'PlaybackItem',
+  components: {
+    SuiButton,
+    SuiCard,
+    SuiCardContent,
+    SuiCardHeader,
+    SuiCardMeta,
+    SuiIcon,
+    SuiProgress,
+  },
   props: {
     info: {
       type: Object,

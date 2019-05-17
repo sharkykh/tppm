@@ -41,6 +41,13 @@ import { mapState, mapActions } from 'vuex';
 
 import api from '../api';
 
+import {
+  SuiButton,
+  SuiDropdown,
+  SuiDropdownMenu,
+  SuiDropdownItem,
+} from './sui-vue';
+
 const testData = {
   movie: [
     {tmdb: 404368}, // Ralph Breaks the Internet (2018)
@@ -57,6 +64,12 @@ const testData = {
 
 export default {
   name: 'Debug',
+  components: {
+    SuiButton,
+    SuiDropdown,
+    SuiDropdownMenu,
+    SuiDropdownItem,
+  },
   computed: {
     ...mapState([
       'busy',

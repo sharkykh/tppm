@@ -12,8 +12,17 @@
 </template>
 
 <script>
+import {
+  SuiButton,
+  SuiDivider,
+} from './sui-vue';
+
 export default {
   name: 'AppFooter',
+  components: {
+    SuiButton,
+    SuiDivider,
+  },
 };
 </script>
 

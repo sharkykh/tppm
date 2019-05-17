@@ -29,11 +29,19 @@
 import { mapState } from 'vuex';
 
 import PlaybackItem from './PlaybackItem';
+import {
+  SuiCardGroup,
+  SuiLoader,
+  SuiMessage,
+} from './sui-vue';
 
 export default {
   name: 'PlaybackList',
   components: {
     PlaybackItem,
+    SuiCardGroup,
+    SuiLoader,
+    SuiMessage,
   },
   computed: {
     ...mapState([

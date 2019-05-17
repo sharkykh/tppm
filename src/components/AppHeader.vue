@@ -113,6 +113,17 @@ import api from '../api';
 import TraktLogo from '../trakt.png';
 import { isDevelopment } from '../utils';
 
+import {
+  SuiButton,
+  SuiDivider,
+  SuiHeader,
+  SuiHeaderContent,
+  SuiIcon,
+  SuiImage,
+  SuiLabel,
+  SuiLoader,
+} from './sui-vue';
+
 let debugComponent;
 // Can't use `isDevelopment` directly because webpack doesn't recognize it.
 if (process.env.NODE_ENV === 'development') {
@@ -123,6 +134,14 @@ export default {
   name: 'AppHeader',
   components: {
     ...debugComponent,
+    SuiButton,
+    SuiDivider,
+    SuiHeader,
+    SuiHeaderContent,
+    SuiIcon,
+    SuiImage,
+    SuiLabel,
+    SuiLoader,
   },
   props: {
     ready: Boolean,

@@ -51,8 +51,21 @@ import {
 import api from '../api';
 import { isDevelopment, generateTraktUrl } from '../utils';
 
+import {
+  SuiButton,
+  SuiHeader,
+  SuiProgress,
+  SuiSegment,
+} from './sui-vue';
+
 export default {
   name: 'CurrentlyPlaying',
+  components: {
+    SuiButton,
+    SuiHeader,
+    SuiProgress,
+    SuiSegment,
+  },
   data() {
     return {
       stopping: false,

@@ -17,8 +17,13 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 
+import { SuiMessage } from './sui-vue';
+
 export default {
   name: 'FlashMessages',
+  components: {
+    SuiMessage,
+  },
   computed: {
     ...mapState([
       'messages',
