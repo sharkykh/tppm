@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapState } from 'vuex';
 
 import PlaybackItem from './PlaybackItem';
@@ -35,7 +36,7 @@ import {
   SuiMessage,
 } from './sui-vue';
 
-export default {
+export default Vue.extend({
   name: 'PlaybackList',
   components: {
     PlaybackItem,
@@ -53,7 +54,7 @@ export default {
       return this.firstLoad && this.playback.length === 0;
     },
   },
-};
+});
 </script>
 
 <style scoped>

@@ -15,11 +15,12 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 
 import { SuiMessage } from './sui-vue';
 
-export default {
+export default Vue.extend({
   name: 'FlashMessages',
   components: {
     SuiMessage,
@@ -34,7 +35,7 @@ export default {
       'dismissFlash',
     ]),
   },
-};
+});
 </script>
 
 <style scoped>

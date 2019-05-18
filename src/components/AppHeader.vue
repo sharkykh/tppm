@@ -103,6 +103,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 
 import {
@@ -130,7 +131,7 @@ if (process.env.NODE_ENV === 'development') {
   debugComponent = { Debug: () => import(/* webpackChunkName: 'debug' */ './Debug') };
 }
 
-export default {
+export default Vue.extend({
   name: 'AppHeader',
   components: {
     ...debugComponent,
@@ -226,7 +227,7 @@ export default {
       this.setBusy(false);
     },
   },
-};
+});
 </script>
 
 <style scoped>

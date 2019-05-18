@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapState, mapMutations, mapActions } from 'vuex';
 
 import {
@@ -42,7 +43,7 @@ import {
   SuiContainer,
 } from './sui-vue';
 
-export default {
+export default Vue.extend({
   name: 'App',
   components: {
     AppFooter,
@@ -159,7 +160,7 @@ export default {
       }
     },
   },
-};
+});
 </script>
 
 <style scoped>

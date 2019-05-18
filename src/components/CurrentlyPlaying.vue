@@ -43,6 +43,7 @@
 
 <script>
 import formatDate from 'date-fns/format';
+import Vue from 'vue';
 import { mapState, mapActions, mapMutations } from 'vuex';
 
 import {
@@ -58,7 +59,7 @@ import {
   SuiSegment,
 } from './sui-vue';
 
-export default {
+export default Vue.extend({
   name: 'CurrentlyPlaying',
   components: {
     SuiButton,
@@ -207,7 +208,7 @@ export default {
       }
     },
   },
-};
+});
 </script>
 
 <style scoped>

@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 
 import api from '../api';
@@ -62,7 +63,7 @@ const testData = {
   ],
 };
 
-export default {
+export default Vue.extend({
   name: 'Debug',
   components: {
     SuiButton,
@@ -146,7 +147,7 @@ export default {
       this.fetchCurrentlyPlaying();
     },
   },
-};
+});
 </script>
 
 <style scoped>

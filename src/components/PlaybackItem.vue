@@ -70,6 +70,7 @@
 
 <script>
 import formatDate from 'date-fns/format';
+import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 
 import { generateTraktUrl } from '../utils';
@@ -84,7 +85,7 @@ import {
   SuiProgress,
 } from './sui-vue';
 
-export default {
+export default Vue.extend({
   name: 'PlaybackItem',
   components: {
     SuiButton,
@@ -130,7 +131,7 @@ export default {
       'removePlayback',
     ]),
   },
-};
+});
 </script>
 
 <style scoped>
