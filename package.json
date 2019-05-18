@@ -13,7 +13,8 @@
     "lint": "eslint ./*.js",
     "build": "webpack --mode production --progress",
     "dev": "webpack --mode development --progress",
-    "dev-server": "webpack-dev-server --inline --progress"
+    "dev-server": "webpack-dev-server --inline --progress",
+    "preversion": "yarn && yarn lint && yarn build"
   },
   "devDependencies": {
     "@babel/core": "7.4.4",
