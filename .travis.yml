@@ -17,4 +17,5 @@ deploy:
   keep_history: false
   local_dir: ./dist
   on:
+    tags: yes # Not `true` so `branch` is considered too
     branch: master
