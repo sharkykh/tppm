@@ -163,7 +163,7 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
+<style>
   #app {
     padding-top: 25px;
   }

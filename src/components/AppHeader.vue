@@ -9,16 +9,17 @@
       size="massive"
       alt="Logo"
     />
+    <sui-label
+      size="mini"
+      color="red"
+      circular
+      class="beta"
+    >
+      Beta
+    </sui-label>
     <br>
     <sui-header-content>
       Trakt.tv Playback Progress Manager
-      <sui-label
-        size="mini"
-        color="red"
-        circular
-      >
-        Beta
-      </sui-label>
     </sui-header-content>
     <br>
 
@@ -236,5 +237,9 @@ export default Vue.extend({
   }
   #app-logo {
     margin-bottom: 0.5rem;
+  }
+  .ui.label.beta {
+    position: absolute;
+    margin: 0 0 0 -0.5rem;
   }
 </style>
