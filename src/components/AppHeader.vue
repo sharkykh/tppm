@@ -4,8 +4,10 @@
     block
   >
     <sui-image
+      id="app-logo"
       :src="logo"
       size="massive"
+      alt="Logo"
     />
     <br>
     <sui-header-content>
@@ -111,7 +113,7 @@ import {
   SET_LOGGED_IN,
 } from '../store/mutation-types';
 import api from '../api';
-import TraktLogo from '../trakt.png';
+import AppLogo from '../assets/tppm.svg';
 import { isDevelopment } from '../utils';
 
 import {
@@ -151,6 +153,7 @@ export default Vue.extend({
   data() {
     return {
       isDevelopment,
+      logo: AppLogo,
     };
   },
   computed: {
@@ -181,9 +184,6 @@ export default Vue.extend({
         fullName,
         profile,
       };
-    },
-    logo() {
-      return TraktLogo;
     },
   },
   methods: {
@@ -233,5 +233,8 @@ export default Vue.extend({
 <style scoped>
   #app-header {
     font-size: 1.5em;
+  }
+  #app-logo {
+    margin-bottom: 0.5rem;
   }
 </style>

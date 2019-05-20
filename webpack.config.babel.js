@@ -139,9 +139,8 @@ const webpackConfig = (env, mode) => ({
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: './src/index.html',
-      // eslint-disable-next-line captialized-comments
-      // favicon: './src/favicon.ico',
+      template: path.resolve(__dirname, 'src/index.html'),
+      favicon: path.resolve(__dirname, 'src/assets/favicon.ico'),
     }),
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
