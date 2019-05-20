@@ -55,14 +55,7 @@
         size="big"
         :href="user.profile"
       >
-        <sui-image
-          v-if="user.avatar"
-          avatar
-          spaced="right"
-          :src="user.avatar"
-        />
         <sui-icon
-          v-else
           name="user"
           size="small"
         />
