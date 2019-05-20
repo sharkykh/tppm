@@ -141,6 +141,18 @@ const webpackConfig = (env, mode) => ({
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/index.html'),
       favicon: path.resolve(__dirname, 'src/assets/favicon.ico'),
+      minify: mode === 'production' && {
+        // Defaults: https://git.io/fj8Qn
+        // https://github.com/kangax/html-minifier#options-quick-reference
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true,
+        minifyJS: true,
+        minifyCSS: true,
+      },
     }),
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
