@@ -67,7 +67,13 @@ const webpackConfig = (env, mode) => ({
         enforce: 'pre',
         test: /\.(js|vue)$/,
         exclude: /node_modules/,
-        loader: 'eslint-loader',
+        use: {
+          loader: 'eslint-loader',
+          options: {
+            failOnError: mode === 'production',
+            failOnWarning: mode === 'production',
+          },
+        },
       },
       {
         test: /\.js$/,
