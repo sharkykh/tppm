@@ -10,7 +10,7 @@
     "yarn": ">=1.15"
   },
   "scripts": {
-    "lint": "eslint ./*.js",
+    "lint": "eslint **/*.{js,vue}",
     "build": "webpack --mode production --progress",
     "dev": "webpack --mode development --progress",
     "dev-server": "webpack-dev-server --inline --progress",
