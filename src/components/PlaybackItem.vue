@@ -83,7 +83,7 @@ import {
   SuiCardMeta,
   SuiIcon,
   SuiProgress,
-} from './sui-vue';
+} from '.';
 
 export default Vue.extend({
   name: 'PlaybackItem',

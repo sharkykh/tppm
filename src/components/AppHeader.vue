@@ -119,7 +119,7 @@ import {
   SuiImage,
   SuiLabel,
   SuiLoader,
-} from './sui-vue';
+} from '.';
 
 let debugComponent;
 // Can't use `isDevelopment` directly because webpack doesn't recognize it.

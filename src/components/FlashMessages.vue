@@ -18,7 +18,7 @@
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 
-import { SuiMessage } from './sui-vue';
+import { SuiMessage } from '.';
 
 export default Vue.extend({
   name: 'FlashMessages',

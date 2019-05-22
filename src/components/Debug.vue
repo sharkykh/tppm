@@ -47,7 +47,7 @@ import {
   SuiDropdown,
   SuiDropdownMenu,
   SuiDropdownItem,
-} from './sui-vue';
+} from '.';
 
 const testData = {
   movie: [
