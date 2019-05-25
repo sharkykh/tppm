@@ -57,7 +57,7 @@ import {
   SuiHeader,
   SuiProgress,
   SuiSegment,
-} from '.';
+} from './sui-vue';
 
 export default Vue.extend({
   name: 'CurrentlyPlaying',

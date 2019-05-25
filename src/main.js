@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-import { App } from './components';
+import App from './components/App';
 import store from './store';
 import { isDevelopment } from './utils';
 

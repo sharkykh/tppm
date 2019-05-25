@@ -29,12 +29,12 @@
 import Vue from 'vue';
 import { mapState } from 'vuex';
 
+import PlaybackItem from './PlaybackItem';
 import {
-  PlaybackItem,
   SuiCardGroup,
   SuiLoader,
   SuiMessage,
-} from '.';
+} from './sui-vue';
 
 export default Vue.extend({
   name: 'PlaybackList',

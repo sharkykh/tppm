@@ -33,15 +33,15 @@ import {
 import api from '../api';
 import { isDevelopment } from '../utils';
 
+import AppFooter from './AppFooter';
+import AppHeader from './AppHeader';
+import CurrentlyPlaying from './CurrentlyPlaying';
+import FlashMessages from './FlashMessages';
+import PlaybackList from './PlaybackList';
 import {
-  AppFooter,
-  AppHeader,
-  CurrentlyPlaying,
-  FlashMessages,
-  PlaybackList,
   SuiContainer,
   SuiDivider,
-} from '.';
+} from './sui-vue';
 
 export default Vue.extend({
   name: 'App',

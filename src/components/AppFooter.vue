@@ -17,7 +17,7 @@ import Vue from 'vue';
 import {
   SuiButton,
   SuiDivider,
-} from '.';
+} from './sui-vue';
 
 export default Vue.extend({
   name: 'AppFooter',
