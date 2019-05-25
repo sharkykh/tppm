@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import formatDate from 'date-fns/format';
+import { format as formatDate } from 'date-fns';
 import Vue from 'vue';
 import { mapState, mapActions, mapMutations } from 'vuex';
 

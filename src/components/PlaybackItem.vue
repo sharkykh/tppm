@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import formatDate from 'date-fns/format';
+import { format as formatDate } from 'date-fns';
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 
@@ -118,8 +118,8 @@ export default Vue.extend({
     },
     date() {
       const date = Date.parse(this.info.paused_at);
-      const Z = new Date(date).getTimezoneOffset() ? 'Z' : '';
-      return formatDate(date, `YYYY-MM-DD – HH:mm:SS – (UTC${Z})`);
+      const tz = new Date(date).getTimezoneOffset() ? 'xxx' : '';
+      return formatDate(date, `yyyy-MM-dd – HH:mm:SS – ('UTC'${tz})`);
     },
     disableRemove() {
       const { removing, info } = this;
