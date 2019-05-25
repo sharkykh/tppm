@@ -113,6 +113,10 @@ export default Vue.extend({
       const expires = new Date(expires_at).getTime();
       const started = new Date(started_at).getTime();
 
+      if (expires < now) {
+        this.setPlaying(false);
+      }
+
       const watched = now - started;
       const total = expires - started;
       const progress = (watched / total) * 100;
