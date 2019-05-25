@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { format as formatDate } from 'date-fns';
+import { format as formatDate, parseISO } from 'date-fns';
 import Vue from 'vue';
 import { mapState, mapActions, mapMutations } from 'vuex';
 
@@ -110,8 +110,8 @@ export default Vue.extend({
     progress() {
       const { now, playing } = this;
       const { expires_at, started_at } = playing; // eslint-disable-line camelcase
-      const expires = new Date(expires_at).getTime();
-      const started = new Date(started_at).getTime();
+      const expires = parseISO(expires_at).getTime();
+      const started = parseISO(started_at).getTime();
 
       if (now > expires) {
         this.setPlaying(false);

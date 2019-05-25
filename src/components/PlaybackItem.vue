@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { format as formatDate } from 'date-fns';
+import { format as formatDate, parseISO } from 'date-fns';
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 
@@ -117,8 +117,8 @@ export default Vue.extend({
       return generateTraktUrl(this.info) || undefined;
     },
     date() {
-      const date = Date.parse(this.info.paused_at);
-      const tz = new Date(date).getTimezoneOffset() ? 'xxx' : '';
+      const date = parseISO(this.info.paused_at);
+      const tz = date.getTimezoneOffset() ? 'xxx' : '';
       return formatDate(date, `yyyy-MM-dd – HH:mm:ss – ('UTC'${tz})`);
     },
     disableRemove() {
