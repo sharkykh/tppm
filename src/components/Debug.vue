@@ -78,6 +78,7 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions([
+      'flash',
       'fetchPlaybackProgress',
       'fetchCurrentlyPlaying',
     ]),
@@ -140,8 +141,12 @@ export default Vue.extend({
       try {
         await api.checkin.add({ movie: { ids: { tmdb: 484247 } } });
       } catch (error) {
-        console.log(error);
-        debugger;
+        if (error.response.code === 409) {
+          this.flash(['409 Conflict', 'Already checked in.', 'warning', false]);
+        } else {
+          console.log(error);
+          debugger;
+        }
       }
 
       this.fetchCurrentlyPlaying();
