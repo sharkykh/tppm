@@ -36,7 +36,7 @@
       state="active"
       color="red"
       :percent="progress.percent.toFixed(0)"
-      :label="`${progress.watched} / ${progress.total}`"
+      :label="progress.label"
     />
   </sui-segment>
 </template>
@@ -113,19 +113,19 @@ export default Vue.extend({
       const expires = new Date(expires_at).getTime();
       const started = new Date(started_at).getTime();
 
-      const watched = Math.abs(now - started);
-      const total = Math.abs(expires - started);
+      const watched = now - started;
+      const total = expires - started;
       const progress = (watched / total) * 100;
 
       const actualDuration = diff => diff + (60 * 1000 * new Date(diff).getTimezoneOffset());
 
       const watchedDuration = formatDate(actualDuration(watched), 'HH:mm:ss');
       const totalDuration = formatDate(actualDuration(total), 'HH:mm:ss');
+      const label = `${watched > 0 ? watchedDuration : '00:00:00'} / ${totalDuration}`;
 
       return {
         percent: progress || 0,
-        watched: watchedDuration,
-        total: totalDuration,
+        label,
       };
     },
   },
