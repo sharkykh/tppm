@@ -119,7 +119,7 @@ export default Vue.extend({
     date() {
       const date = Date.parse(this.info.paused_at);
       const tz = new Date(date).getTimezoneOffset() ? 'xxx' : '';
-      return formatDate(date, `yyyy-MM-dd – HH:mm:SS – ('UTC'${tz})`);
+      return formatDate(date, `yyyy-MM-dd – HH:mm:ss – ('UTC'${tz})`);
     },
     disableRemove() {
       const { removing, info } = this;
