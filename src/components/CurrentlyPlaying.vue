@@ -113,7 +113,7 @@ export default Vue.extend({
       const expires = new Date(expires_at).getTime();
       const started = new Date(started_at).getTime();
 
-      if (expires < now) {
+      if (now > expires) {
         this.setPlaying(false);
       }
 
