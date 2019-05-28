@@ -1,6 +1,11 @@
 # Trakt.tv Playback Progress Manager
 <a href="https://trakt.tv">
-  <img src="src/trakt.png?raw=true" alt="Trakt logo" width="100" height="100" align="right" />
+  <img
+    src="https://github.com/sharkykh/tppm/blob/6760862faedf69b9a209411277b592b28ff30d05/src/trakt.png?raw=true"
+    alt="Trakt logo"
+    width="100"
+    height="100"
+    align="right" />
 </a>
 
 This is a web application that allows a [Trakt.tv](https://trakt.tv) user manage the playback progress items stored in their account.  
