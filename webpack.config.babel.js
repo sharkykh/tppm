@@ -21,7 +21,7 @@ const NOT_DEV_SERVER = !process.argv[1].includes('webpack-dev-server');
 const webpackConfig = (env, mode) => ({
   entry: path.resolve(__dirname, 'src/main.js'),
   output: {
-    filename: `[name]${NOT_DEV_SERVER ? '.[contenthash]' : ''}.js`,
+    filename: `[name]${NOT_DEV_SERVER ? '.[contenthash:8]' : ''}.js`,
     path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
@@ -125,7 +125,7 @@ const webpackConfig = (env, mode) => ({
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: `assets/[name]${NOT_DEV_SERVER ? '.[hash]' : ''}.[ext]`,
+          name: `assets/[name]${NOT_DEV_SERVER ? '.[hash:8]' : ''}.[ext]`,
         },
       },
       {
@@ -133,7 +133,7 @@ const webpackConfig = (env, mode) => ({
         use: {
           loader: 'file-loader',
           options: {
-            name: `assets/[name]${NOT_DEV_SERVER ? '.[hash]' : ''}.[ext]`,
+            name: `assets/[name]${NOT_DEV_SERVER ? '.[hash:8]' : ''}.[ext]`,
           },
         },
       },
@@ -162,7 +162,7 @@ const webpackConfig = (env, mode) => ({
     }),
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: `[name]${NOT_DEV_SERVER ? '.[contenthash]' : ''}.css`,
+      filename: `[name]${NOT_DEV_SERVER ? '.[contenthash:8]' : ''}.css`,
     }),
     env.analyze ? new BundleAnalyzerPlugin() : new NullPlugin(),
   ],
