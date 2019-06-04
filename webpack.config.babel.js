@@ -141,6 +141,7 @@ const webpackConfig = (env, mode) => ({
   },
   plugins: [
     new DefinePlugin({
+      __LOCAL__: JSON.stringify(env.local),
       __VERSION__: JSON.stringify(pkg.version),
     }),
     new CleanWebpackPlugin(),
