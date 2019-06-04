@@ -40,14 +40,13 @@
         :positive="!loggingIn"
         @click="requestAuth()"
       />
-      <template v-else>
-        <sui-button
-          content="Disconnect"
-          icon="power"
-          negative
-          @click="revokeAuth()"
-        />
-      </template>
+      <sui-button
+        v-else
+        content="Disconnect"
+        icon="power"
+        negative
+        @click="revokeAuth()"
+      />
 
       <a
         is="sui-label"
