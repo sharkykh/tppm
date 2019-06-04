@@ -8,7 +8,7 @@
         <meta name="title" content="Trakt Playback Progress Manager">
         <meta name="description" content="Manage playback progress items stored on Trakt.tv" />
 
-        <% if (process.env.NODE_ENV === 'production') { %>
+        <% if (analytics) { %>
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-20983843-12"></script>
         <script>
