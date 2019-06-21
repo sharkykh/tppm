@@ -121,14 +121,14 @@ export default Vue.extend({
       const total = expires - started;
       const progress = (watched / total) * 100;
 
-      const actualDuration = diff => diff + (60 * 1000 * new Date(diff).getTimezoneOffset());
+      const { actualDuration } = this;
 
       const watchedDuration = formatDate(actualDuration(watched), 'HH:mm:ss');
       const totalDuration = formatDate(actualDuration(total), 'HH:mm:ss');
-      const label = `${watched > 0 ? watchedDuration : '00:00:00'} / ${totalDuration}`;
+      const label = `${watchedDuration} / ${totalDuration}`;
 
       return {
-        percent: progress || 0,
+        percent: watched > 0 ? progress : 0,
         label,
       };
     },
@@ -152,6 +152,13 @@ export default Vue.extend({
     ...mapMutations({
       setPlaying: SET_PLAYING,
     }),
+    actualDuration(diff) {
+      if (diff < 0) {
+        diff = 0;
+      }
+
+      return diff + (60 * 1000 * new Date(diff).getTimezoneOffset());
+    },
     stopCurrentlyPlaying() {
       const { playing } = this;
       if (!['episode', 'movie'].includes(playing.type)) {
