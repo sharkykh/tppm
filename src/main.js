@@ -9,10 +9,9 @@ if (isDevelopment) {
   Vue.config.devtools = true;
 }
 
-const app = new Vue({
+const app = new App({
   el: '#app',
   store,
-  render: h => h(App),
 });
 
 if (isDevelopment) {
