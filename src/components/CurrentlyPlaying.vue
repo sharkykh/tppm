@@ -5,21 +5,7 @@
     </h2>
 
     <a :href="url">
-      <h3
-        is="sui-header"
-        v-if="playing.type === 'episode'"
-      >
-        {{ playing.show.title }}
-        {{ playing.episode.season }}x{{ playing.episode.number }}
-        "{{ playing.episode.title }}"
-      </h3>
-      <h3
-        is="sui-header"
-        v-else-if="playing.type === 'movie'"
-      >
-        {{ playing.movie.title }}
-        ({{ playing.movie.year }})
-      </h3>
+      <h3 is="sui-header">{{ playing | formatTitle }}</h3>
     </a>
 
     <sui-button
@@ -158,6 +144,19 @@ export default Vue.extend({
       }
 
       return diff + (60 * 1000 * new Date(diff).getTimezoneOffset());
+    },
+    formatTitle(playing) {
+      if (playing.type === 'episode') {
+        const { show, episode } = playing;
+        return `${show.title} ${episode.season}x${episode.number} "${episode.title}"`;
+      }
+
+      if (playing.type === 'movie') {
+        const { movie } = playing;
+        return `${movie.title} (${movie.year})`;
+      }
+
+      return '';
     },
     stopCurrentlyPlaying() {
       const { playing } = this;
