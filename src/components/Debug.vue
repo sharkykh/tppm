@@ -51,15 +51,15 @@ import {
 
 const testData = {
   movie: [
-    {tmdb: 404368}, // Ralph Breaks the Internet (2018)
+    { tmdb: 404368 }, // Ralph Breaks the Internet (2018)
   ],
   episode: [
-    {tvdb: 5951173}, // Tá no Ar: A TV na TV: 4x04 Episode 4
-    {tvdb: 5950264}, // Democracy Now!: 2017x32 Tuesday, February 14, 2017
-    {tvdb: 5966778}, // All In with Chris Hayes: 2017x32 February 14, 2017
-    {tvdb: 5966780}, // All In with Chris Hayes: 2017x33 February 15, 2017
-    {tvdb: 5940102}, // Chicago Fire: 5x13 Trading in Scuttlebutt
-    {tvdb: 6636942}, // Westworld: 2x03 Virtù e Fortuna
+    { tvdb: 5951173 }, // Tá no Ar: A TV na TV: 4x04 Episode 4
+    { tvdb: 5950264 }, // Democracy Now!: 2017x32 Tuesday, February 14, 2017
+    { tvdb: 5966778 }, // All In with Chris Hayes: 2017x32 February 14, 2017
+    { tvdb: 5966780 }, // All In with Chris Hayes: 2017x33 February 15, 2017
+    { tvdb: 5940102 }, // Chicago Fire: 5x13 Trading in Scuttlebutt
+    { tvdb: 6636942 }, // Westworld: 2x03 Virtù e Fortuna
   ],
 };
 

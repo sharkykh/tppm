@@ -15,12 +15,12 @@ module.exports = {
     __VERSION__: 'readonly',
   },
   rules: {
-    'no-console': 0,
-    'no-debugger': 0,
-    'object-curly-spacing': 0,
-    'capitalized-comments': 1,
-    'comma-dangle': ['error', 'always-multiline'],
-    'import/order': ['error', {
+    'no-console': 'off',
+    'no-debugger': 'off',
+    'object-curly-spacing': ['warn', 'always'],
+    'capitalized-comments': 'warn',
+    'comma-dangle': ['warn', 'always-multiline'],
+    'import/order': ['warn', {
       'newlines-between': 'always',
     }],
   },
