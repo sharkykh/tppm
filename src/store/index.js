@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
 
+import { isDevelopment } from '../utils';
+
 import * as actions from './actions';
 import * as getters from './getters';
 import mutations from './mutations';
@@ -19,7 +21,7 @@ const state = {
 };
 
 const store = new Store({
-  strict: true,
+  strict: isDevelopment,
   state,
   mutations,
   actions,
