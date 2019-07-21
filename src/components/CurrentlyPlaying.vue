@@ -5,7 +5,7 @@
     </h2>
 
     <a :href="url">
-      <h3 is="sui-header">{{ playing | formatTitle }}</h3>
+      <h3 is="sui-header">{{ formatTitle(playing) }}</h3>
     </a>
 
     <sui-button
