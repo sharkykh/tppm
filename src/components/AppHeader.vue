@@ -93,6 +93,10 @@
       />
 
       <debug v-if="isDevelopment && loggedIn" />
+
+      <div class="notice">
+        This site does not store any of your Trakt information.
+      </div>
     </sui-header-content>
   </sui-header>
 </template>
@@ -233,5 +237,8 @@ export default Vue.extend({
   .ui.label.beta {
     position: absolute;
     margin: 0 0 0 -0.5rem;
+  }
+  .notice {
+    font-size: 0.6em;
   }
 </style>
