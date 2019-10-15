@@ -5847,7 +5847,7 @@ toidentifier@1.0.0:
 
 "trakt.tv@https://github.com/sharkykh/trakt.tv-browser#master":
   version "7.2.0"
-  resolved "https://github.com/sharkykh/trakt.tv-browser#4847192c5db0f19a683115b9b347b04801f92806"
+  resolved "https://github.com/sharkykh/trakt.tv-browser#4cb15cd864f271adf50aeaf02c7e1e972649b8a8"
   dependencies:
     ky "^0.11.1"
     randombytes "2.1.0"

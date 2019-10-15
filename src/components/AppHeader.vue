@@ -206,13 +206,11 @@ export default Vue.extend({
       try {
         await api.revoke_token();
       } catch (error) {
-        /* // Ignore the error caused by CORS bug: https://github.com/trakt/api-help/issues/51
         console.error(error);
         this.flash(['Error in revokeAuth()', String(error), 'error', true]);
         if (isDevelopment) {
           debugger;
         }
-        */
       }
 
       this.setLoggedIn(false);
