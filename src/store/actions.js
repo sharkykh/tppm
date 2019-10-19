@@ -5,6 +5,7 @@ import api from '../api';
 import {
   MESSAGE_ADD,
   MESSAGE_REMOVE,
+  SET_LOGGED_IN,
   SET_PROFILE,
   SET_PLAYING,
   SET_FIRST_LOAD,
@@ -41,8 +42,16 @@ export const fetchProfile = async ({ commit, dispatch }) => {
     const data = await api.users.profile({ username: 'me' });
     commit(SET_PROFILE, data);
   } catch (error) {
-    console.error(error);
-    dispatch('flash', ['Error in fetchProfile()', String(error), 'error', true]);
+    if (error.response.code === 403) {
+      // Invalid token
+      dispatch('flash', ['Invalid token', 'Token is invalid, please reconnect the app to your account.', 'warning', false]);
+      commit(SET_LOGGED_IN, false);
+      commit(SET_PROFILE, {});
+      window.localStorage.removeItem('traktAuth');
+    } else {
+      console.error(error);
+      dispatch('flash', ['Error in fetchProfile()', String(error), 'error', true]);
+    }
   }
 };
 
