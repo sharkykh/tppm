@@ -111,6 +111,7 @@ export default Vue.extend({
             await new Promise(resolve => {
               setTimeout(resolve, 100);
             });
+            // eslint-disable-next-line no-unused-vars
           } catch (error) {}
         }
       }

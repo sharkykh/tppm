@@ -108,7 +108,7 @@ export const removeAllPlaybacks = async ({ commit, dispatch, state }) => {
 
     // eslint-disable-next-line no-await-in-loop
     const chunkResults = await Promise.all(
-      chunk.map(id => dispatch('removePlayback', { id, notify: false }))
+      chunk.map(id => dispatch('removePlayback', { id, notify: false })),
     );
     result &= chunkResults.every(Boolean);
   }
