@@ -6,6 +6,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { DefinePlugin } from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import NullPlugin from 'webpack-null-plugin';
+import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 
 import pkg from './package.json';
 
@@ -147,7 +148,6 @@ const webpackConfig = (env, mode) => ({
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/index.html'),
-      favicon: path.resolve(__dirname, 'src/assets/favicon.ico'),
       minify: mode === 'production' && {
         // Defaults: https://git.io/fj8Qn
         // https://github.com/kangax/html-minifier#options-quick-reference
@@ -159,6 +159,21 @@ const webpackConfig = (env, mode) => ({
         useShortDoctype: true,
         minifyJS: true,
         minifyCSS: true,
+      },
+    }),
+    new FaviconsWebpackPlugin({
+      logo: path.resolve(__dirname, 'src/assets/tppm.svg'),
+      prefix: '',
+      publicPath: '',
+      favicons: {
+        /* eslint-disable camelcase */
+        appName: pkg.description,
+        appShortName: pkg.name.toUpperCase(),
+        appDescription: 'Manage the playback progress items stored on your Trakt.tv account.',
+        start_url: './',
+        background: '#ffffff',
+        theme_color: '#af1a1b',
+        /* eslint-enable camelcase */
       },
     }),
     new VueLoaderPlugin(),
