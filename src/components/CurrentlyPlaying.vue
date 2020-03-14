@@ -28,10 +28,6 @@
 </template>
 
 <script>
-import { format as formatDate, parseISO } from 'date-fns';
-import Vue from 'vue';
-import { mapState, mapActions, mapMutations } from 'vuex';
-
 import {
   SET_PLAYING,
 } from '../store/mutation-types';
@@ -44,6 +40,10 @@ import {
   SuiProgress,
   SuiSegment,
 } from './sui-vue';
+
+import { mapState, mapActions, mapMutations } from 'vuex';
+import Vue from 'vue';
+import { format as formatDate, parseISO } from 'date-fns';
 
 export default Vue.extend({
   name: 'CurrentlyPlaying',

@@ -1,11 +1,11 @@
-import Vue from 'vue';
-import Vuex, { Store } from 'vuex';
-
 import { isDevelopment } from '../utils';
 
 import * as actions from './actions';
 import * as getters from './getters';
 import mutations from './mutations';
+
+import Vuex, { Store } from 'vuex';
+import Vue from 'vue';
 
 Vue.use(Vuex);
 

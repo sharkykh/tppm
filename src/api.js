@@ -1,6 +1,6 @@
-import Trakt from 'trakt.tv';
-
 import { isDevelopment } from './utils';
+
+import Trakt from 'trakt.tv';
 
 // eslint-disable-next-line no-undef
 const isLocal = Boolean(__LOCAL__);

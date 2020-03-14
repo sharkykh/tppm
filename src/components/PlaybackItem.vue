@@ -69,10 +69,6 @@
 </template>
 
 <script>
-import { format as formatDate, parseISO } from 'date-fns';
-import Vue from 'vue';
-import { mapState, mapActions } from 'vuex';
-
 import { generateTraktUrl } from '../utils';
 
 import {
@@ -84,6 +80,10 @@ import {
   SuiIcon,
   SuiProgress,
 } from './sui-vue';
+
+import { format as formatDate, parseISO } from 'date-fns';
+import Vue from 'vue';
+import { mapState, mapActions } from 'vuex';
 
 export default Vue.extend({
   name: 'PlaybackItem',
