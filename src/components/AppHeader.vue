@@ -102,6 +102,9 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
+
 import {
   SET_BUSY,
   SET_LOGGED_IN,
@@ -120,9 +123,6 @@ import {
   SuiLabel,
   SuiLoader,
 } from './sui-vue';
-
-import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
-import Vue from 'vue';
 
 let debugComponent;
 // Can't use `isDevelopment` directly because webpack doesn't recognize it.

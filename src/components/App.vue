@@ -24,6 +24,9 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import { mapState, mapMutations, mapActions } from 'vuex';
+
 import {
   SET_LOGGED_IN,
 } from '../store/mutation-types';
@@ -39,9 +42,6 @@ import {
   SuiContainer,
   SuiDivider,
 } from './sui-vue';
-
-import { mapState, mapMutations, mapActions } from 'vuex';
-import Vue from 'vue';
 
 export default Vue.extend({
   name: 'App',

@@ -1,5 +1,3 @@
-import pkg from './package.json';
-
 import path from 'path';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -8,6 +6,8 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { DefinePlugin } from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import NullPlugin from 'webpack-null-plugin';
+
+import pkg from './package.json';
 
 const NOT_DEV_SERVER = !process.argv[1].includes('webpack-dev-server');
 

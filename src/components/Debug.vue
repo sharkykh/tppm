@@ -37,6 +37,9 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import { mapState, mapActions } from 'vuex';
+
 import api from '../api';
 
 import {
@@ -45,9 +48,6 @@ import {
   SuiDropdownMenu,
   SuiDropdownItem,
 } from './sui-vue';
-
-import Vue from 'vue';
-import { mapState, mapActions } from 'vuex';
 
 const testData = {
   movie: [

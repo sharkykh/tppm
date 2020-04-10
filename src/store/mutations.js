@@ -1,5 +1,7 @@
 // Root mutations
 
+import Vue from 'vue';
+
 import {
   SET_BUSY,
   MESSAGE_ADD,
@@ -13,8 +15,6 @@ import {
   SET_REMOVING,
   UNSET_REMOVING,
 } from './mutation-types';
-
-import Vue from 'vue';
 
 export default {
   [SET_BUSY](state, payload) {

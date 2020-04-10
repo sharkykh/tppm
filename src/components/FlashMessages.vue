@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import { SuiMessage } from './sui-vue';
-
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
+
+import { SuiMessage } from './sui-vue';
 
 export default Vue.extend({
   name: 'FlashMessages',
