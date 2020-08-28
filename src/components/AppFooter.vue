@@ -1,6 +1,9 @@
 <template>
   <div>
-    <a href="https://github.com/sharkykh/tppm">
+    <a
+      href="https://github.com/sharkykh/tppm"
+      :title="`Version: ${version}`"
+    >
       <sui-button
         color="black"
         icon="github"
@@ -24,6 +27,11 @@ export default Vue.extend({
   components: {
     SuiButton,
     SuiDivider,
+  },
+  data() {
+    return {
+      version: __VERSION__,
+    };
   },
 });
 </script>
