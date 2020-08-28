@@ -103,7 +103,12 @@ const webpackConfig = (env, mode) => ({
             resourceQuery: /^\?vue&type=style/,
             use: [
               'vue-style-loader',
-              'css-loader',
+              {
+                loader: 'css-loader',
+                options: {
+                  esModule: false,
+                },
+              },
             ],
           },
           {
