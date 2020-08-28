@@ -1,6 +1,7 @@
 // Root actions
 
 import api from '../api';
+import { handleFetchError } from '../utils';
 
 import {
   MESSAGE_ADD,
@@ -42,12 +43,20 @@ export const fetchProfile = async ({ commit, dispatch }) => {
     const data = await api.users.profile({ username: 'me' });
     commit(SET_PROFILE, data);
   } catch (error) {
-    if (error.response.code === 403) {
+    const status = error?.response?.code;
+    if (status === 403) {
       // Invalid token
       dispatch('flash', ['Invalid token', 'Token is invalid, please reconnect the app to your account.', 'warning', false]);
       commit(SET_LOGGED_IN, false);
       commit(SET_PROFILE, {});
       window.localStorage.removeItem('traktAuth');
+      return;
+    }
+
+    const fetchError = handleFetchError(error);
+    if (fetchError) {
+      console.warn(error);
+      this.flash(['[fetchProfile] Request Failed', fetchError, 'warning', true]);
     } else {
       console.error(error);
       dispatch('flash', ['Error in fetchProfile()', String(error), 'error', true]);
@@ -60,8 +69,14 @@ export const fetchCurrentlyPlaying = async ({ commit, dispatch }) => {
     const data = await api.users.watching({ username: 'me' });
     commit(SET_PLAYING, data || false);
   } catch (error) {
-    console.error(error);
-    dispatch('flash', ['Error in fetchCurrentlyPlaying()', String(error), 'error', true]);
+    const fetchError = handleFetchError(error);
+    if (fetchError) {
+      console.warn(error);
+      this.flash(['[fetchCurrentlyPlaying] Request Failed', fetchError, 'warning', true]);
+    } else {
+      console.error(error);
+      dispatch('flash', ['Error in fetchCurrentlyPlaying()', String(error), 'error', true]);
+    }
   }
 };
 
@@ -73,8 +88,14 @@ export const fetchPlaybackProgress = async ({ commit, dispatch, state }) => {
       commit(SET_FIRST_LOAD, true);
     }
   } catch (error) {
-    console.error(error);
-    dispatch('flash', ['Error in fetchPlaybackProgress()', String(error), 'error', true]);
+    const fetchError = handleFetchError(error);
+    if (fetchError) {
+      console.warn(error);
+      this.flash(['[fetchPlaybackProgress] Request Failed', fetchError, 'warning', true]);
+    } else {
+      console.error(error);
+      dispatch('flash', ['Error in fetchPlaybackProgress()', String(error), 'error', true]);
+    }
   }
 };
 
@@ -87,8 +108,14 @@ export const removePlayback = async ({ commit, dispatch }, { id, notify = true }
       dispatch('flash', ['Playback item removed', '', 'success']);
     }
   } catch (error) {
-    console.error(error);
-    dispatch('flash', ['Error in removePlayback()', String(error), 'error', true]);
+    const fetchError = handleFetchError(error);
+    if (fetchError) {
+      console.warn(error);
+      this.flash(['[removePlayback] Request Failed', fetchError, 'warning', true]);
+    } else {
+      console.error(error);
+      dispatch('flash', ['Error in removePlayback()', String(error), 'error', true]);
+    }
 
     return false;
   } finally {

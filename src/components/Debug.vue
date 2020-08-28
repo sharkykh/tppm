@@ -41,6 +41,7 @@ import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 
 import api from '../api';
+import { handleFetchError } from '../utils';
 
 import {
   SuiButton,
@@ -100,8 +101,14 @@ export default Vue.extend({
             // eslint-disable-next-line no-await-in-loop
             await api.scrobble.pause(params);
           } catch (error) {
-            console.log(error);
-            debugger;
+            const fetchError = handleFetchError(error);
+            if (fetchError) {
+              console.warn(error);
+              this.flash(['[sendPlaybackItems] Request Failed', fetchError, 'warning', true]);
+            } else {
+              console.log(error);
+              debugger;
+            }
           }
 
           ++index;
@@ -142,7 +149,8 @@ export default Vue.extend({
       try {
         await api.checkin.add({ movie: { ids: { tmdb: 484247 } } });
       } catch (error) {
-        if (error.response.code === 409) {
+        const status = error?.response?.code;
+        if (status === 409) {
           this.flash(['409 Conflict', 'Already checked in.', 'warning', false]);
         } else {
           console.log(error);

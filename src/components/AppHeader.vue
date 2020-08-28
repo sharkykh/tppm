@@ -111,7 +111,7 @@ import {
 } from '../store/mutation-types';
 import api from '../api';
 import AppLogo from '../assets/tppm.svg';
-import { isDevelopment } from '../utils';
+import { handleFetchError, isDevelopment } from '../utils';
 
 import {
   SuiButton,
@@ -206,10 +206,16 @@ export default Vue.extend({
       try {
         await api.revoke_token();
       } catch (error) {
-        console.error(error);
-        this.flash(['Error in revokeAuth()', String(error), 'error', true]);
-        if (isDevelopment) {
-          debugger;
+        const fetchError = handleFetchError(error);
+        if (fetchError) {
+          console.warn(error);
+          this.flash(['[revokeAuth] Request Failed', fetchError, 'warning', true]);
+        } else {
+          console.error(error);
+          this.flash(['Error in revokeAuth()', String(error), 'error', true]);
+          if (isDevelopment) {
+            debugger;
+          }
         }
       }
 

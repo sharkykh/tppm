@@ -31,7 +31,7 @@ import {
   SET_LOGGED_IN,
 } from '../store/mutation-types';
 import api from '../api';
-import { isDevelopment } from '../utils';
+import { handleFetchError, isDevelopment } from '../utils';
 
 import AppFooter from './AppFooter';
 import AppHeader from './AppHeader';
@@ -84,10 +84,16 @@ export default Vue.extend({
         await this.fetchProfile();
       }
     } catch (error) {
-      console.error(error);
-      this.flash(['Error in mounted()', String(error), 'error', true]);
-      if (isDevelopment) {
-        debugger;
+      const fetchError = handleFetchError(error);
+      if (fetchError) {
+        console.warn(error);
+        this.flash(['[mounted] Request Failed', fetchError, 'warning', true]);
+      } else {
+        console.error(error);
+        this.flash(['Error in mounted()', String(error), 'error', true]);
+        if (isDevelopment) {
+          debugger;
+        }
       }
     } finally {
       this.loggingIn = false;
@@ -115,10 +121,16 @@ export default Vue.extend({
         this.setLoggedIn(true);
         return true;
       } catch (error) {
-        console.error(error);
-        this.flash(['Error in loadAuth()', String(error), 'error', true]);
-        if (isDevelopment) {
-          debugger;
+        const fetchError = handleFetchError(error);
+        if (fetchError) {
+          console.warn(error);
+          this.flash(['[loadAuth] Request Failed', fetchError, 'warning', true]);
+        } else {
+          console.error(error);
+          this.flash(['Error in loadAuth()', String(error), 'error', true]);
+          if (isDevelopment) {
+            debugger;
+          }
         }
       }
 
@@ -132,10 +144,16 @@ export default Vue.extend({
           window.localStorage.setItem('traktAuth', JSON.stringify(data));
           return true;
         } catch (error) {
-          console.error(error);
-          this.flash(['Error in saveAuth()', String(error), 'error', true]);
-          if (isDevelopment) {
-            debugger;
+          const fetchError = handleFetchError(error);
+          if (fetchError) {
+            console.warn(error);
+            this.flash(['[saveAuth] Request Failed', fetchError, 'warning', true]);
+          } else {
+            console.error(error);
+            this.flash(['Error in saveAuth()', String(error), 'error', true]);
+            if (isDevelopment) {
+              debugger;
+            }
           }
         }
       }
@@ -150,10 +168,16 @@ export default Vue.extend({
         this.saveAuth();
         return true;
       } catch (error) {
-        console.error(error);
-        this.flash(['Error in exchangeCode()', String(error), 'error', true]);
-        if (isDevelopment) {
-          debugger;
+        const fetchError = handleFetchError(error);
+        if (fetchError) {
+          console.warn(error);
+          this.flash(['[exchangeCode] Request Failed', fetchError, 'warning', true]);
+        } else {
+          console.error(error);
+          this.flash(['Error in exchangeCode()', String(error), 'error', true]);
+          if (isDevelopment) {
+            debugger;
+          }
         }
 
         return false;

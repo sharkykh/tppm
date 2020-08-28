@@ -36,7 +36,7 @@ import {
   SET_PLAYING,
 } from '../store/mutation-types';
 import api from '../api';
-import { isDevelopment, generateTraktUrl } from '../utils';
+import { handleFetchError, isDevelopment, generateTraktUrl } from '../utils';
 
 import {
   SuiButton,
@@ -189,10 +189,16 @@ export default Vue.extend({
         this.flash([`Stopped currently playing ${playing.type} at ${progress.toFixed(0)}%`, '', 'success']);
         return true;
       } catch (error) {
-        console.error(error);
-        this.flash(['Error in scrobblePause()', String(error), 'error', true]);
-        if (isDevelopment) {
-          debugger;
+        const fetchError = handleFetchError(error);
+        if (fetchError) {
+          console.warn(error);
+          this.flash(['[scrobblePause] Request Failed', fetchError, 'warning', true]);
+        } else {
+          console.error(error);
+          this.flash(['Error in scrobblePause()', String(error), 'error', true]);
+          if (isDevelopment) {
+            debugger;
+          }
         }
       } finally {
         this.stopping = false;
@@ -208,10 +214,16 @@ export default Vue.extend({
         this.flash([`Canceled currently checked in ${playing.type} at ${progress.toFixed(0)}%`, '', 'success']);
         return true;
       } catch (error) {
-        console.error(error);
-        this.flash(['Error in cancelCheckin()', String(error), 'error', true]);
-        if (isDevelopment) {
-          debugger;
+        const fetchError = handleFetchError(error);
+        if (fetchError) {
+          console.warn(error);
+          this.flash(['[cancelCheckin] Request Failed', fetchError, 'warning', true]);
+        } else {
+          console.error(error);
+          this.flash(['Error in cancelCheckin()', String(error), 'error', true]);
+          if (isDevelopment) {
+            debugger;
+          }
         }
       } finally {
         this.stopping = false;

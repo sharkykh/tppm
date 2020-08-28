@@ -1,3 +1,5 @@
+import ky from 'ky';
+
 export const isDevelopment = process.env.NODE_ENV === 'development';
 
 export const generateTraktUrl = dataObj => {
@@ -24,4 +26,16 @@ export const generateTraktUrl = dataObj => {
   // Fallback
   const id = dataObj[type].ids.trakt;
   return `https://trakt.tv/search/trakt/${id}?id_type=${type}`;
+};
+
+export const handleFetchError = error => {
+  if (error instanceof ky.HTTPError) {
+    return `Response: ${error.response.status} ${error.response.statusText}`;
+  }
+
+  if (error instanceof ky.TimeoutError) {
+    return 'Response timed-out';
+  }
+
+  return undefined;
 };
