@@ -9,7 +9,7 @@ install:
   - yarn install
 
 script:
-  - yarn build --no-progress
+  - yarn webpack --mode production
 
 deploy:
   edge: true # Use dpl v2 - https://docs.travis-ci.com/user/deployment-v2
