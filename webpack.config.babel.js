@@ -1,5 +1,4 @@
 import path from 'path';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -22,7 +21,8 @@ const webpackConfig = (env, mode) => ({
   entry: path.resolve(__dirname, 'src/main.js'),
   output: {
     filename: `[name]${NOT_DEV_SERVER ? '.[contenthash:8]' : ''}.js`,
-    path: path.resolve(__dirname, 'dist'),
+    assetModuleFilename: `assets/[name]${NOT_DEV_SERVER ? '.[contenthash:8]' : ''}.[ext][query]`,
+    clean: true,
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -37,14 +37,13 @@ const webpackConfig = (env, mode) => ({
     hints: false,
   },
   optimization: {
-    // Keep this to avoid issues with hot update
-    runtimeChunk: {
-      name: entrypoint => entrypoint.name,
-    },
     splitChunks: {
       chunks: 'all',
       maxInitialRequests: Infinity,
       minSize: 0,
+      name(module, chunks, cacheGroupKey) {
+        return `${cacheGroupKey}`;
+      },
       cacheGroups: {
         sui: {
           test: /[\\/]node_modules[\\/]semantic-ui-.*/,
@@ -114,13 +113,7 @@ const webpackConfig = (env, mode) => ({
           {
             // Handle regular `.css` files
             use: [
-              {
-                loader: MiniCssExtractPlugin.loader,
-                options: {
-                  hmr: !NOT_DEV_SERVER,
-                  reloadAll: true,
-                },
-              },
+              MiniCssExtractPlugin.loader,
               'css-loader',
             ],
           },
@@ -128,19 +121,11 @@ const webpackConfig = (env, mode) => ({
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: `assets/[name]${NOT_DEV_SERVER ? '.[hash:8]' : ''}.[ext]`,
-        },
+        type: 'asset/resource',
       },
       {
         test: /\.(ttf|eot|woff|woff2)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: `assets/[name]${NOT_DEV_SERVER ? '.[hash:8]' : ''}.[ext]`,
-          },
-        },
+        type: 'asset/resource',
       },
     ],
   },
@@ -149,7 +134,6 @@ const webpackConfig = (env, mode) => ({
       __LOCAL__: JSON.stringify(env.local),
       __VERSION__: JSON.stringify(pkg.version),
     }),
-    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/index.html'),
       favicon: path.resolve(__dirname, 'src/assets/favicon.ico'),
@@ -170,16 +154,11 @@ const webpackConfig = (env, mode) => ({
     new MiniCssExtractPlugin({
       filename: `[name]${NOT_DEV_SERVER ? '.[contenthash:8]' : ''}.css`,
     }),
+    // Use `yarn build --env analyze`
     env.analyze ? new BundleAnalyzerPlugin() : new NullPlugin(),
   ],
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    hot: true,
-    inline: true,
-    overlay: true,
-    watchOptions: {
-      poll: true,
-    },
+    static: path.resolve(__dirname, 'dist'),
   },
 });
 
