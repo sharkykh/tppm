@@ -1,4 +1,4 @@
-import ky from 'ky';
+import { HTTPError, TimeoutError } from 'ky';
 
 export const isDevelopment = process.env.NODE_ENV === 'development';
 
@@ -29,11 +29,11 @@ export const generateTraktUrl = dataObj => {
 };
 
 export const handleFetchError = error => {
-  if (error instanceof ky.HTTPError) {
+  if (error instanceof HTTPError) {
     return `Response: ${error.response.status} ${error.response.statusText}`;
   }
 
-  if (error instanceof ky.TimeoutError) {
+  if (error instanceof TimeoutError) {
     return 'Response timed-out';
   }
 
