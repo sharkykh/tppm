@@ -3,10 +3,10 @@ name: Build and Deploy
 on:
   create:
     tags:
-      - v*
-  push:
-    branches:
-      - master
+      - '*.*.*'
+  # push:
+  #   branches:
+  #     - master
 
 jobs:
   build-and-deploy:
@@ -34,8 +34,8 @@ jobs:
           yarn webpack --mode production
 
       - name: Deploy
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: JamesIves/github-pages-deploy-action@4
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages
           folder: dist
