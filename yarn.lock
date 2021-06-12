@@ -3525,9 +3525,9 @@ kind-of@^6.0.2:
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
 ky@^0.28.1:
-  version "0.28.1"
-  resolved "https://registry.yarnpkg.com/ky/-/ky-0.28.1.tgz#023af92a59e06a0e351c7a0c38da6e5c0fd549c8"
-  integrity sha512-3pNpywiHBFAzf4gyBYS20Nf0G1b3VFOU4mltfyVf86/r/hixZ+X3jsyDs6QrapkV88CrXO9RDOhjEY5a6+aqxA==
+  version "0.28.5"
+  resolved "https://registry.yarnpkg.com/ky/-/ky-0.28.5.tgz#4b7ada24fb0440c3898406f3a4986abe60ba213e"
+  integrity sha512-O5gg9kF4MeyfSw+YkgPAafOPwEUU6xcdGEJKUJmKpIPbLzk3oxUtY4OdBNekG7mawofzkyZ/ZHuR9ev5uZZdAA==
 
 levn@^0.4.1:
   version "0.4.1"
