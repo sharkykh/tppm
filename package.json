@@ -43,7 +43,7 @@
     "style-loader": "2.0.0",
     "trakt.tv": "sharkykh/trakt.tv-browser#8.0.0",
     "vue": "2.6.12",
-    "vue-loader": "15.9.6",
+    "vue-loader": "15.9.7",
     "vue-template-compiler": "2.6.12",
     "vuex": "3.5.1",
     "webpack": "5.31.2",
