@@ -21,7 +21,7 @@ const webpackConfig = (env, mode) => ({
   entry: path.resolve(__dirname, 'src/main.js'),
   output: {
     filename: `[name]${NOT_DEV_SERVER ? '.[contenthash:8]' : ''}.js`,
-    assetModuleFilename: `assets/[name]${NOT_DEV_SERVER ? '.[contenthash:8]' : ''}.[ext][query]`,
+    assetModuleFilename: `assets/[name]${NOT_DEV_SERVER ? '.[contenthash:8]' : ''}[ext][query]`,
     clean: true,
   },
   resolve: {
