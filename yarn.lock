@@ -3702,10 +3702,10 @@ kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-ky@^0.28.1:
-  version "0.28.5"
-  resolved "https://registry.yarnpkg.com/ky/-/ky-0.28.5.tgz#4b7ada24fb0440c3898406f3a4986abe60ba213e"
-  integrity sha512-O5gg9kF4MeyfSw+YkgPAafOPwEUU6xcdGEJKUJmKpIPbLzk3oxUtY4OdBNekG7mawofzkyZ/ZHuR9ev5uZZdAA==
+ky@^0.28.6:
+  version "0.28.6"
+  resolved "https://registry.yarnpkg.com/ky/-/ky-0.28.6.tgz#3dfe7a33be3e3d3c99a19d1703ec7a5dcb662ec5"
+  integrity sha512-EjxET5qSsaLUj1BSFtxPjEtRgF5JOhdroPwMNJFH/VvzruWQFBmh6W7GtqjBR56UZw4dBFTKLvx9nDxxnFXc7w==
 
 levn@^0.4.1:
   version "0.4.1"
@@ -4884,11 +4884,6 @@ safe-buffer@>=5.1.0, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1,
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-sanitizer@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/sanitizer/-/sanitizer-0.1.3.tgz#d4f0af7475d9a7baf2a9e5a611718baa178a39e1"
-  integrity sha1-1PCvdHXZp7ryqeWmEXGLqheKOeE=
-
 schema-utils@^2.6.5:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.7.0.tgz#17151f76d8eae67fbbf77960c33c676ad9f4efc7"
@@ -5405,13 +5400,12 @@ totalist@^1.0.0:
   resolved "https://registry.yarnpkg.com/totalist/-/totalist-1.1.0.tgz#a4d65a3e546517701e3e5c37a47a70ac97fe56df"
   integrity sha512-gduQwd1rOdDMGxFG1gEvhV88Oirdo2p+KjoYFU7k2g+i7n6AFFbDQ5kMPUsW0pNbfQsB/cwXvT1i4Bue0s9g5g==
 
-trakt.tv@sharkykh/trakt.tv-browser#8.0.0:
-  version "8.0.0"
-  resolved "https://codeload.github.com/sharkykh/trakt.tv-browser/tar.gz/511affe904da38957d6273b88a54c0378f674d6f"
+trakt.tv@sharkykh/trakt.tv-browser#8.1.1:
+  version "8.1.1"
+  resolved "https://codeload.github.com/sharkykh/trakt.tv-browser/tar.gz/c5716d2fc9f9291e115128024ecef01739b1cbbc"
   dependencies:
-    ky "^0.28.1"
+    ky "^0.28.6"
     randombytes "^2.1.0"
-    sanitizer "^0.1.3"
 
 tsconfig-paths@^3.9.0:
   version "3.9.0"
