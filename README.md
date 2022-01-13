@@ -25,8 +25,8 @@ To use the application, visit:
 (Unless making a separate API application and modifying the values in [`src/api.js`](/src/api.js))  
 
 Requirements:
-- [NodeJS](https://nodejs.org) version 11 or above
-- [yarn](https://yarnpkg.com) version 1.15 or above
+- [NodeJS](https://nodejs.org) version 12.13.0 or above
+- [yarn](https://yarnpkg.com) version 1.15.0 or above
 
 ```
 yarn install
