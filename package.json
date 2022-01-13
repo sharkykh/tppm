@@ -36,7 +36,7 @@
     "eslint-plugin-import": "2.22.0",
     "eslint-plugin-vue": "7.11.0",
     "express": "4.17.1",
-    "html-webpack-plugin": "5.3.1",
+    "html-webpack-plugin": "5.5.0",
     "mini-css-extract-plugin": "1.4.1",
     "semantic-ui-css": "2.4.1",
     "semantic-ui-vue": "0.11.0",
@@ -51,8 +51,5 @@
     "webpack-cli": "4.8.0",
     "webpack-dev-server": "4.7.3",
     "webpack-null-plugin": "0.0.2"
-  },
-  "resolutions": {
-    "html-webpack-plugin/pretty-error": "^3.0.4"
   }
 }
