@@ -117,8 +117,12 @@ export default Vue.extend({
 
       try {
         const data = JSON.parse(stored);
-        await api.import_token(data);
+        const authData = await api.import_token(data);
         this.setLoggedIn(true);
+        if (authData.access_token !== data.access_token) {
+          this.saveAuth(authData);
+        }
+
         return true;
       } catch (error) {
         const fetchError = handleFetchError(error);
@@ -136,24 +140,18 @@ export default Vue.extend({
 
       return false;
     },
-    saveAuth() {
+    saveAuth(data) {
       // Save to localStorage
-      const data = api.export_token();
+      data = data ? data : api.export_token();
       if (data.access_token && data.refresh_token && data.expires) {
         try {
           window.localStorage.setItem('traktAuth', JSON.stringify(data));
           return true;
         } catch (error) {
-          const fetchError = handleFetchError(error);
-          if (fetchError) {
-            console.warn(error);
-            this.flash(['[saveAuth] Request Failed', fetchError, 'warning', true]);
-          } else {
-            console.error(error);
-            this.flash(['Error in saveAuth()', String(error), 'error', true]);
-            if (isDevelopment) {
-              debugger;
-            }
+          console.error(error);
+          this.flash(['Error in saveAuth()', String(error), 'error', true]);
+          if (isDevelopment) {
+            debugger;
           }
         }
       }
