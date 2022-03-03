@@ -1,7 +1,7 @@
 // Root actions
 
 import api from '../api';
-import { TRAKT_AUTH } from '../const';
+import { TRAKT_AUTH, TRAKT_PROFILE } from '../const';
 import { handleFetchError } from '../utils';
 
 import {
@@ -43,6 +43,7 @@ export const fetchProfile = async ({ commit, dispatch }) => {
   try {
     const data = await api.users.profile({ username: 'me' });
     commit(SET_PROFILE, data);
+    window.localStorage.setItem(TRAKT_PROFILE, JSON.stringify(data));
   } catch (error) {
     const status = error?.response?.code;
     if (status === 403) {
@@ -51,6 +52,7 @@ export const fetchProfile = async ({ commit, dispatch }) => {
       commit(SET_LOGGED_IN, false);
       commit(SET_PROFILE, {});
       window.localStorage.removeItem(TRAKT_AUTH);
+      window.localStorage.removeItem(TRAKT_PROFILE);
       return;
     }
 

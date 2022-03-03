@@ -29,9 +29,10 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 
 import {
   SET_LOGGED_IN,
+  SET_PROFILE,
 } from '../store/mutation-types';
 import api from '../api';
-import { TRAKT_AUTH, TRAKT_AUTH_STATE } from '../const';
+import { TRAKT_AUTH, TRAKT_AUTH_STATE, TRAKT_PROFILE } from '../const';
 import { handleFetchError, isDevelopment } from '../utils';
 
 import AppFooter from './AppFooter';
@@ -81,7 +82,16 @@ export default Vue.extend({
         window.history.replaceState({}, '', window.location.pathname);
       }
 
-      if (fetch) {
+      let storedProfile = {};
+      try {
+        storedProfile = JSON.parse(window.localStorage.getItem(TRAKT_PROFILE));
+      } catch (_) {}
+
+      if (storedProfile.username) {
+        this.setProfile(storedProfile);
+      }
+
+      if (fetch && !storedProfile) {
         await this.fetchProfile();
       }
     } catch (error) {
@@ -104,6 +114,7 @@ export default Vue.extend({
   methods: {
     ...mapMutations({
       setLoggedIn: SET_LOGGED_IN,
+      setProfile: SET_PROFILE,
     }),
     ...mapActions([
       'flash',
@@ -122,6 +133,7 @@ export default Vue.extend({
         this.setLoggedIn(true);
         if (authData.access_token !== data.access_token) {
           this.saveAuth(authData);
+          this.setProfile({}); // Force-refresh profile
         }
 
         return true;
