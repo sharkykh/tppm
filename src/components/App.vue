@@ -29,8 +29,10 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 
 import {
   SET_LOGGED_IN,
+  SET_PROFILE,
 } from '../store/mutation-types';
 import api from '../api';
+import { TRAKT_AUTH, TRAKT_AUTH_STATE, TRAKT_PROFILE } from '../const';
 import { handleFetchError, isDevelopment } from '../utils';
 
 import AppFooter from './AppFooter';
@@ -75,12 +77,21 @@ export default Vue.extend({
         console.log('Loaded from localStorage');
         fetch = true;
       } else if (params.get('code')) {
-        api._authentication.state = window.localStorage.getItem('traktAuthState') || undefined;
+        api._authentication.state = window.localStorage.getItem(TRAKT_AUTH_STATE) || undefined;
         fetch = await this.exchangeCode(params.get('code'), params.get('state'));
         window.history.replaceState({}, '', window.location.pathname);
       }
 
-      if (fetch) {
+      let storedProfile = {};
+      try {
+        storedProfile = JSON.parse(window.localStorage.getItem(TRAKT_PROFILE));
+      } catch (_) {}
+
+      if (storedProfile.username) {
+        this.setProfile(storedProfile);
+      }
+
+      if (fetch && !storedProfile) {
         await this.fetchProfile();
       }
     } catch (error) {
@@ -103,6 +114,7 @@ export default Vue.extend({
   methods: {
     ...mapMutations({
       setLoggedIn: SET_LOGGED_IN,
+      setProfile: SET_PROFILE,
     }),
     ...mapActions([
       'flash',
@@ -110,7 +122,7 @@ export default Vue.extend({
     ]),
     async loadAuth() {
       // Load from localStorage
-      const stored = window.localStorage.getItem('traktAuth');
+      const stored = window.localStorage.getItem(TRAKT_AUTH);
       if (!stored) {
         return false;
       }
@@ -121,6 +133,7 @@ export default Vue.extend({
         this.setLoggedIn(true);
         if (authData.access_token !== data.access_token) {
           this.saveAuth(authData);
+          this.setProfile({}); // Force-refresh profile
         }
 
         return true;
@@ -145,7 +158,7 @@ export default Vue.extend({
       data = data ? data : api.export_token();
       if (data.access_token && data.refresh_token && data.expires) {
         try {
-          window.localStorage.setItem('traktAuth', JSON.stringify(data));
+          window.localStorage.setItem(TRAKT_AUTH, JSON.stringify(data));
           return true;
         } catch (error) {
           console.error(error);
@@ -162,7 +175,7 @@ export default Vue.extend({
       try {
         await api.exchange_code(code, state);
         this.setLoggedIn(true);
-        window.localStorage.removeItem('traktAuthState');
+        window.localStorage.removeItem(TRAKT_AUTH_STATE);
         this.saveAuth();
         return true;
       } catch (error) {
