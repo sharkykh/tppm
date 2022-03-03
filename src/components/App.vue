@@ -84,14 +84,12 @@ export default Vue.extend({
 
       let storedProfile = {};
       try {
-        storedProfile = JSON.parse(window.localStorage.getItem(TRAKT_PROFILE));
+        storedProfile = JSON.parse(window.localStorage.getItem(TRAKT_PROFILE)) || {};
       } catch (_) {}
 
       if (storedProfile.username) {
         this.setProfile(storedProfile);
-      }
-
-      if (fetch && !storedProfile) {
+      } else if (fetch) {
         await this.fetchProfile();
       }
     } catch (error) {
