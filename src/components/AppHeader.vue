@@ -110,6 +110,7 @@ import {
   SET_LOGGED_IN,
 } from '../store/mutation-types';
 import api from '../api';
+import { TRAKT_AUTH, TRAKT_AUTH_STATE } from '../const';
 import AppLogo from '../assets/tppm.svg';
 import { handleFetchError, isDevelopment } from '../utils';
 
@@ -198,11 +199,11 @@ export default Vue.extend({
     requestAuth() {
       // Generate the URL first, so we can save the CSRF state value
       const url = api.get_url();
-      window.localStorage.setItem('traktAuthState', api._authentication.state);
+      window.localStorage.setItem(TRAKT_AUTH_STATE, api._authentication.state);
       window.location.replace(url);
     },
     async revokeAuth() {
-      window.localStorage.removeItem('traktAuth');
+      window.localStorage.removeItem(TRAKT_AUTH);
       try {
         await api.revoke_token();
       } catch (error) {

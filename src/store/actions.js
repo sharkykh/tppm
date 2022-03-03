@@ -1,6 +1,7 @@
 // Root actions
 
 import api from '../api';
+import { TRAKT_AUTH } from '../const';
 import { handleFetchError } from '../utils';
 
 import {
@@ -49,7 +50,7 @@ export const fetchProfile = async ({ commit, dispatch }) => {
       dispatch('flash', ['Invalid token', 'Token is invalid, please reconnect the app to your account.', 'warning', false]);
       commit(SET_LOGGED_IN, false);
       commit(SET_PROFILE, {});
-      window.localStorage.removeItem('traktAuth');
+      window.localStorage.removeItem(TRAKT_AUTH);
       return;
     }
 
