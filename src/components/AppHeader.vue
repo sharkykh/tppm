@@ -110,7 +110,7 @@ import {
   SET_LOGGED_IN,
 } from '../store/mutation-types';
 import api from '../api';
-import { TRAKT_AUTH, TRAKT_AUTH_STATE } from '../const';
+import { TRAKT_AUTH, TRAKT_AUTH_STATE, TRAKT_PROFILE } from '../const';
 import AppLogo from '../assets/tppm.svg';
 import { handleFetchError, isDevelopment } from '../utils';
 
@@ -204,6 +204,7 @@ export default Vue.extend({
     },
     async revokeAuth() {
       window.localStorage.removeItem(TRAKT_AUTH);
+      window.localStorage.removeItem(TRAKT_PROFILE);
       try {
         await api.revoke_token();
       } catch (error) {
