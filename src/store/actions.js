@@ -59,7 +59,7 @@ export const fetchProfile = async ({ commit, dispatch }) => {
     const fetchError = handleFetchError(error);
     if (fetchError) {
       console.warn(error);
-      this.flash(['[fetchProfile] Request Failed', fetchError, 'warning', true]);
+      dispatch('flash', ['[fetchProfile] Request Failed', fetchError, 'warning', true]);
     } else {
       console.error(error);
       dispatch('flash', ['Error in fetchProfile()', String(error), 'error', true]);
@@ -75,7 +75,7 @@ export const fetchCurrentlyPlaying = async ({ commit, dispatch }) => {
     const fetchError = handleFetchError(error);
     if (fetchError) {
       console.warn(error);
-      this.flash(['[fetchCurrentlyPlaying] Request Failed', fetchError, 'warning', true]);
+      dispatch('flash', ['[fetchCurrentlyPlaying] Request Failed', fetchError, 'warning', true]);
     } else {
       console.error(error);
       dispatch('flash', ['Error in fetchCurrentlyPlaying()', String(error), 'error', true]);
@@ -94,7 +94,7 @@ export const fetchPlaybackProgress = async ({ commit, dispatch, state }) => {
     const fetchError = handleFetchError(error);
     if (fetchError) {
       console.warn(error);
-      this.flash(['[fetchPlaybackProgress] Request Failed', fetchError, 'warning', true]);
+      dispatch(['flash', '[fetchPlaybackProgress] Request Failed', fetchError, 'warning', true]);
     } else {
       console.error(error);
       dispatch('flash', ['Error in fetchPlaybackProgress()', String(error), 'error', true]);
@@ -114,7 +114,7 @@ export const removePlayback = async ({ commit, dispatch }, { id, notify = true }
     const fetchError = handleFetchError(error);
     if (fetchError) {
       console.warn(error);
-      this.flash(['[removePlayback] Request Failed', fetchError, 'warning', true]);
+      dispatch('flash', ['[removePlayback] Request Failed', fetchError, 'warning', true]);
     } else {
       console.error(error);
       dispatch('flash', ['Error in removePlayback()', String(error), 'error', true]);
