@@ -2,6 +2,8 @@ import { HTTPError, TimeoutError } from 'ky';
 
 export const isDevelopment = process.env.NODE_ENV === 'development';
 
+export const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 export const generateTraktUrl = dataObj => {
   const { type } = dataObj;
   if (!type) {

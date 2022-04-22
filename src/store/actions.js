@@ -2,7 +2,7 @@
 
 import api from '../api';
 import { TRAKT_AUTH, TRAKT_PROFILE } from '../const';
-import { handleFetchError } from '../utils';
+import { handleFetchError, wait } from '../utils';
 
 import {
   MESSAGE_ADD,
@@ -134,13 +134,11 @@ export const removeAllPlaybacks = async ({ commit, dispatch, state }) => {
 
   const ids = state.playback.map(item => item.id);
   while (ids.length > 0) {
-    const chunk = ids.splice(0, 3);
-
-    // eslint-disable-next-line no-await-in-loop
-    const chunkResults = await Promise.all(
-      chunk.map(id => dispatch('removePlayback', { id, notify: false })),
-    );
-    result &= chunkResults.every(Boolean);
+    const id = ids.shift();
+    /* eslint-disable no-await-in-loop */
+    result &= await dispatch('removePlayback', { id, notify: false });
+    await wait(1050);
+    /* eslint-enable no-await-in-loop */
   }
 
   if (result) {
