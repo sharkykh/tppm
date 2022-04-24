@@ -54,6 +54,7 @@
       progress
       color="blue"
       :percent="info.progress.toFixed(0)"
+      :title="`${info.progress}%`"
     />
 
     <sui-button
