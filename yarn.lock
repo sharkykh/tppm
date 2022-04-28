@@ -3784,9 +3784,9 @@ kind-of@^6.0.2:
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
 ky@^0.28.6:
-  version "0.28.6"
-  resolved "https://registry.yarnpkg.com/ky/-/ky-0.28.6.tgz#3dfe7a33be3e3d3c99a19d1703ec7a5dcb662ec5"
-  integrity sha512-EjxET5qSsaLUj1BSFtxPjEtRgF5JOhdroPwMNJFH/VvzruWQFBmh6W7GtqjBR56UZw4dBFTKLvx9nDxxnFXc7w==
+  version "0.28.7"
+  resolved "https://registry.yarnpkg.com/ky/-/ky-0.28.7.tgz#10c42be863fb96c1846d6e71e229263ffb72eb15"
+  integrity sha512-a23i6qSr/ep15vdtw/zyEQIDLoUaKDg9Jf04CYl/0ns/wXNYna26zJpI+MeIFaPeDvkrjLPrKtKOiiI3IE53RQ==
 
 levn@^0.4.1:
   version "0.4.1"
@@ -5475,9 +5475,9 @@ totalist@^1.0.0:
   resolved "https://registry.yarnpkg.com/totalist/-/totalist-1.1.0.tgz#a4d65a3e546517701e3e5c37a47a70ac97fe56df"
   integrity sha512-gduQwd1rOdDMGxFG1gEvhV88Oirdo2p+KjoYFU7k2g+i7n6AFFbDQ5kMPUsW0pNbfQsB/cwXvT1i4Bue0s9g5g==
 
-trakt.tv@sharkykh/trakt.tv-browser#8.1.1:
-  version "8.1.1"
-  resolved "https://codeload.github.com/sharkykh/trakt.tv-browser/tar.gz/c5716d2fc9f9291e115128024ecef01739b1cbbc"
+trakt.tv@sharkykh/trakt.tv-browser#8.1.2:
+  version "8.1.2"
+  resolved "https://codeload.github.com/sharkykh/trakt.tv-browser/tar.gz/89b6ae6302f8d95d36b21a64fef061195f6b0645"
   dependencies:
     ky "^0.28.6"
     randombytes "^2.1.0"
