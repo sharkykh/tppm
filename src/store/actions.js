@@ -102,30 +102,42 @@ export const fetchPlaybackProgress = async ({ commit, dispatch, state }) => {
   }
 };
 
-export const removePlayback = async ({ commit, dispatch }, { id, notify = true }) => {
-  commit(SET_REMOVING, id);
+/**
+ * @param {number} id playback id
+ * @returns {Promise<null | string | Error>}
+ */
+const callRemovePlayback = async id => {
   try {
     await api.sync.playback.remove({ id });
-    commit(REMOVE_PLAYBACK, id);
-    if (notify) {
-      dispatch('flash', ['Playback item removed', '', 'success']);
-    }
   } catch (error) {
     const fetchError = handleFetchError(error);
     if (fetchError) {
       console.warn(error);
-      dispatch('flash', ['[removePlayback] Request Failed', fetchError, 'warning', true]);
-    } else {
-      console.error(error);
-      dispatch('flash', ['Error in removePlayback()', String(error), 'error', true]);
+      return `Request failed: ${fetchError}`;
     }
 
-    return false;
-  } finally {
-    commit(UNSET_REMOVING, id);
+    console.error(error);
+    return error;
   }
 
-  return true;
+  return null;
+};
+
+export const removePlayback = async ({ commit, dispatch }, id) => {
+  commit(SET_REMOVING, id);
+  const error = await callRemovePlayback(id);
+
+  if (error === null) {
+    commit(REMOVE_PLAYBACK, id);
+    dispatch('flash', ['Playback item removed', '', 'success']);
+  } else if (typeof error === 'string') {
+    dispatch('flash', [`Failed to remove playback ${id}`, error, 'warning']);
+  } else {
+    dispatch('flash', [`Error removing playback ${id}`, String(error), 'error', true]);
+  }
+
+  commit(UNSET_REMOVING, id);
+  return error === null;
 };
 
 export const removeAllPlaybacks = async ({ commit, dispatch, state }) => {
@@ -135,8 +147,14 @@ export const removeAllPlaybacks = async ({ commit, dispatch, state }) => {
   const ids = state.playback.map(item => item.id);
   while (ids.length > 0) {
     const id = ids.shift();
+
     /* eslint-disable no-await-in-loop */
-    result &= await dispatch('removePlayback', { id, notify: false });
+    const error = await callRemovePlayback(id);
+    if (error === null) {
+      commit(REMOVE_PLAYBACK, id);
+    }
+
+    result &= error === null;
     await wait(1050);
     /* eslint-enable no-await-in-loop */
   }

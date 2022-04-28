@@ -64,7 +64,7 @@
       content="Remove"
       :loading="disableRemove"
       :disabled="disableRemove"
-      @click="removePlayback({ id: info.id })"
+      @click="removePlayback(info.id)"
     />
   </sui-card>
 </template>
