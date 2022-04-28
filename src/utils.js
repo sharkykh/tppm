@@ -1,4 +1,5 @@
 import { HTTPError, TimeoutError } from 'ky';
+import { getReasonPhrase } from 'http-status-codes';
 
 export const isDevelopment = process.env.NODE_ENV === 'development';
 
@@ -32,7 +33,11 @@ export const generateTraktUrl = dataObj => {
 
 export const handleFetchError = error => {
   if (error instanceof HTTPError) {
-    return `Response: ${error.response.status} ${error.response.statusText}`;
+    try {
+      return getReasonPhrase(error.response.status);
+    } catch (error) {
+      return `Response: ${error.response.status} ${error.response.statusText}`;
+    }
   }
 
   if (error instanceof TimeoutError) {
