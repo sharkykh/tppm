@@ -14,8 +14,8 @@
     "start:dev": "yarn dev --env local && node www.js",
     "lint": "eslint --cache **/*.{js,vue}",
     "build": "webpack --mode production --progress",
-    "dev": "webpack --mode development --progress",
-    "dev-server": "webpack-dev-server --mode development --progress",
+    "build:dev": "webpack --mode development --progress",
+    "dev": "webpack-dev-server --mode development --progress",
     "preversion": "yarn && yarn lint && yarn build"
   },
   "devDependencies": {
