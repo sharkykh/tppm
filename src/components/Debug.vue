@@ -38,10 +38,11 @@
 
 <script>
 import Vue from 'vue';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 
 import api from '../api';
-import { handleFetchError } from '../utils';
+import { SET_BUSY } from '../store/mutation-types';
+import { handleFetchError, wait } from '../utils';
 
 import {
   SuiButton,
@@ -78,12 +79,17 @@ export default Vue.extend({
     ]),
   },
   methods: {
+    ...mapMutations({
+      setBusy: SET_BUSY,
+    }),
     ...mapActions([
       'flash',
       'fetchPlaybackProgress',
       'fetchCurrentlyPlaying',
     ]),
     async sendPlaybackItems() {
+      this.setBusy(true);
+
       let index = 1;
       const total = testData.movie.length + testData.episode.length;
 
@@ -113,23 +119,22 @@ export default Vue.extend({
 
           ++index;
 
-          try {
-            // eslint-disable-next-line no-await-in-loop
-            await new Promise(resolve => {
-              setTimeout(resolve, 100);
-            });
-            // eslint-disable-next-line no-unused-vars
-          } catch (error) {}
+          // eslint-disable-next-line no-await-in-loop
+          await wait(1050);
         }
       }
 
       console.log('Test data sent.');
-      this.fetchPlaybackProgress();
+      await this.fetchPlaybackProgress();
+
+      this.setBusy(false);
     },
     randomProgress() {
       return Math.random() * (100.0 - 0.0);
     },
     async sendScrobbleStart(type) {
+      this.setBusy(true);
+
       const data = {
         episode: { ids: { tvdb: 25333 } }, // Stargate Atlantis: 1x01 Rising (1)
         movie: { ids: { tmdb: 484247 } }, // A Simple Favor (2018)
@@ -142,9 +147,13 @@ export default Vue.extend({
         debugger;
       }
 
-      this.fetchCurrentlyPlaying();
+      await this.fetchCurrentlyPlaying();
+
+      this.setBusy(false);
     },
     async sendCheckin() {
+      this.setBusy(true);
+
       // A Simple Favor (2018)
       try {
         await api.checkin.add({ movie: { ids: { tmdb: 484247 } } });
@@ -158,7 +167,9 @@ export default Vue.extend({
         }
       }
 
-      this.fetchCurrentlyPlaying();
+      await this.fetchCurrentlyPlaying();
+
+      this.setBusy(false);
     },
   },
 });
