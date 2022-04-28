@@ -14,6 +14,7 @@ import {
   REMOVE_PLAYBACK,
   SET_REMOVING,
   UNSET_REMOVING,
+  RESET,
 } from './mutation-types';
 
 export default {
@@ -54,5 +55,13 @@ export default {
   },
   [UNSET_REMOVING](state, payload) {
     Vue.delete(state.removing, payload);
+  },
+  [RESET](state) {
+    state.loggedIn = false;
+    state.profile = {};
+    state.playing = false;
+    state.firstLoad = false;
+    state.playback = [];
+    state.removing = {};
   },
 };

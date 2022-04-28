@@ -105,10 +105,7 @@
 import Vue from 'vue';
 import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 
-import {
-  SET_BUSY,
-  SET_LOGGED_IN,
-} from '../store/mutation-types';
+import { SET_BUSY, RESET } from '../store/mutation-types';
 import api from '../api';
 import { TRAKT_AUTH, TRAKT_AUTH_STATE, TRAKT_PROFILE } from '../const';
 import AppLogo from '../assets/tppm.svg';
@@ -187,7 +184,7 @@ export default Vue.extend({
   methods: {
     ...mapMutations({
       setBusy: SET_BUSY,
-      setLoggedIn: SET_LOGGED_IN,
+      reset: RESET,
     }),
     ...mapActions([
       'flash',
@@ -203,6 +200,7 @@ export default Vue.extend({
       window.location.replace(url);
     },
     async revokeAuth() {
+      this.setBusy(true);
       window.localStorage.removeItem(TRAKT_AUTH);
       window.localStorage.removeItem(TRAKT_PROFILE);
       try {
@@ -221,7 +219,8 @@ export default Vue.extend({
         }
       }
 
-      this.setLoggedIn(false);
+      this.reset();
+      this.setBusy(false);
     },
     async fetchInfo() {
       this.setBusy(true);
