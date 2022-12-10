@@ -35,7 +35,7 @@
     "eslint-loader": "4.0.2",
     "eslint-plugin-import": "2.22.0",
     "eslint-plugin-vue": "7.11.0",
-    "express": "4.17.1",
+    "express": "4.17.3",
     "html-webpack-plugin": "5.5.0",
     "http-status-codes": "2.2.0",
     "mini-css-extract-plugin": "2.4.7",
