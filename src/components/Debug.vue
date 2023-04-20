@@ -102,6 +102,7 @@ const testData = {
 };
 
 export default Vue.extend({
+  // eslint-disable-next-line vue/multi-word-component-names
   name: 'Debug',
   components: {
     SuiButton,

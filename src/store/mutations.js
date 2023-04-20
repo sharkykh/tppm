@@ -1,6 +1,6 @@
 // Root mutations
 
-import Vue from 'vue';
+import { del, set } from 'vue';
 
 import {
   SET_BUSY,
@@ -34,7 +34,7 @@ export default {
   [SET_PROFILE](state, payload) {
     Object.entries(payload).forEach(entry => {
       const [key, value] = entry;
-      Vue.set(state.profile, key, value);
+      set(state.profile, key, value);
     });
   },
   [SET_PLAYING](state, payload) {
@@ -48,13 +48,13 @@ export default {
   },
   [REMOVE_PLAYBACK](state, id) {
     const index = state.playback.findIndex(item => item.id === id);
-    Vue.delete(state.playback, index);
+    del(state.playback, index);
   },
   [SET_REMOVING](state, payload) {
-    Vue.set(state.removing, payload, null);
+    set(state.removing, payload, null);
   },
   [UNSET_REMOVING](state, payload) {
-    Vue.delete(state.removing, payload);
+    del(state.removing, payload);
   },
   [RESET](state) {
     state.loggedIn = false;
