@@ -1,6 +1,6 @@
 module.exports = {
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
     sourceType: 'module',
     allowImportExportEverywhere: false,
     codeFrame: true,
@@ -23,6 +23,7 @@ module.exports = {
     'import/order': ['warn', {
       'newlines-between': 'always',
     }],
+    'arrow-body-style': 'off',
   },
   settings: {
     'import/resolver': 'webpack',

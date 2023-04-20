@@ -1,10 +1,12 @@
 import path from 'path';
+
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { DefinePlugin } from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import NullPlugin from 'webpack-null-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
 
 import pkg from './package.json';
 
@@ -28,6 +30,10 @@ const webpackConfig = (env, mode) => ({
     extensions: ['.js', '.vue', '.json'],
     alias: {
       vue$: 'vue/dist/vue.runtime.esm.js',
+      vuex$: 'vuex/dist/vuex.esm.js',
+    },
+    fallback: {
+      buffer: require.resolve('buffer'),
     },
   },
   stats: {
@@ -62,18 +68,6 @@ const webpackConfig = (env, mode) => ({
   },
   module: {
     rules: [
-      {
-        enforce: 'pre',
-        test: /\.(js|vue)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'eslint-loader',
-          options: {
-            failOnError: mode === 'production',
-            failOnWarning: mode === 'production',
-          },
-        },
-      },
       {
         test: /\.js$/,
         exclude: /(node_modules(?![\\/]ky))/,
@@ -133,6 +127,11 @@ const webpackConfig = (env, mode) => ({
     new DefinePlugin({
       __LOCAL__: JSON.stringify(env.local),
       __VERSION__: JSON.stringify(pkg.version),
+    }),
+    new ESLintPlugin({
+      extensions: ['js', 'vue'],
+      failOnError: mode === 'production',
+      failOnWarning: mode === 'production',
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/index.html'),
