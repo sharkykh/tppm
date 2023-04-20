@@ -154,7 +154,7 @@ export const removeAllPlaybacks = async ({ commit, dispatch, state }) => {
       commit(REMOVE_PLAYBACK, id);
     }
 
-    result &= error === null;
+    result &&= error === null;
     await wait(1050);
     /* eslint-enable no-await-in-loop */
   }

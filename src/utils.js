@@ -3,6 +3,7 @@ import { getReasonPhrase } from 'http-status-codes';
 
 export const isDevelopment = process.env.NODE_ENV === 'development';
 
+// eslint-disable-next-line no-promise-executor-return
 export const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export const generateTraktUrl = dataObj => {
@@ -11,7 +12,7 @@ export const generateTraktUrl = dataObj => {
     return null;
   }
 
-  let baseUrl = 'https://trakt.tv';
+  const baseUrl = 'https://trakt.tv';
 
   if (type === 'episode') {
     const showSlug = dataObj.show.ids.slug;
@@ -20,7 +21,7 @@ export const generateTraktUrl = dataObj => {
       return `${baseUrl}/shows/${showSlug}/seasons/${season}/episodes/${number}`;
     }
   } else if (['show', 'movie'].includes(type)) {
-    const slug = dataObj[type].ids.slug;
+    const { slug } = dataObj[type].ids;
     if (slug) {
       return `${baseUrl}/${type}s/${slug}`;
     }
