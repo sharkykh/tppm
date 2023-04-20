@@ -1,13 +1,39 @@
 <template>
   <div id="debug">
-    <sui-button
-      content="Send test data"
-      color="orange"
+    <sui-dropdown
+      class="orange labeled icon"
       icon="envelope"
       :loading="busy"
       :disabled="busy"
-      @click="sendPlaybackItems()"
-    />
+      button
+      text="Send test data"
+    >
+      <sui-dropdown-menu>
+        <sui-dropdown-item @click="sendPlaybackItems()">
+          <sui-icon
+            name="playback-all"
+            title="All"
+            class="star"
+          />
+          All
+        </sui-dropdown-item>
+        <sui-dropdown-item @click="sendPlaybackItems('episode')">
+          <sui-icon
+            name="playback-tv"
+            title="Episodes"
+            class="icon-fix"
+          />
+          Episodes
+        </sui-dropdown-item>
+        <sui-dropdown-item @click="sendPlaybackItems('movie')">
+          <sui-icon
+            name="playback-film"
+            title="Movies"
+          />
+          Movies
+        </sui-dropdown-item>
+      </sui-dropdown-menu>
+    </sui-dropdown>
     <sui-dropdown
       class="orange labeled icon"
       icon="play"
@@ -18,9 +44,18 @@
     >
       <sui-dropdown-menu>
         <sui-dropdown-item @click="sendScrobbleStart('episode')">
+          <sui-icon
+            name="scrobble-tv"
+            title="Episode"
+            class="icon-fix"
+          />
           Episode
         </sui-dropdown-item>
         <sui-dropdown-item @click="sendScrobbleStart('movie')">
+          <sui-icon
+            name="scrobble-film"
+            title="Movie"
+          />
           Movie
         </sui-dropdown-item>
       </sui-dropdown-menu>
@@ -49,6 +84,7 @@ import {
   SuiDropdown,
   SuiDropdownMenu,
   SuiDropdownItem,
+  SuiIcon,
 } from './sui-vue';
 
 const testData = {
@@ -72,6 +108,7 @@ export default Vue.extend({
     SuiDropdown,
     SuiDropdownMenu,
     SuiDropdownItem,
+    SuiIcon,
   },
   computed: {
     ...mapState([
@@ -87,13 +124,18 @@ export default Vue.extend({
       'fetchPlaybackProgress',
       'fetchCurrentlyPlaying',
     ]),
-    async sendPlaybackItems() {
+    async sendPlaybackItems(...which) {
       this.setBusy(true);
 
+      which = which.length === 0 ? Object.keys(testData) : which;
       let index = 1;
       const total = testData.movie.length + testData.episode.length;
 
       for (const [category, items] of Object.entries(testData)) {
+        if (!which.incldes(category)) {
+          continue;
+        }
+
         for (const item of items) {
           const params = {
             progress: this.randomProgress(),
