@@ -11,26 +11,24 @@
       <sui-dropdown-menu>
         <sui-dropdown-item @click="sendPlaybackItems()">
           <sui-icon
-            name="playback-all"
+            name="star"
             title="All"
-            class="star"
           />
           All
         </sui-dropdown-item>
         <sui-dropdown-item @click="sendPlaybackItems('episode')">
           <sui-icon
-            name="playback-tv"
+            name="tv"
             title="Episodes"
-            class="icon-fix"
           />
-          Episodes
+          Episodes ({{ dataCount.episode }})
         </sui-dropdown-item>
         <sui-dropdown-item @click="sendPlaybackItems('movie')">
           <sui-icon
-            name="playback-film"
+            name="film"
             title="Movies"
           />
-          Movies
+          Movies ({{ dataCount.movie }})
         </sui-dropdown-item>
       </sui-dropdown-menu>
     </sui-dropdown>
@@ -45,15 +43,14 @@
       <sui-dropdown-menu>
         <sui-dropdown-item @click="sendScrobbleStart('episode')">
           <sui-icon
-            name="scrobble-tv"
+            name="tv"
             title="Episode"
-            class="icon-fix"
           />
           Episode
         </sui-dropdown-item>
         <sui-dropdown-item @click="sendScrobbleStart('movie')">
           <sui-icon
-            name="scrobble-film"
+            name="film"
             title="Movie"
           />
           Movie
@@ -115,6 +112,9 @@ export default Vue.extend({
     ...mapState([
       'busy',
     ]),
+    dataCount() {
+      return Object.fromEntries(Object.entries(testData).map(([category, items]) => [category, items.length]));
+    },
   },
   methods: {
     ...mapMutations({
@@ -133,7 +133,7 @@ export default Vue.extend({
       const total = testData.movie.length + testData.episode.length;
 
       for (const [category, items] of Object.entries(testData)) {
-        if (!which.incldes(category)) {
+        if (!which.includes(category)) {
           continue;
         }
 
