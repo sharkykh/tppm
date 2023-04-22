@@ -12,6 +12,7 @@
         <a
           :href="url"
           class="right floated"
+          title="View on Trakt.tv"
         >
           <sui-icon
             name="external"
@@ -33,20 +34,21 @@
           fitted
         />
         {{ info.episode.number }}
-        –
+        &ndash;
         {{ info.episode.title }}
       </sui-card-meta>
       <sui-card-meta v-else-if="isMovie">
         <sui-icon
           name="film"
           title="Movie"
+          class="icon-fix"
         />
         {{ info.movie.year }}
       </sui-card-meta>
 
       <sui-card-meta>
         <sui-icon name="pause" />
-        {{ date }}
+        <time :datetime="info.paused_at">{{ date }}</time>
       </sui-card-meta>
     </sui-card-content>
 
@@ -54,7 +56,7 @@
       progress
       color="blue"
       :percent="info.progress.toFixed(0)"
-      :title="`${info.progress}%`"
+      :title="`Watch progress: ${info.progress}%`"
     />
 
     <sui-button
@@ -120,7 +122,7 @@ export default Vue.extend({
     date() {
       const date = parseISO(this.info.paused_at);
       const tz = date.getTimezoneOffset() ? 'xxx' : '';
-      return formatDate(date, `yyyy-MM-dd – HH:mm:ss – ('UTC'${tz})`);
+      return formatDate(date, `yyyy-MM-dd HH:mm:ss (${tz})`);
     },
     disableRemove() {
       const { removing, info } = this;
@@ -137,8 +139,10 @@ export default Vue.extend({
 
 <style scoped>
   .icon-fix {
-    margin-left: -.1em;
-    margin-right: .1em !important;
+    margin-right: .3em !important;
+  }
+  .header {
+    margin-bottom: 0.35em;
   }
   .ui.progress {
     margin: -0.5em 0 0.5em;
