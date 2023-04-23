@@ -61,38 +61,35 @@
         {{ user.fullName }}
       </a>
 
-      <sui-button
-        v-if="loggedIn && !user"
-        content="Fetch Profile"
-        @click="fetchProfile()"
-      />
+      <template v-if="loggedIn">
+        <sui-button
+          v-if="!user"
+          content="Fetch Profile"
+          @click="fetchProfile()"
+        />
 
-      <sui-divider
-        v-if="loggedIn"
-        hidden
-      />
+        <sui-divider hidden />
 
-      <sui-button
-        v-if="loggedIn"
-        :content="firstLoad ? 'Refresh' : 'Fetch'"
-        :icon="firstLoad ? 'sync alternate' : 'cloud download'"
-        :loading="busy"
-        :disabled="busy"
-        positive
-        @click="fetchInfo()"
-      />
+        <sui-button
+          :content="firstLoad ? 'Refresh' : 'Fetch'"
+          :icon="firstLoad ? 'sync alternate' : 'cloud download'"
+          :loading="busy"
+          :disabled="busy"
+          positive
+          @click="fetchInfo()"
+        />
 
-      <sui-button
-        v-if="loggedIn"
-        negative
-        icon="trash"
-        content="Remove All"
-        :disabled="busy || playback.length === 0 || removingAnything"
-        :loading="busy || removingAnything"
-        @click="removeAllPlaybacks()"
-      />
+        <sui-button
+          negative
+          icon="trash"
+          content="Remove All"
+          :disabled="busy || playback.length === 0 || removingAnything"
+          :loading="busy || removingAnything"
+          @click="removeAllPlaybacks()"
+        />
 
-      <debug v-if="isDevelopment && loggedIn" />
+        <debug v-if="isDevelopment" />
+      </template>
 
       <div class="notice">
         This site does not store any of your Trakt information.
