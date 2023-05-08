@@ -1,4 +1,4 @@
-import Trakt from 'trakt.tv';
+import Trakt from 'trakt.tv-browser';
 
 import { isDevelopment } from './utils';
 
