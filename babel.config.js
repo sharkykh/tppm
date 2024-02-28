@@ -12,8 +12,7 @@ module.exports = api => {
   ];
 
   const plugins = [
-    '@babel/plugin-proposal-optional-chaining',
-    '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-transform-optional-chaining',
   ];
 
   return {
