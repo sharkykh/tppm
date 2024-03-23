@@ -2,12 +2,9 @@ name: Build and Deploy
 
 on:
   workflow_dispatch:
-  create:
+  push:
     tags:
       - '*.*.*'
-  # push:
-  #   branches:
-  #     - master
 
 jobs:
   build:
