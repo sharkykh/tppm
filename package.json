@@ -1,6 +1,6 @@
 {
   "name": "tppm",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "Trakt Playback Progress Manager",
   "author": "sharkykh",
   "license": "MIT",
@@ -15,8 +15,7 @@
     "lint": "eslint --cache **/*.{js,vue}",
     "build": "webpack --mode production --progress",
     "build:dev": "webpack --mode development --progress",
-    "dev": "webpack-dev-server --mode development --progress",
-    "preversion": "yarn && yarn lint && yarn build"
+    "dev": "webpack-dev-server --mode development --progress"
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",
