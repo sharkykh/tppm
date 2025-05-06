@@ -6,9 +6,10 @@
   "license": "MIT",
   "private": true,
   "engines": {
-    "node": ">=18.9.0",
-    "yarn": ">=1.15"
+    "node": "^20.18.0",
+    "yarn": "^4.9.1"
   },
+  "packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538",
   "scripts": {
     "start": "yarn build --env local && node www.js",
     "start:dev": "yarn dev --env local && node www.js",
