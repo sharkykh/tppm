@@ -5347,10 +5347,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ky@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "ky@npm:1.2.1"
-  checksum: 10c0/3a06e3d9fb639da6309d34e82ecb51b232b8575fec114af23ef4aebf3aa2c5ea18a9398d28afe4889bf1ad10492ad36bac3be9c6f676370858f60890d14cc55a
+"ky@npm:^1.14.3":
+  version: 1.14.3
+  resolution: "ky@npm:1.14.3"
+  checksum: 10c0/8e91c9512c8f1501201108ad58ed437eaf3f5b0a0da842bd846d785932426e84a31cf51d0fffce1921d4e70e26465a9b2b89ed2477822975568258a1fa68a740
   languageName: node
   linkType: hard
 
@@ -7471,7 +7471,7 @@ __metadata:
     semantic-ui-css: "npm:^2.4.1"
     semantic-ui-vue: "npm:^0.11.0"
     style-loader: "npm:^3.3.2"
-    trakt.tv-browser: "https://github.com/sharkykh/trakt.tv-browser.git#semver:^8.2.1-0"
+    trakt.tv-browser: "https://github.com/sharkykh/trakt.tv-browser.git#semver:^8.2.1-1"
     vue: "npm:^2.7.16"
     vue-loader: "npm:^15.11.1"
     vuex: "npm:^3.6.2"
@@ -7483,13 +7483,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"trakt.tv-browser@https://github.com/sharkykh/trakt.tv-browser.git#semver:^8.2.1-0":
-  version: 8.2.1-0
-  resolution: "trakt.tv-browser@https://github.com/sharkykh/trakt.tv-browser.git#commit=c2e805c7e91e82745f28d1b5fadb9447fedcd14b"
+"trakt.tv-browser@https://github.com/sharkykh/trakt.tv-browser.git#semver:^8.2.1-1":
+  version: 8.2.1-1
+  resolution: "trakt.tv-browser@https://github.com/sharkykh/trakt.tv-browser.git#commit=346c69ea1e2c6244376c34e631a0e01e2172a6e3"
   dependencies:
-    ky: "npm:^1.2.1"
+    ky: "npm:^1.14.3"
     randombytes: "npm:^2.1.0"
-  checksum: 10c0/f58960de0244550a83ddfe757287935a503ed7c1ae87412565fd7472dd843d05d5d1fde4120e95c3cef91c9277e06fbdcac72dc4d10c28f6ea096a11a28db982
+  checksum: 10c0/0cee98c80c06f63be28cdb56d8c5bc9f1c53247e306748a5084437957eeaf341363ec265e2bae68828a82dda43e1092bb8b7b0ae0efd5b06719dfe1baa2257ad
   languageName: node
   linkType: hard
 
