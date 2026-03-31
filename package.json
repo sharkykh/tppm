@@ -13,7 +13,7 @@
   "scripts": {
     "start": "yarn build --env local && node www.js",
     "start:dev": "yarn dev --env local && node www.js",
-    "lint": "eslint --cache **/*.{js,vue}",
+    "lint": "eslint --cache ./*.js src/**/*.{js,vue}",
     "build": "webpack --mode production --progress",
     "build:dev": "webpack --mode development --progress",
     "dev": "webpack-dev-server --mode development --progress"
