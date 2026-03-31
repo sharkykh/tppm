@@ -7471,7 +7471,7 @@ __metadata:
     semantic-ui-css: "npm:^2.4.1"
     semantic-ui-vue: "npm:^0.11.0"
     style-loader: "npm:^3.3.2"
-    trakt.tv-browser: "sharkykh/trakt.tv-browser#8.2.1-0"
+    trakt.tv-browser: "https://github.com/sharkykh/trakt.tv-browser.git#semver:^8.2.1-0"
     vue: "npm:^2.7.16"
     vue-loader: "npm:^15.11.1"
     vuex: "npm:^3.6.2"
@@ -7483,7 +7483,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"trakt.tv-browser@sharkykh/trakt.tv-browser#8.2.1-0":
+"trakt.tv-browser@https://github.com/sharkykh/trakt.tv-browser.git#semver:^8.2.1-0":
   version: 8.2.1-0
   resolution: "trakt.tv-browser@https://github.com/sharkykh/trakt.tv-browser.git#commit=c2e805c7e91e82745f28d1b5fadb9447fedcd14b"
   dependencies:
