@@ -35,7 +35,7 @@
     "eslint-plugin-vue": "^9.11.0",
     "eslint-webpack-plugin": "^4.0.1",
     "express": "^4.21.2",
-    "html-webpack-plugin": "^5.6.2",
+    "html-webpack-plugin": "^5.6.7",
     "http-status-codes": "^2.2.0",
     "mini-css-extract-plugin": "^2.7.5",
     "semantic-ui-css": "^2.4.1",
@@ -45,10 +45,10 @@
     "vue": "^2.7.16",
     "vue-loader": "^15.11.1",
     "vuex": "^3.6.2",
-    "webpack": "^5.104.1",
-    "webpack-bundle-analyzer": "^5.2.0",
-    "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.3",
+    "webpack": "^5.107.2",
+    "webpack-bundle-analyzer": "^5.3.0",
+    "webpack-cli": "^7.0.3",
+    "webpack-dev-server": "^5.2.5",
     "webpack-null-plugin": "^0.0.2"
   }
 }

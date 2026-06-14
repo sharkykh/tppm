@@ -1,14 +1,14 @@
 import path from 'path';
 
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import VueLoaderPlugin from 'vue-loader/lib/plugin';
+import { VueLoaderPlugin } from 'vue-loader';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { DefinePlugin } from 'webpack';
+import webpack from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import NullPlugin from 'webpack-null-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 
-import pkg from './package.json';
+import pkg from './package.json' with { type: 'json' };
 
 const NOT_DEV_SERVER = !process.argv[1].includes('webpack-dev-server');
 
@@ -20,7 +20,7 @@ const NOT_DEV_SERVER = !process.argv[1].includes('webpack-dev-server');
  * @returns {Object} Webpack configuration object.
  */
 const webpackConfig = (env, mode) => ({
-  entry: path.resolve(__dirname, 'src/main.js'),
+  entry: path.resolve(import.meta.dirname, 'src/main.js'),
   output: {
     filename: `[name]${NOT_DEV_SERVER ? '.[contenthash:8]' : ''}.js`,
     assetModuleFilename: `assets/[name]${NOT_DEV_SERVER ? '.[contenthash:8]' : ''}[ext][query]`,
@@ -33,7 +33,7 @@ const webpackConfig = (env, mode) => ({
       vuex$: 'vuex/dist/vuex.esm.js',
     },
     fallback: {
-      buffer: require.resolve('buffer'),
+      buffer: import.meta.resolve('buffer'),
     },
   },
   stats: {
@@ -124,7 +124,7 @@ const webpackConfig = (env, mode) => ({
     ],
   },
   plugins: [
-    new DefinePlugin({
+    new webpack.DefinePlugin({
       __LOCAL__: JSON.stringify(env.local),
       __VERSION__: JSON.stringify(pkg.version),
     }),
@@ -134,8 +134,8 @@ const webpackConfig = (env, mode) => ({
       failOnWarning: mode === 'production',
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src/index.html'),
-      favicon: path.resolve(__dirname, 'src/assets/favicon.ico'),
+      template: path.resolve(import.meta.dirname, 'src/index.html'),
+      favicon: path.resolve(import.meta.dirname, 'src/assets/favicon.ico'),
       minify: mode === 'production' && {
         // Defaults: https://git.io/fj8Qn
         // https://github.com/kangax/html-minifier#options-quick-reference
@@ -157,7 +157,7 @@ const webpackConfig = (env, mode) => ({
     env.analyze ? new BundleAnalyzerPlugin() : new NullPlugin(),
   ],
   devServer: {
-    static: path.resolve(__dirname, 'dist'),
+    static: path.resolve(import.meta.dirname, 'dist'),
   },
 });
 
