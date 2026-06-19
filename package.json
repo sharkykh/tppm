@@ -9,7 +9,7 @@
     "node": "^20.18.0",
     "yarn": "^4.9.1"
   },
-  "packageManager": "yarn@4.13.0",
+  "packageManager": "yarn@4.17.0",
   "scripts": {
     "start": "yarn build --env local && node www.js",
     "start:dev": "yarn dev --env local && node www.js",
