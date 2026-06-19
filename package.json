@@ -19,10 +19,10 @@
     "dev": "webpack-dev-server --mode development --progress"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.0",
-    "@babel/eslint-parser": "^7.28.6",
-    "@babel/preset-env": "^7.29.5",
-    "@babel/register": "^7.29.3",
+    "@babel/core": "^7.29.7",
+    "@babel/eslint-parser": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
+    "@babel/register": "^7.29.7",
     "babel-loader": "^10.1.1",
     "buffer": "^6.0.3",
     "core-js": "^3.30.1",
